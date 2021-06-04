@@ -31,7 +31,7 @@ browserWebpack {
     doLast {
         copy {
             from 'build/distributions/'
-            into 'doc/'
+            into 'docs/'
         }
         println("Copied!")
     }
