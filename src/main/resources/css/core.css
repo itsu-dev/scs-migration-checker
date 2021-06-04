@@ -1,0 +1,59 @@
+th {
+    background-color: #00c0d4;
+    color: white;
+    font-weight: normal;
+    border-style: none;
+}
+
+td {
+    text-align: center;
+    vertical-align: center;
+    padding-top: 1.0em;
+    padding-bottom: 1.0em;
+}
+
+tr {
+    background-color: #eee;
+}
+
+table {
+    width: 100%;
+}
+
+.table-box {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.passed {
+    color: mediumseagreen;
+}
+
+.missed {
+    color: red;
+}
+
+.footer {
+    text-align: center;
+}
+
+.header {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.caption {
+    color: #222;
+}
+
+.faculty-name-passed {
+    background-color: #82E0AA;
+}
+
+.faculty-name-ok {
+    background-color: #F7DC6F;
+}
+
+.faculty-name-missed {
+    background-color: #F1948A;
+}

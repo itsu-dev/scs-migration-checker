@@ -2,10 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/core.css">
     <title>JS Client</title>
 </head>
 <body>
+<div class="header">
+    <h2>筑波大学 総合学域群 移行要件チェックツール</h2>
+    <p class="caption">「令和3（2021）年度　履修・移行ガイドブック」に沿って、自分の履修時間割が移行要件に適合しているかを確認します。</p>
+</div>
+
+<div class="table-box">
+    <table id="result">
+        <tr>
+            <th>学群・学類</th>
+            <th>メッセージ</th>
+            <th>応募要件</th>
+            <th>重点科目上限</th>
+        </tr>
+    </table>
+</div>
 <div id="root"></div>
 <script src="scs-migration-checker.js"></script>
+
+<footer>
+    <div class="footer">
+        <br>
+        Contributed by <a href="https://github.com/itsu-dev">ちゅるり</a> / <a
+            href="https://github.com/itsu-dev/scs-migration-checker">GitHub</a> <br/>
+        scs-migration-checkerは筑波大学公式ではありません。
+    </div>
+</footer>
 </body>
 </html>

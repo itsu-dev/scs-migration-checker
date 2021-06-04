@@ -10,10 +10,5 @@ import org.w3c.fetch.Request
 var isUnder1100px = window.matchMedia("screen and (max-width: 1100px)").matches
 
 fun main() {
-    if (isUnder1100px) {
-        val p = document.createElement("p")
-        p.appendChild(document.createTextNode("Browser width must be upto 1100px."))
-        document.getElementById("root")!!.appendChild(p)
-    }
     MigrationChecker.loadRuleDefinitions()
 }
