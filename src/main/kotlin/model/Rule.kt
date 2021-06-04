@@ -6,7 +6,7 @@ import kotlinx.serialization.*
 data class Rule(
     @SerialName("description") val description: String,
     @SerialName("type") val type: String,
-    @SerialName("minimum") val minimum: Int?,
-    @SerialName("maximum") val maximum: Int?,
-    @SerialName("subjects") val subjects: List<String>
+    @SerialName("subjects") val subjects: List<String>,
+    @SerialName("minimum") val minimum: Int = 0,
+    @SerialName("maximum") val maximum: Int = Int.MAX_VALUE
 )
