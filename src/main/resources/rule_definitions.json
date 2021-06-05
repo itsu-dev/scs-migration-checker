@@ -189,7 +189,7 @@
         {
           "description": "2単位まで",
           "type": "important_subjects_limit",
-          "maximum": 2,
+          "minimum": 2,
           "subjects": [
             "微積分1",
             "微積分2",
@@ -199,7 +199,7 @@
         {
           "description": "2単位まで",
           "type": "important_subjects_limit",
-          "maximum": 2,
+          "minimum": 2,
           "subjects": [
             "線形代数1",
             "線形代数2",
@@ -366,7 +366,7 @@
         {
           "description": "2単位まで",
           "type": "important_subjects_limit",
-          "maximum": 2,
+          "minimum": 2,
           "subjects": [
             "微積分1",
             "微積分2",
@@ -376,7 +376,7 @@
         {
           "description": "2単位まで",
           "type": "important_subjects_limit",
-          "maximum": 2,
+          "minimum": 2,
           "subjects": [
             "線形代数1",
             "線形代数2",
@@ -422,7 +422,7 @@
         {
           "description": "2単位まで",
           "type": "required_subjects_limit",
-          "maximum": 2,
+          "minimum": 2,
           "subjects": [
             "微積分1",
             "微積分2",
@@ -432,7 +432,7 @@
         {
           "description": "2単位まで",
           "type": "required_subjects_limit",
-          "maximum": 2,
+          "minimum": 2,
           "subjects": [
             "線形代数1",
             "線形代数2",
@@ -473,7 +473,7 @@
         {
           "description": "2単位まで",
           "type": "important_subjects_limit",
-          "maximum": 2,
+          "minimum": 2,
           "subjects": [
             "微積分1",
             "微積分2",
@@ -483,7 +483,7 @@
         {
           "description": "2単位まで",
           "type": "important_subjects_limit",
-          "maximum": 2,
+          "minimum": 2,
           "subjects": [
             "線形代数1",
             "線形代数2",
@@ -529,7 +529,7 @@
         {
           "description": "2単位まで",
           "type": "required_subjects_limit",
-          "maximum": 2,
+          "minimum": 2,
           "subjects": [
             "微積分1",
             "微積分2",
@@ -539,7 +539,7 @@
         {
           "description": "2単位まで",
           "type": "required_subjects_limit",
-          "maximum": 2,
+          "minimum": 2,
           "subjects": [
             "線形代数1",
             "線形代数2",
@@ -581,7 +581,7 @@
         {
           "description": "2単位まで",
           "type": "important_subjects_limit",
-          "maximum": 2,
+          "minimum": 2,
           "subjects": [
             "微積分1",
             "微積分2",
@@ -591,11 +591,157 @@
         {
           "description": "2単位まで",
           "type": "important_subjects_limit",
-          "maximum": 2,
+          "minimum": 2,
           "subjects": [
             "線形代数1",
             "線形代数2",
             "線形代数A"
+          ]
+        }
+      ]
+    },
+
+    {
+      "faculty_name": "化学類",
+      "rules": [
+        {
+          "description": "応募要件1",
+          "type": "required_subjects",
+          "minimum": 1,
+          "subjects": [
+            "化学1",
+            "化学2",
+            "化学3"
+          ]
+        },
+        {
+          "description": "応募要件2",
+          "type": "required_subjects",
+          "minimum": 8,
+          "subjects": [
+            "化学1",
+            "化学2",
+            "化学3",
+            "力学1",
+            "力学2",
+            "電磁気学1",
+            "力学3",
+            "電磁気学2",
+            "線形代数3",
+            "微積分3",
+            "電磁気学3",
+            "微積分1",
+            "微積分2",
+            "微分積分A",
+            "線形代数1",
+            "線形代数A",
+            "線形代数2",
+            "生物学序説",
+            "数学リテラシー1",
+            "地球環境学1",
+            "数学リテラシー2",
+            "地球進化学1",
+            "地球進化学2",
+            "地球環境学2"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "required_subjects_limit",
+          "minimum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "required_subjects_limit",
+          "minimum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A"
+          ]
+        },
+        {
+          "description": "4単位まで",
+          "type": "required_subjects_limit",
+          "minimum": 4,
+          "subjects": [
+            "生物学序説",
+            "数学リテラシー1",
+            "地球環境学1",
+            "数学リテラシー2",
+            "地球進化学1",
+            "地球進化学2",
+            "地球環境学2"
+          ]
+        },
+        {
+          "description": "重点科目上限単位数",
+          "type": "important_subjects",
+          "minimum": 18,
+          "subjects": [
+            "化学1",
+            "化学2",
+            "化学3",
+            "力学1",
+            "力学2",
+            "電磁気学1",
+            "力学3",
+            "電磁気学2",
+            "線形代数3",
+            "微積分3",
+            "電磁気学3",
+            "微積分1",
+            "微積分2",
+            "微分積分A",
+            "線形代数1",
+            "線形代数A",
+            "線形代数2",
+            "生物学序説",
+            "数学リテラシー1",
+            "地球環境学1",
+            "数学リテラシー2",
+            "地球進化学1",
+            "地球進化学2",
+            "地球環境学2"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "important_subjects_limit",
+          "minimum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "important_subjects_limit",
+          "minimum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A"
+          ]
+        },
+        {
+          "description": "4単位まで",
+          "type": "important_subjects_limit",
+          "minimum": 4,
+          "subjects": [
+            "生物学序説",
+            "数学リテラシー1",
+            "地球環境学1",
+            "数学リテラシー2",
+            "地球進化学1",
+            "地球進化学2",
+            "地球環境学2"
           ]
         }
       ]
