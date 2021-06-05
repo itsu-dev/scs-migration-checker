@@ -26,6 +26,24 @@ table {
     width: 100%;
 }
 
+a, button {
+    cursor: pointer;
+}
+
+h2 {
+    padding: 0.25em 0.5em;
+    color: #494949;
+    background: transparent;
+    border-left: solid 5px #6600cc;
+}
+
+.form-box {
+    alignment: right;
+    text-align: right;
+    margin: 0 auto;
+    padding-bottom: 1.0em;
+}
+
 .table-box {
     padding-left: 10%;
     padding-right: 10%;
@@ -58,6 +76,10 @@ table {
     text-align: center;
 }
 
+.header-base {
+
+}
+
 .header {
     padding-left: 10%;
     padding-right: 10%;
@@ -78,3 +100,13 @@ table {
 .faculty-name-missed {
     background-color: #F1948A;
 }
+
+.start-checking-button {
+    background-color: #6600cc;
+    color: white;
+    border-style: none;
+    border-radius: 0.5em;
+    padding: 1.0em 2.0em;
+}
+
+.wf-notosansjapanese { font-family: "Noto Sans JP"; }

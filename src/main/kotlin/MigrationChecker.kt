@@ -21,24 +21,6 @@ object MigrationChecker {
 
     private fun onLoadFinished(json: String) {
         ruleDefinitions = Json.decodeFromString(RuleDefinition.serializer(), json)
-        check(listOf(
-            "数学リテラシー1",
-            "数学リテラシー2",
-            "力学1",
-            "力学2",
-            "電磁気学1",
-            "力学3",
-            "電磁気学2",
-            "線形代数3",
-            "微積分3",
-            "電磁気学3",
-            "微積分1",
-            "微積分2",
-            "微分積分A",
-            "線形代数1",
-            "線形代数A",
-            "線形代数2"
-        ))
     }
 
     // 移行要件をチェックする
