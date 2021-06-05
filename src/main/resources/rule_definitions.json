@@ -748,6 +748,219 @@
     },
 
     {
+      "faculty_name": "応用理工学類",
+      "rules": [
+        {
+          "description": "応募要件1",
+          "type": "required_subjects",
+          "minimum": 8,
+          "subjects": [
+            "数学リテラシー1",
+            "化学1",
+            "数学リテラシー2",
+            "力学1",
+            "力学2",
+            "化学2",
+            "電磁気学1",
+            "力学3",
+            "電磁気学2",
+            "線形代数3",
+            "化学3",
+            "微積分3",
+            "電磁気学3",
+            "微積分1",
+            "微積分2",
+            "微分積分A",
+            "線形代数1",
+            "線形代数A",
+            "線形代数2"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "required_subjects_limit",
+          "minimum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "required_subjects_limit",
+          "minimum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A"
+          ]
+        },
+        {
+          "description": "重点科目上限単位数",
+          "type": "important_subjects",
+          "minimum": 17,
+          "subjects": [
+            "数学リテラシー1",
+            "化学1",
+            "数学リテラシー2",
+            "力学1",
+            "力学2",
+            "化学2",
+            "電磁気学1",
+            "力学3",
+            "電磁気学2",
+            "線形代数3",
+            "化学3",
+            "微積分3",
+            "電磁気学3",
+            "微積分1",
+            "微積分2",
+            "微分積分A",
+            "線形代数1",
+            "線形代数A",
+            "線形代数2"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "important_subjects_limit",
+          "minimum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "important_subjects_limit",
+          "minimum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A"
+          ]
+        },
+        {
+          "description": "その他",
+          "type": "others",
+          "message": "重点科目上限単位数として、他に上記以外の専門導入科目、および化学類、物理学類開設の生物学序説が1単位まで対象となります"
+        }
+      ]
+    },
+
+    {
+      "faculty_name": "工学システム学類",
+      "rules": [
+        {
+          "description": "応募要件",
+          "type": "required_subjects",
+          "minimum": 8,
+          "subjects": [
+            "数学リテラシー1",
+            "数学リテラシー2",
+            "力学1",
+            "力学2",
+            "電磁気学1",
+            "力学3",
+            "電磁気学2",
+            "線形代数3",
+            "微積分3",
+            "電磁気学3",
+            "微積分1",
+            "微積分2",
+            "微分積分A",
+            "線形代数1",
+            "線形代数A",
+            "線形代数2",
+            "#OTHER_SUBJECTS"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "required_subjects_limit",
+          "minimum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "required_subjects_limit",
+          "minimum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A"
+          ]
+        },
+        {
+          "description": "4単位まで",
+          "type": "required_subjects_limit",
+          "minimum": 4,
+          "subjects": [
+            "#OTHER_SUBJECTS"
+          ]
+        },
+        {
+          "description": "重点科目上限単位数",
+          "type": "important_subjects",
+          "minimum": 18,
+          "subjects": [
+            "数学リテラシー1",
+            "数学リテラシー2",
+            "力学1",
+            "力学2",
+            "電磁気学1",
+            "力学3",
+            "電磁気学2",
+            "線形代数3",
+            "微積分3",
+            "電磁気学3",
+            "微積分1",
+            "微積分2",
+            "微分積分A",
+            "線形代数1",
+            "線形代数A",
+            "線形代数2",
+            "#OTHER_SUBJECTS"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "important_subjects_limit",
+          "minimum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "important_subjects_limit",
+          "minimum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A"
+          ]
+        },
+        {
+          "description": "4単位まで",
+          "type": "important_subjects_limit",
+          "minimum": 1,
+          "subjects": [
+            "#OTHER_SUBJECTS"
+          ]
+        }
+      ]
+    },
+
+    {
       "faculty_name": "情報科学類（区分B）",
       "rules": []
     },
