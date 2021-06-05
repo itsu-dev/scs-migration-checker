@@ -2,12 +2,163 @@
   "version": "0.0.1",
   "updated_at": "20210603",
   "author": "itsu",
-  "faculties": {
+  "faculties": [
 
-    "earth": {
+    {
+      "faculty_name": "人文学類",
+      "rules": [
+        {
+          "description": "応募要件",
+          "type": "required_subjects",
+          "minimum": 2,
+          "subjects": [
+            "哲学・宗教学入門",
+            "史学入門",
+            "言語分析入門",
+            "個別言語学入門",
+            "考古学・民俗学入門"
+          ]
+        }
+      ]
+    },
+
+    {
+      "faculty_name": "比較文化学類",
+      "rules": [
+        {
+          "description": "応募要件",
+          "type": "required_subjects",
+          "minimum": 2,
+          "subjects": [
+            "フィールド文化領域比較文化研究",
+            "思想文化領域比較文化研究",
+            "日本・アジア領域比較文化研究",
+            "文化科学領域比較文化研究",
+            "英米・ヨーロッパ領域比較文化研究",
+            "表現文化領域比較文化研究"
+          ]
+        }
+      ]
+    },
+
+    {
+      "faculty_name": "日本語・日本文化学類",
+      "rules": [
+        {
+          "description": "応募要件",
+          "type": "required_subjects",
+          "minimum": 2,
+          "subjects": [
+            "共生のための日本語教育",
+            "共生のための人類学",
+            "共生のための歴史学",
+            "言語の科学",
+            "共生のための社会言語学"
+          ]
+        }
+      ]
+    },
+
+    {
+      "faculty_name": "社会学類",
+      "rules": [
+        {
+          "description": "応募要件1",
+          "type": "required_subjects",
+          "minimum": 1,
+          "subjects": [
+            "社会学の最前線",
+            "法学の最前線",
+            "経済学の最前線",
+            "政治学の最前線"
+          ]
+        },
+        {
+          "description": "応募要件2",
+          "type": "required_subjects",
+          "minimum": 2,
+          "subjects": [
+            "社会学の最前線",
+            "法学の最前線",
+            "経済学の最前線",
+            "政治学の最前線",
+            "国際学II",
+            "国際学IV",
+            "国際学III",
+            "国際学I"
+          ]
+        }
+      ]
+    },
+
+    {
+      "faculty_name": "国際総合学類",
+      "rules": [
+        {
+          "description": "応募要件1",
+          "type": "required_subjects",
+          "minimum": 1,
+          "subjects": [
+            "国際学II",
+            "国際学IV",
+            "国際学III",
+            "国際学I"
+          ]
+        },
+        {
+          "description": "応募要件2",
+          "type": "required_subjects",
+          "minimum": 2,
+          "subjects": [
+            "国際学II",
+            "国際学IV",
+            "国際学III",
+            "国際学I",
+            "社会学の最前線",
+            "法学の最前線",
+            "経済学の最前線",
+            "政治学の最前線"
+          ]
+        }
+      ]
+    },
+
+    {
+      "faculty_name": "教育学類",
+      "rules": [
+        {
+          "description": "応募要件",
+          "type": "required_subjects",
+          "subjects": []
+        }
+      ]
+    },
+
+    {
+      "faculty_name": "心理学類",
+      "rules": [
+        {
+          "description": "応募要件",
+          "type": "required_subjects",
+          "subjects": []
+        }
+      ]
+    },
+
+    {
+      "faculty_name": "障害科学類",
+      "rules": [
+        {
+          "description": "応募要件",
+          "type": "required_subjects",
+          "subjects": []
+        }
+      ]
+    },
+
+    {
       "faculty_name": "地球学類",
       "rules": [
-
         {
           "description": "応募要件",
           "type": "required_subjects",
@@ -87,5 +238,5 @@
         }
       ]
     }
-  }
+  ]
 }
