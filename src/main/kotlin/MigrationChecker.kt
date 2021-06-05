@@ -12,7 +12,7 @@ object MigrationChecker {
 
     // rule_definitions.jsonを読み込む
     fun loadRuleDefinitions() {
-        window.fetch(Request("https://raw.githubusercontent.com/itsu-dev/scs-migration-checker/master/docs/rule_definitions.json"))
+        window.fetch(Request("https://raw.githubusercontent.com/itsu-dev/scs-migration-checker/master/src/main/resources/rule_definitions.json"))
             .then(onFulfilled = {
                 it.text().then { json ->
                     onLoadFinished(json)
@@ -37,8 +37,8 @@ object MigrationChecker {
         isChecking = true
 
         ruleDefinitions.faculties.forEach { faculty ->
-            var passedRequiredSubjects = true // 応募要件を満足したか
-            var passedImportantSubjects = true // 重点科目上限単位数を満たしたかどうか
+            var passedRequiredSubjects: Boolean? = null // 応募要件を満足したか
+            var passedImportantSubjects: Boolean? = null // 重点科目上限単位数を満たしたか
 
             val tr = document.createElement("tr")
             document.getElementById("result")!!.appendChild(tr)
@@ -55,45 +55,66 @@ object MigrationChecker {
                 when (rule.type) {
                     // 応募要件
                     "required_subjects" -> {
+                        passedRequiredSubjects ?: run {
+                            passedRequiredSubjects = true
+                        }
+
                         var count = 0
                         rule.subjects.forEach { if (subjects.contains(it)) count++ }
-                        if (count < rule.minimum) {
-                            passedRequiredSubjects = false
-                            comments.innerHTML += "応募要件を満たしていません<br />"
-                        }
+                        if (count < rule.minimum) passedRequiredSubjects = false
                     }
 
                     // 重点科目上限
                     "important_subjects" -> {
+                        passedImportantSubjects ?: run {
+                            passedImportantSubjects = true
+                        }
+
                         var count = 0
                         rule.subjects.forEach { if (subjects.contains(it)) count++ }
-                        if (count < rule.minimum) {
-                            passedImportantSubjects = false
-                            comments.innerHTML += "重点科目上限を満たしていません<br />"
-                        }
+                        if (count < rule.minimum) passedImportantSubjects = false
                     }
                 }
             }
 
+            // メッセージを表示
+            if (passedRequiredSubjects == false) comments.innerHTML += "応募要件を満たしていません<br />"
+            if (passedImportantSubjects == false) comments.innerHTML += "重点科目上限を超えていません<br />"
+
             // 応募要件の〇×
             tr.appendChild(
                 document.createElement("td").also {
-                    it.innerHTML = if (passedRequiredSubjects) "<span class=\"passed\">〇</span>" else "<span class=\"missed\">×</span>"
+                    it.innerHTML = when (passedRequiredSubjects) {
+                        true -> "<span class=\"passed\">〇</span>"
+                        false -> "<span class=\"missed\">×</span>"
+                        else -> "<span>-</span>"
+                    }
                 }
             )
 
             // 重点科目上限の〇×
             tr.appendChild(
                 document.createElement("td").also {
-                    it.innerHTML = if (passedImportantSubjects) "<span class=\"passed\">〇</span>" else "<span class=\"missed\">×</span>"
+                    it.innerHTML = when (passedImportantSubjects) {
+                        true -> "<span class=\"passed\">〇</span>"
+                        false -> "<span class=\"missed\">×</span>"
+                        else -> "<span>-</span>"
+                    }
                 }
             )
 
             // 移行要件の適合度によって学類の色を変える
             when {
-                passedRequiredSubjects && passedImportantSubjects -> facultyName.classList.add("faculty-name-passed") // 応募要件と重点科目上限を満足
-                passedRequiredSubjects && !passedImportantSubjects -> facultyName.classList.add("faculty-name-ok") // 応募要件のみ満足
-                else -> facultyName.classList.add("faculty-name-missed") // 何も満足していない
+                // 応募要件と重点科目上限を満足
+                passedRequiredSubjects != false && passedImportantSubjects != false ->
+                    facultyName.classList.add("faculty-name-passed")
+
+                // 応募要件のみ満足
+                passedRequiredSubjects != false && passedImportantSubjects == false ->
+                    facultyName.classList.add("faculty-name-ok")
+
+                // 何も満足していない
+                else -> facultyName.classList.add("faculty-name-missed")
             }
 
         }
