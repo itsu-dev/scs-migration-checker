@@ -58,4 +58,8 @@ fun resetTable() {
                             <th class="result-box">重点科目上限</th>
             """.trimIndent()
     }
+
+    document.getElementById("subjects-box")!!.let {
+        it.textContent = ""
+    }
 }

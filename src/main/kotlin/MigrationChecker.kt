@@ -21,6 +21,7 @@ object MigrationChecker {
 
     private fun onLoadFinished(json: String) {
         ruleDefinitions = Json.decodeFromString(RuleDefinition.serializer(), json)
+        console.log("[Rule Definitions] Version: ${ruleDefinitions.version} Last Updated At: ${ruleDefinitions.updatedAt}")
     }
 
     // 移行要件をチェックする
@@ -33,7 +34,6 @@ object MigrationChecker {
         }
 
         isChecking = true
-        resetTable()
 
         ruleDefinitions.faculties.forEach { faculty ->
             var passedRequiredSubjects: Boolean? = null // 応募要件を満足したか
@@ -161,13 +161,24 @@ object MigrationChecker {
 
 
     fun checkWithCSV(csv: String) {
+        resetTable()
+
+        document.getElementById("subjects-box")!!.innerHTML += "<h3>登録された授業</h3>"
+
         val subjects = mutableListOf<String>()
         val split = csv.split("\n")
+        var subjectText = ""
+
         split.forEachIndexed { index, text ->
             if (text.matches("^(\")([a-zA-Z0-9]{7})\$") && split.size - 1 > index + 1) {
-                subjects.add(split[index + 1].split("\",\"")[0])
+                val subject = split[index + 1].split("\",\"")[0]
+                subjects.add(subject)
+                subjectText += ",　$subject"
             }
         }
+
+        document.getElementById("subjects-box")!!.innerHTML += "<p>${subjectText.substring(2)}</p>"
+
         check(subjects)
     }
 }
