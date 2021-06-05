@@ -337,7 +337,7 @@
             "分子生物学概論",
             "数学概論",
             "工学システム概論",
-            "遺伝子学概論",
+            "遺伝学概論",
             "力学2",
             "物理学概論",
             "化学2",
@@ -491,6 +491,129 @@
           ]
         }
       ]
+    },
+
+    {
+      "faculty_name": "物理学類",
+      "rules": [
+        {
+          "description": "応募要件1",
+          "type": "required_subjects",
+          "minimum": 4,
+          "subjects": [
+            "力学1",
+            "力学2",
+            "電磁気学1",
+            "力学3",
+            "電磁気学2",
+            "電磁気学3"
+          ]
+        },
+        {
+          "description": "応募要件2",
+          "type": "required_subjects",
+          "minimum": 4,
+          "subjects": [
+            "数学リテラシー1",
+            "数学リテラシー2",
+            "線形代数3",
+            "微積分3",
+            "微積分1",
+            "微積分2",
+            "微分積分A",
+            "線形代数1",
+            "線形代数A",
+            "線形代数2"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "required_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "required_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A"
+          ]
+        },
+        {
+          "description": "重点科目上限単位数",
+          "type": "important_subjects",
+          "minimum": 18,
+          "subjects": [
+            "力学1",
+            "力学2",
+            "電磁気学1",
+            "力学3",
+            "電磁気学2",
+            "電磁気学3",
+            "数学リテラシー1",
+            "数学リテラシー2",
+            "線形代数3",
+            "微積分3",
+            "微積分1",
+            "微積分2",
+            "微分積分A",
+            "線形代数1",
+            "線形代数A",
+            "線形代数2",
+            "生物学序説",
+            "化学1",
+            "分子細胞生物学概論",
+            "遺伝学概論",
+            "化学2",
+            "系統分類・進化学概論",
+            "動物生理学概論",
+            "植物生理学概論",
+            "化学3"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "important_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "important_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A"
+          ]
+        }
+      ]
+    },
+
+    {
+      "faculty_name": "情報科学類（区分B）",
+      "rules": []
+    },
+
+    {
+      "faculty_name": "情報メディア創成学類",
+      "rules": []
+    },
+
+    {
+      "faculty_name": "知識情報・図書館学類",
+      "rules": []
     }
   ]
 }
