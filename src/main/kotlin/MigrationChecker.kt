@@ -2,7 +2,6 @@ import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.serialization.json.Json
 import model.RuleDefinition
-import org.w3c.dom.Window
 import org.w3c.fetch.Request
 
 object MigrationChecker {
@@ -26,8 +25,8 @@ object MigrationChecker {
     }
 
     // 移行要件をチェックする
-    // subjects: ユーザの登録済み講義（講義名）
-    fun check(subjects: List<String>) {
+    // userSubjects: ユーザの登録済み講義（講義名）
+    fun check(userSubjects: List<String>) {
 
         if (isChecking) {
             window.alert("判定中です")
@@ -48,7 +47,9 @@ object MigrationChecker {
             }
             tr.appendChild(facultyName)
 
-            val comments = document.createElement("td")
+            val comments = document.createElement("td").also {
+                it.classList.add("message-box")
+            }
             tr.appendChild(comments)
 
             faculty.rules.forEach { rule ->
@@ -60,7 +61,20 @@ object MigrationChecker {
                         }
 
                         var count = 0
-                        rule.subjects.forEach { if (subjects.contains(it)) count++ }
+                        rule.subjects.forEach { ruleSubject ->
+                            if (ruleSubject == "#OTHER_SUBJECTS") { // その他の講義の場合
+                                userSubjects.forEach {
+                                    if (!rule.subjects.contains(it)) count++
+                                }
+
+                            } else if (ruleSubject.startsWith("#CONTENTS")) { // ~から始まる講義名の場合 ex) #CONTENTS:基礎体育
+                                if (userSubjects.any { it.startsWith(ruleSubject.split(":")[1]) }) count++
+
+                            } else if (userSubjects.contains(ruleSubject)) { // いずれにも該当しない場合
+                                count++
+                            }
+                        }
+
                         if (count < rule.minimum) passedRequiredSubjects = false
                     }
 
@@ -71,17 +85,37 @@ object MigrationChecker {
                         }
 
                         var count = 0
-                        rule.subjects.forEach { if (subjects.contains(it)) count++ }
+                        rule.subjects.forEach { ruleSubject ->
+                            if (ruleSubject == "#OTHER_SUBJECTS") { // その他の講義の場合
+                                userSubjects.forEach {
+                                    if (!rule.subjects.contains(it)) count++
+                                }
+
+                            } else if (ruleSubject.startsWith("#CONTENTS")) { // ~から始まる講義名の場合 ex) #CONTENTS:基礎体育
+                                if (userSubjects.any { it.startsWith(ruleSubject.split(":")[1]) }) count++
+
+                            } else if (userSubjects.contains(ruleSubject)) { // いずれにも該当しない場合
+                                count++
+                            }
+                        }
+
                         if (count < rule.minimum) passedImportantSubjects = false
+                    }
+
+                    // その他の条件
+                    "others" -> {
+                        if (rule.message.isNotEmpty()) {
+                            comments.innerHTML += "・${rule.message}<br />"
+                        }
                     }
                 }
             }
 
             // メッセージを表示
-            if (passedRequiredSubjects == false) comments.innerHTML += "応募要件を満たしていません<br />"
-            if (passedImportantSubjects == false) comments.innerHTML += "重点科目上限を超えていません<br />"
+            if (passedRequiredSubjects == false) comments.innerHTML += "・応募要件を満たしていません<br />"
+            if (passedImportantSubjects == false) comments.innerHTML += "・重点科目上限を超えていません<br />"
 
-            // 応募要件の〇×
+            // 応募要件の〇×-
             tr.appendChild(
                 document.createElement("td").also {
                     it.innerHTML = when (passedRequiredSubjects) {
@@ -92,7 +126,7 @@ object MigrationChecker {
                 }
             )
 
-            // 重点科目上限の〇×
+            // 重点科目上限の〇×-
             tr.appendChild(
                 document.createElement("td").also {
                     it.innerHTML = when (passedImportantSubjects) {
