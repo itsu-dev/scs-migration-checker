@@ -2,22 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP" rel="stylesheet">
     <link rel="stylesheet" href="css/core.css">
-    <title>JS Client</title>
+    <title>ITF.scs 移行要件チェックツール</title>
 </head>
+
 <body>
-<div class="header">
-    <h2>筑波大学 総合学域群 移行要件チェックツール</h2>
-    <p class="caption">「令和3（2021）年度　履修・移行ガイドブック」に沿って、自分の履修時間割が移行要件に適合しているかを確認します。</p>
+<div class="header-base">
+    <div class="header">
+        <h2>筑波大学 総合学域群 移行要件チェックツール</h2>
+        <p class="caption">「令和3（2021）年度　履修・移行ガイドブック」に沿って、自分の履修時間割が移行要件に適合しているかを確認します。</p>
+    </div>
 </div>
 
 <div class="table-box">
+    <div class="form-box">
+        <button id="start-checking" class="start-checking-button" onclick="void(0)">判定を開始</button>
+    </div>
+
     <table id="result">
         <tr>
             <th>学群・学類</th>
-            <th>メッセージ</th>
-            <th>応募要件</th>
-            <th>重点科目上限</th>
+            <th class="message-box-th">メッセージ</th>
+            <th class="result-box">応募要件</th>
+            <th class="result-box">重点科目上限</th>
         </tr>
     </table>
 </div>

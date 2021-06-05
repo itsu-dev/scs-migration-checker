@@ -1,3 +1,9 @@
+root {
+    font-family: "Noto Sans JP", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
 th {
     background-color: #00c0d4;
     color: white;
@@ -20,9 +26,42 @@ table {
     width: 100%;
 }
 
+a, button {
+    cursor: pointer;
+}
+
+h2 {
+    padding: 0.25em 0.5em;
+    color: #494949;
+    background: transparent;
+    border-left: solid 5px #6600cc;
+}
+
+.form-box {
+    alignment: right;
+    text-align: right;
+    margin: 0 auto;
+    padding-bottom: 1.0em;
+}
+
 .table-box {
     padding-left: 10%;
     padding-right: 10%;
+}
+
+.message-box {
+    display: inline-block;
+    text-align: left;
+    margin-left: 1.0em;
+    margin-right: 1.0em;
+}
+
+.message-box-th {
+    width: 60%;
+}
+
+.result-box {
+    width: 10%;
 }
 
 .passed {
@@ -35,6 +74,10 @@ table {
 
 .footer {
     text-align: center;
+}
+
+.header-base {
+
 }
 
 .header {
@@ -57,3 +100,13 @@ table {
 .faculty-name-missed {
     background-color: #F1948A;
 }
+
+.start-checking-button {
+    background-color: #6600cc;
+    color: white;
+    border-style: none;
+    border-radius: 0.5em;
+    padding: 1.0em 2.0em;
+}
+
+.wf-notosansjapanese { font-family: "Noto Sans JP"; }
