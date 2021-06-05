@@ -31,6 +31,21 @@ table {
     padding-right: 10%;
 }
 
+.message-box {
+    display: inline-block;
+    text-align: left;
+    margin-left: 1.0em;
+    margin-right: 1.0em;
+}
+
+.message-box-th {
+    width: 60%;
+}
+
+.result-box {
+    width: 10%;
+}
+
 .passed {
     color: mediumseagreen;
 }
