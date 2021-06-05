@@ -961,6 +961,149 @@
     },
 
     {
+      "faculty_name": "社会工学類",
+      "rules": [
+        {
+          "description": "応募要件",
+          "type": "required_subjects",
+          "minimum": 2,
+          "subjects": [
+            "数学リテラシー1",
+            "数学リテラシー2",
+            "線形代数3",
+            "微積分3",
+            "微積分1",
+            "微積分2",
+            "微分積分A",
+            "線形代数1",
+            "線形代数A",
+            "線形代数2"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "required_subjects_limit",
+          "minimum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "required_subjects_limit",
+          "minimum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A"
+          ]
+        },
+        {
+          "description": "重点科目上限単位数",
+          "type": "important_subjects",
+          "minimum": 3,
+          "subjects": [
+            "数学リテラシー1",
+            "数学リテラシー2",
+            "線形代数3",
+            "微積分3",
+            "微積分1",
+            "微積分2",
+            "微分積分A",
+            "線形代数1",
+            "線形代数A",
+            "線形代数2",
+            "会計と経営",
+            "経済学の数理",
+            "都市計画入門",
+            "社会と最適化",
+            "都市数理",
+            "経済学の実証"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "important_subjects_limit",
+          "minimum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "important_subjects_limit",
+          "minimum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A"
+          ]
+        }
+      ]
+    },
+
+    {
+      "faculty_name": "情報科学類（区分B）",
+      "rules": [
+        {
+          "description": "重点科目単位数1",
+          "type": "important_subjects",
+          "minimum": 2,
+          "subjects": [
+            "知識情報概論",
+            "情報メディア入門",
+            "知能と情報科学",
+            "知識情報システム概説",
+            "情報科学概論",
+            "計算と情報科学",
+            "図書館概論",
+            "コンテンツ入門",
+            "システムと情報科学"
+          ]
+        },
+        {
+          "description": "重点科目単位数2",
+          "type": "important_subjects",
+          "minimum": 8,
+          "subjects": [
+            "情報数学A",
+            "プログラミング入門A",
+            "微積分1",
+            "微積分2",
+            "微分積分A",
+            "線形代数1",
+            "線形代数A",
+            "線形代数2"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "important_subjects_limit",
+          "minimum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A"
+          ]
+        },
+        {
+          "description": "2単位まで",
+          "type": "important_subjects_limit",
+          "minimum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A"
+          ]
+        }
+      ]
+    },
+
+    {
       "faculty_name": "情報科学類（区分B）",
       "rules": []
     },
@@ -973,6 +1116,97 @@
     {
       "faculty_name": "知識情報・図書館学類",
       "rules": []
+    },
+
+    {
+      "faculty_name": "看護学類",
+      "rules": [
+        {
+          "description": "応募要件1",
+          "type": "required_subjects",
+          "minimum": 18,
+          "subjects": [
+            "基礎看護学概論",
+            "生涯発達と家族支援",
+            "人体構造学",
+            "人体機能学",
+            "公衆衛生看護学概論",
+            "高齢者看護学概論",
+            "医療・生命科学とテクノロジー",
+            "医学史",
+            "看護生命倫理",
+            "精神看護学概論",
+            "English Reading Skills I",
+            "English Presentation Skills I",
+            "English Reading Skills II",
+            "English Presentation Skills II",
+            "情報リテラシー(講義)",
+            "情報リテラシー(演習)",
+            "データサイエンス",
+            "フレッシュマン・セミナー",
+            "学問への誘い",
+            "#CONTENTS:基礎体育",
+            "日本国憲法"
+          ]
+        },
+        {
+          "description": "応募要件2",
+          "type": "required_subjects",
+          "minimum": 2,
+          "subjects": [
+            "English Reading Skills I",
+            "English Presentation Skills I",
+            "English Reading Skills II",
+            "English Presentation Skills II"
+          ]
+        },
+        {
+          "description": "重点科目単位数",
+          "type": "important_subjects",
+          "minimum": 10,
+          "subjects": [
+            "基礎看護学概論",
+            "生涯発達と家族支援",
+            "人体構造学",
+            "人体機能学",
+            "公衆衛生看護学概論",
+            "高齢者看護学概論"
+          ]
+        },
+        {
+          "description": "その他",
+          "type": "others",
+          "message": "応募要件として、別途面接があります"
+        }
+      ]
+    },
+
+    {
+      "faculty_name": "医療科学類",
+      "rules": [
+        {
+          "description": "応募要件",
+          "type": "required_subjects",
+          "minimum": 2,
+          "subjects": [
+            "English Reading Skills I",
+            "English Presentation Skills I",
+            "English Reading Skills II",
+            "English Presentation Skills II",
+            "情報リテラシー(講義)",
+            "情報リテラシー(演習)",
+            "データサイエンス",
+            "フレッシュマン・セミナー",
+            "学問への誘い",
+            "#CONTENTS:基礎体育"
+          ]
+        },
+        {
+          "description": "重点科目上限単位数",
+          "type": "others",
+          "message": "重点科目として医科生化学・人体構造学・人体機能学・医科分子生物学・医療科学概論とこれら以外の専門導入科目、および化学類、物理学類開設の生物学序説が含まれます（8単位まで）"
+        }
+      ]
     }
   ]
 }
