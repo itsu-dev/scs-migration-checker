@@ -111,8 +111,11 @@ object MigrationChecker {
                             } else if (ruleSubject.startsWith("#CONTENTS")) { // ~から始まる講義名の場合 ex) #CONTENTS:基礎体育
                                 if (userSubjects.any { it.startsWith(ruleSubject.split(":")[1]) }) count++
 
-                            } else if (userSubjects.contains(ruleSubject)) { // いずれにも該当しない場合
-                                count++
+                            } else if (userSubjects.contains(ruleSubject.split("::")[0])) { // いずれにも該当しない場合
+                                val data = ruleSubject.split("::")
+                                if (data.size == 1) count++
+                                else count += (data[1].toIntOrNull() ?: 1)
+
                             }
                         }
 
