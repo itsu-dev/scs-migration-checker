@@ -33,6 +33,7 @@ object MigrationChecker {
         }
 
         isChecking = true
+        resetTable()
 
         ruleDefinitions.faculties.forEach { faculty ->
             var passedRequiredSubjects: Boolean? = null // 応募要件を満足したか
@@ -156,5 +157,17 @@ object MigrationChecker {
         }
 
         isChecking = false
+    }
+
+
+    fun checkWithCSV(csv: String) {
+        val subjects = mutableListOf<String>()
+        val split = csv.split("\n")
+        split.forEachIndexed { index, text ->
+            if (text.matches("^(\")([a-zA-Z0-9]{7})\$") && split.size - 1 > index + 1) {
+                subjects.add(split[index + 1].split("\",\"")[0])
+            }
+        }
+        check(subjects)
     }
 }
