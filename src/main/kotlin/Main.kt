@@ -12,7 +12,6 @@ var isUnder1100px = window.matchMedia("screen and (max-width: 1100px)").matches
 
 fun main() {
     MigrationChecker.loadRuleDefinitions()
-
     document.getElementById("start-checking")?.addEventListener("click", EventListener { onStartCheckingButtonClicked() })
 }
 
