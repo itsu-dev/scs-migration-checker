@@ -5,6 +5,7 @@ root {
 
 body {
     font-family: "Noto Sans JP", sans-serif;
+    color: #333333;
 }
 
 th {
@@ -27,6 +28,7 @@ tr {
 
 table {
     width: 100%;
+    color: black;
 }
 
 a, button {
@@ -37,6 +39,13 @@ h2 {
     padding: 0.25em 0.5em;
     color: #494949;
     background: transparent;
+    border-left: solid 5px #6600cc;
+}
+
+h3 {
+    padding: 0.25em 0.5em;
+    color: #494949;
+    background: #eee;
     border-left: solid 5px #6600cc;
 }
 
