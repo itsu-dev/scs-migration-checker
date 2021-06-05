@@ -36,7 +36,7 @@ object MigrationChecker {
 
         isChecking = true
 
-        ruleDefinitions.faculties.values.forEach { faculty ->
+        ruleDefinitions.faculties.forEach { faculty ->
             var passedRequiredSubjects = true // 応募要件を満足したか
             var passedImportantSubjects = true // 重点科目上限単位数を満たしたかどうか
 
