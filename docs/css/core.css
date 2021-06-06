@@ -40,6 +40,7 @@ h2 {
     color: #494949;
     background: transparent;
     border-left: solid 5px #6600cc;
+    font-weight: normal;
 }
 
 h3 {
@@ -47,6 +48,7 @@ h3 {
     color: #494949;
     background: #eee;
     border-left: solid 5px #6600cc;
+    font-weight: normal;
 }
 
 .form-box {
