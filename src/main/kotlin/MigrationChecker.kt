@@ -25,8 +25,8 @@ object MigrationChecker {
     }
 
     // 移行要件をチェックする
-    // userSubjects: ユーザの登録済み講義（講義名）
-    fun check(userSubjects: Map<String, Double>) {
+    // userSubjects: ユーザの登録済み講義 <講義名, 単位>
+    private fun check(userSubjects: Map<String, Double>) {
 
         if (isChecking) {
             window.alert("判定中です")
@@ -35,6 +35,7 @@ object MigrationChecker {
 
         isChecking = true
 
+        // rule_definitions.jsonの学群・学類で回す
         ruleDefinitions.faculties.forEach { faculty ->
             var passedRequiredSubjects: Boolean? = null // 応募要件を満足したか
             var passedImportantSubjects: Boolean? = null // 重点科目上限単位数を満たしたか
@@ -42,16 +43,19 @@ object MigrationChecker {
             val tr = document.createElement("tr")
             document.getElementById("result")!!.appendChild(tr)
 
+            // テーブルの「講義名」
             val facultyName = document.createElement("td").also {
                 it.innerHTML = faculty.facultyName
             }
             tr.appendChild(facultyName)
 
+            // テーブルの「メッセージ」
             val comments = document.createElement("td").also {
                 it.classList.add("message-box")
             }
             tr.appendChild(comments)
 
+            // 各学群・学類で定義された要件を回す
             faculty.rules.forEach { rule ->
                 when (rule.type) {
                     // 応募要件
@@ -78,15 +82,17 @@ object MigrationChecker {
                         if (count > rule.maximum) {
                             var text = ""
                             rule.subjects.forEach {
-                                val split = it.split(":")
-                                if (split.size == 1) text += ",　${split[0]} (1単位)"
-                                else text += ",　${split[0]} (${split[1]}単位)"
+                                val split = it.split("::") // 講義名::単位
+                                text +=
+                                    if (split.size == 1) ",　${split[0]} (1単位)"
+                                    else ",　${split[0]} (${split[1]}単位)"
                             }
                             comments.innerHTML += "・${text.substring(2)}のうち、最大で取ることができるのは${rule.maximum}単位までです (履修予定：${count.toInt()}単位)<br />"
                         }
                     }
                 }
 
+                // メッセージがあれば表示
                 if (rule.message.isNotEmpty()) {
                     comments.innerHTML += "・${rule.message}<br />"
                 }
@@ -139,29 +145,43 @@ object MigrationChecker {
 
     // 各要件が要求する単位の計算
     private fun countUnit(userSubjects: Map<String, Double>, ruleSubjects: List<String>): Double {
-        var count = 0.0
+        var unit = 0.0
         ruleSubjects.forEach { ruleSubject ->
-            if (ruleSubject == "#OTHER_SUBJECTS") { // その他の講義の場合
-                userSubjects.forEach {
-                    if (!ruleSubjects.contains(it.key)) count += it.value
-                }
-
-            } else if (ruleSubject.startsWith("#CONTENTS")) { // ~から始まる講義名の場合 ex) #CONTENTS:基礎体育
-                val temp = userSubjects.filter { it.key.startsWith(ruleSubject.split(":")[1]) }
-                if (temp.isNotEmpty()) {
-                    temp.keys.forEach {
-                        count+= temp[it]!!
+            when {
+                // その他の講義の場合
+                ruleSubject == "#OTHER_SUBJECTS" -> {
+                    userSubjects.forEach {
+                        if (!ruleSubjects.contains(it.key)) unit += it.value
                     }
                 }
 
-            } else if (userSubjects.contains(ruleSubject.split("::")[0])) { // いずれにも該当しない場合
-                count += userSubjects[ruleSubject.split("::")[0]]!!
+                // ~から始まる講義名の場合 ex) #CONTENTS:基礎体育
+                ruleSubject.startsWith("#CONTENTS") -> {
+                    userSubjects
+                        .filter { it.key.startsWith(ruleSubject.split(":")[1]) }
+                        .forEach { unit += it.value }
+                }
+
+                // いずれにも該当しない場合
+                // 講義名::単位の講義名のみを抜き出す（単位はCSVから読み込んだものを使う）
+                userSubjects.contains(ruleSubject.split("::")[0]) -> {
+                    unit += userSubjects[ruleSubject.split("::")[0]]!!
+                }
             }
         }
-        return count
+        return unit
     }
 
-    // CSVファイルを読み込む
+    /*
+     CSVファイルを読み込む。CSVライブラリが使えなかったため独自実装。
+     KdBもどきから得られるCSVは
+     ～
+     "FA01111
+     数学リテラシー1","1.0単位
+     春A火5
+     ～
+     のように、"講義番号\n講義名","単位のようになっているため、以下のような実装になっている。
+     */
     fun checkWithCSV(csv: String) {
         resetTable()
 

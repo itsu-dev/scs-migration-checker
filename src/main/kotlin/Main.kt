@@ -36,6 +36,7 @@ fun main() {
 }
 
 private fun onStartCheckingButtonClicked() {
+    // CSVファイルがnullのとき
     csvFile ?: run {
         window.alert("ファイルを選択してください。")
         return
@@ -44,7 +45,7 @@ private fun onStartCheckingButtonClicked() {
     val reader = FileReader()
     reader.readAsText(csvFile!!)
     reader.onload = {
-        MigrationChecker.checkWithCSV(reader.result)
+        MigrationChecker.checkWithCSV(reader.result as String)
     }
 }
 
