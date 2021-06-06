@@ -120,7 +120,8 @@ h3 {
     color: white;
     border-style: none;
     border-radius: 0.5em;
-    padding: 1.0em 2.0em;
+    padding: 0.5em 1.5em;
+    font-size: 1.0em;
 }
 
 .wf-notosansjapanese { font-family: "Noto Sans JP"; }
