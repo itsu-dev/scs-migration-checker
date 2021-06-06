@@ -952,7 +952,7 @@
         {
           "description": "4単位まで",
           "type": "important_subjects_limit",
-          "minimum": 1,
+          "minimum": 4,
           "subjects": [
             "#OTHER_SUBJECTS"
           ]
