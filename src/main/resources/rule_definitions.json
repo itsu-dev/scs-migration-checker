@@ -874,7 +874,7 @@
             "線形代数1",
             "線形代数A::2",
             "線形代数2",
-            "#OTHER_SUBJECTS"
+            "#OTHER_SUBJECTS:4"
           ]
         },
         {
@@ -895,14 +895,6 @@
             "線形代数1",
             "線形代数2",
             "線形代数A::2"
-          ]
-        },
-        {
-          "description": "4単位まで",
-          "type": "required_subjects",
-          "maximum": 4,
-          "subjects": [
-            "#OTHER_SUBJECTS"
           ]
         },
         {
@@ -926,7 +918,7 @@
             "線形代数1",
             "線形代数A::2",
             "線形代数2",
-            "#OTHER_SUBJECTS"
+            "#OTHER_SUBJECTS:4"
           ]
         },
         {
@@ -947,14 +939,6 @@
             "線形代数1",
             "線形代数2",
             "線形代数A::2"
-          ]
-        },
-        {
-          "description": "4単位まで",
-          "type": "important_subjects_limit",
-          "minimum": 4,
-          "subjects": [
-            "#OTHER_SUBJECTS"
           ]
         }
       ]
