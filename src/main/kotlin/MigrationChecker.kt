@@ -149,9 +149,17 @@ object MigrationChecker {
         ruleSubjects.forEach { ruleSubject ->
             when {
                 // その他の講義の場合
-                ruleSubject == "#OTHER_SUBJECTS" -> {
-                    userSubjects.forEach {
-                        if (!ruleSubjects.contains(it.key)) unit += it.value
+                ruleSubject.startsWith("#OTHER_SUBJECTS") -> {
+                    var unitCount = 0.0
+                    val maxUnit = ruleSubject.split(":")[1].toInt()
+                    userSubjects.forEach otherSubjects@ {
+                        if (!ruleSubjects.contains(it.key)) {
+                            if (unitCount + it.value <= maxUnit) {
+                                unit += it.value
+                                unitCount += it.value
+                                if (unitCount >= maxUnit) return@otherSubjects
+                            }
+                        }
                     }
                 }
 
