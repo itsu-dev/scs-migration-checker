@@ -26,7 +26,7 @@ object MigrationChecker {
 
     // 移行要件をチェックする
     // userSubjects: ユーザの登録済み講義（講義名）
-    fun check(userSubjects: List<String>) {
+    fun check(userSubjects: Map<String, Double>) {
 
         if (isChecking) {
             window.alert("判定中です")
@@ -59,58 +59,36 @@ object MigrationChecker {
                         passedRequiredSubjects ?: run {
                             passedRequiredSubjects = true
                         }
-
-                        var count = 0
-                        rule.subjects.forEach { ruleSubject ->
-                            if (ruleSubject == "#OTHER_SUBJECTS") { // その他の講義の場合
-                                userSubjects.forEach {
-                                    if (!rule.subjects.contains(it)) count++
-                                }
-
-                            } else if (ruleSubject.startsWith("#CONTENTS")) { // ~から始まる講義名の場合 ex) #CONTENTS:基礎体育
-                                if (userSubjects.any { it.startsWith(ruleSubject.split(":")[1]) }) count++
-
-                            } else if (userSubjects.contains(ruleSubject)) { // いずれにも該当しない場合
-                                count++
-                            }
-                        }
-
-                        if (count < rule.minimum) passedRequiredSubjects = false
+                        val count = countUnit(userSubjects, rule.subjects)
+                        if (count < rule.minimum || count > rule.maximum) passedRequiredSubjects = false
                     }
 
-                    // 重点科目上限
+                    // 重点科目上限単位数
                     "important_subjects" -> {
                         passedImportantSubjects ?: run {
                             passedImportantSubjects = true
                         }
+                        val count = countUnit(userSubjects, rule.subjects)
+                        if (count < rule.minimum || count > rule.maximum) passedImportantSubjects = false
+                    }
 
-                        var count = 0
-                        rule.subjects.forEach { ruleSubject ->
-                            if (ruleSubject == "#OTHER_SUBJECTS") { // その他の講義の場合
-                                userSubjects.forEach {
-                                    if (!rule.subjects.contains(it)) count++
-                                }
-
-                            } else if (ruleSubject.startsWith("#CONTENTS")) { // ~から始まる講義名の場合 ex) #CONTENTS:基礎体育
-                                if (userSubjects.any { it.startsWith(ruleSubject.split(":")[1]) }) count++
-
-                            } else if (userSubjects.contains(ruleSubject.split("::")[0])) { // いずれにも該当しない場合
-                                val data = ruleSubject.split("::")
-                                if (data.size == 1) count++
-                                else count += (data[1].toIntOrNull() ?: 1)
-
+                    // 応募要件の制限単位
+                    "required_subjects_limit" -> {
+                        val count = countUnit(userSubjects, rule.subjects)
+                        if (count > rule.maximum) {
+                            var text = ""
+                            rule.subjects.forEach {
+                                val split = it.split(":")
+                                if (split.size == 1) text += ",　${split[0]} (1単位)"
+                                else text += ",　${split[0]} (${split[1]}単位)"
                             }
-                        }
-
-                        if (count < rule.minimum) passedImportantSubjects = false
-                    }
-
-                    // その他の条件
-                    "others" -> {
-                        if (rule.message.isNotEmpty()) {
-                            comments.innerHTML += "・${rule.message}<br />"
+                            comments.innerHTML += "・${text.substring(2)}のうち、最大で取ることができるのは${rule.maximum}単位までです (履修予定：${count.toInt()}単位)<br />"
                         }
                     }
+                }
+
+                if (rule.message.isNotEmpty()) {
+                    comments.innerHTML += "・${rule.message}<br />"
                 }
             }
 
@@ -159,25 +137,49 @@ object MigrationChecker {
         isChecking = false
     }
 
+    // 各要件が要求する単位の計算
+    private fun countUnit(userSubjects: Map<String, Double>, ruleSubjects: List<String>): Double {
+        var count = 0.0
+        ruleSubjects.forEach { ruleSubject ->
+            if (ruleSubject == "#OTHER_SUBJECTS") { // その他の講義の場合
+                userSubjects.forEach {
+                    if (!ruleSubjects.contains(it.key)) count += it.value
+                }
 
+            } else if (ruleSubject.startsWith("#CONTENTS")) { // ~から始まる講義名の場合 ex) #CONTENTS:基礎体育
+                val temp = userSubjects.filter { it.key.startsWith(ruleSubject.split(":")[1]) }
+                if (temp.isNotEmpty()) count += temp[temp.keys.first()]!!
+
+            } else if (userSubjects.contains(ruleSubject.split("::")[0])) { // いずれにも該当しない場合
+                count += userSubjects[ruleSubject.split("::")[0]]!!
+            }
+        }
+        return count
+    }
+
+    // CSVファイルを読み込む
     fun checkWithCSV(csv: String) {
         resetTable()
 
         document.getElementById("subjects-box")!!.innerHTML += "<h3>登録された授業</h3>"
 
-        val subjects = mutableListOf<String>()
+        val subjects = mutableMapOf<String, Double>()
         val split = csv.split("\n")
         var subjectText = ""
 
+        var sum = 0.0
         split.forEachIndexed { index, text ->
             if (text.matches("^(\")([a-zA-Z0-9]{7})\$") && split.size - 1 > index + 1) {
-                val subject = split[index + 1].split("\",\"")[0]
-                subjects.add(subject)
-                subjectText += ",　$subject"
+                val data = split[index + 1].split("\",\"")
+                val subject = data[0]
+                val unit = data[1].match("[+-]?\\d+(?:\\.\\d+)?")!![0].toDouble()
+                sum += unit
+                subjects[subject] = unit
+                subjectText += ",　$subject (${unit}単位)"
             }
         }
 
-        document.getElementById("subjects-box")!!.innerHTML += "<p>${subjectText.substring(2)}</p>"
+        document.getElementById("subjects-box")!!.innerHTML += "<p>合計${sum}単位：${subjectText.substring(2)}</p>"
 
         check(subjects)
     }
