@@ -235,7 +235,7 @@
         {
           "description": "応募要件",
           "type": "required_subjects",
-          "minimum": 6,
+          "minimum": 7,
           "subjects": [
             "English Reading Skills I",
             "English Presentation Skills I",
@@ -1124,7 +1124,7 @@
         {
           "description": "応募要件1",
           "type": "required_subjects",
-          "minimum": 18,
+          "minimum": 30,
           "subjects": [
             "基礎看護学概論",
             "生涯発達と家族支援::2",
@@ -1187,7 +1187,7 @@
         {
           "description": "応募要件",
           "type": "required_subjects",
-          "minimum": 2,
+          "minimum": 11,
           "subjects": [
             "English Reading Skills I",
             "English Presentation Skills I",
