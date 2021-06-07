@@ -30,7 +30,7 @@ Subject name must be defined at `````/faculties/rules/subjects`````.
 - If you want to specify unit of the subject, you can write ```::(UNIT)``` end of the name. (e.g. ```"微分積分A::2"```)
 - If you don't specify unit of the subject, the subject unit will be processed as 1.
 - If you want to specify subjects which content "ABC", you can write ```#CONTENTS:ABC```. (e.g. ```#CONTENTS:基礎体育```)
-- If you want to specify whole subjects which don't include the required subjects, you can write ```#OTHER_SUBJECTS```.
+- If you want to specify whole subjects which don't include the required subjects, you can write ```#OTHER_SUBJECTS:(MAX_UNIT)```.
     
 # 総合学域群 移行要件チェックツール 
 筑波大学 総合学域群生向けの非公式移行要件チェックツールです。
