@@ -10,15 +10,18 @@
 <body>
 <div class="header-base">
     <div class="header">
-        <h2>筑波大学 総合学域群 移行要件チェックツール</h2>
-        <p class="caption">「令和3（2021）年度　履修・移行ガイドブック」に沿って、自分の履修時間割が移行要件に適合しているかを確認します。</p>
+        <h2>筑波大学 総合学域群 移行要件チェックツール（2021年度用）</h2>
+        <p class="caption">
+            「令和3（2021）年度　履修・移行ガイドブック」に沿って、自分の履修時間割が移行要件に適合しているかを確認します。<br />
+            このツールは総合学域群生の履修組みの利便性向上を目指して、有志によって開発されています。筑波大学公式ではありません。
+        </p>
     </div>
 </div>
 
 <div class="table-box">
     <div class="form-box">
         <input type="file" id="subjects-csv" accept=".csv" />
-        <button id="start-checking" class="start-checking-button" onclick="void(0)">判定を開始</button>
+        <button id="start-checking" class="start-checking-button" onclick="void(0)">確認する</button>
     </div>
 
     <table id="result">
@@ -39,10 +42,11 @@
         3．検索条件をクリアし、「お気に入り」にチェックを入れて検索する<br />
         4．画面最下部の「CSVダウンロード」をクリックする<br />
         5．移行要件ツールでダウンロードしたCSVファイルを選択する<br />
-        6．「判定を開始」を押す
+        6．「確認する」を押す
     </p>
     <p>
         ・応募可能で重点科目上限単位数を超えている場合には緑、重点科目単位数を超えていない場合には黄、そのどちらでもない場合には赤で示しています。<br />
+        ・履修を組む際の参考としてお使いください。<br />
         ・使用したCSVファイルはサーバーには保存されません。<br />
         ・医療科学類の重点科目上限単位数、医学類の判定には対応しておりません。
     </p>
