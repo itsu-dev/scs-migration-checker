@@ -29,7 +29,7 @@ object MigrationChecker {
     private fun check(userSubjects: Map<String, Double>) {
 
         if (isChecking) {
-            window.alert("判定中です")
+            window.alert("確認中です")
             return
         }
 
@@ -193,7 +193,7 @@ object MigrationChecker {
     fun checkWithCSV(csv: String) {
         resetTable()
 
-        document.getElementById("subjects-box")!!.innerHTML += "<h3>登録された授業</h3>"
+        document.getElementById("subjects-box")!!.innerHTML += "<h3>検出された科目</h3>"
 
         val subjects = mutableMapOf<String, Double>()
         val split = csv.split("\n")
