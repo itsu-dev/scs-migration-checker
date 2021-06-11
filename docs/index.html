@@ -4,20 +4,20 @@
     <title>ITF.scs 移行要件チェックツール</title>
 
     <meta charset="UTF-8">
-    <meta name="description" content="筑波大学 総合学域群 移行要件チェックツール" />
+    <meta name="description" content="筑波大学 総合学域群 移行要件チェックツール"/>
     <meta name="keywords" content="筑波大学,総合学域群,移行,移行要件,scs,scs-migration-checker,KdB,kdb"/>
-    <meta name="author" content="ちゅるり" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:creator" content="@chururi_" />
-    <meta name="twitter:site" content="@chururi_" />
-    <meta property="og:url" content="https://itsu-dev.github.io/scs-migration-checker/" />
-    <meta property="og:title" content="筑波大学 総合学域群 移行要件チェックツール" />
-    <meta property="og:description" content="筑波大学 総合学域群 移行要件チェックツール" />
+    <meta name="author" content="ちゅるり"/>
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:creator" content="@chururi_"/>
+    <meta name="twitter:site" content="@chururi_"/>
+    <meta property="og:url" content="https://itsu-dev.github.io/scs-migration-checker/"/>
+    <meta property="og:title" content="筑波大学 総合学域群 移行要件チェックツール"/>
+    <meta property="og:description" content="筑波大学 総合学域群 移行要件チェックツール"/>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+JP" />
-    <link rel="stylesheet" href="css/core.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+JP"/>
+    <link rel="stylesheet" href="css/core.css"/>
 
-    <meta name="google-site-verification" content="qX9Nx5fsCuoBuFc2rnAZcqVvuLZoxwaBuSiQkk-snuA" />
+    <meta name="google-site-verification" content="qX9Nx5fsCuoBuFc2rnAZcqVvuLZoxwaBuSiQkk-snuA"/>
 </head>
 
 <body>
@@ -25,7 +25,7 @@
     <div class="header">
         <h2>筑波大学 総合学域群 移行要件チェックツール（2021年度用）</h2>
         <p class="caption">
-            「令和3（2021）年度　履修・移行ガイドブック」に沿って、自分の履修時間割が移行要件に適合しているかを確認します。<br />
+            「令和3（2021）年度　履修・移行ガイドブック」に沿って、自分の履修時間割が移行要件に適合しているかを確認します。<br/>
             このツールは総合学域群生の履修組みの利便性向上を目指して、有志によって開発されています。筑波大学公式ではありません。
         </p>
     </div>
@@ -33,7 +33,7 @@
 
 <div class="table-box">
     <div class="form-box">
-        <input type="file" id="subjects-csv" accept=".csv" />
+        <input type="file" id="subjects-csv" accept=".csv"/>
         <button id="start-checking" class="start-checking-button" onclick="void(0)">確認する</button>
     </div>
 
@@ -50,27 +50,29 @@
 
     <h3>使い方</h3>
     <p>
-        1．<a href="https://make-it-tsukuba.github.io/alternative-tsukuba-kdb">KdBもどき</a>にPCでアクセスする<br />
-        2．仮の履修時間割を組む<br />
-        3．検索条件をクリアし、「お気に入り」にチェックを入れて検索する<br />
-        4．画面最下部の「CSVダウンロード」をクリックする<br />
-        5．移行要件ツールでダウンロードしたCSVファイルを選択する<br />
+        1．<a href="https://make-it-tsukuba.github.io/alternative-tsukuba-kdb">KdBもどき</a>にPCでアクセスする<br/>
+        2．仮の履修時間割を組む<br/>
+        3．検索条件をクリアし、「お気に入り」にチェックを入れて検索する<br/>
+        4．画面最下部の「CSVダウンロード」をクリックする<br/>
+        5．移行要件ツールでダウンロードしたCSVファイルを選択する<br/>
         6．「確認する」を押す
     </p>
     <p>
-        ・応募可能で重点科目上限単位数を超えている場合には緑、重点科目単位数を超えていない場合には黄、そのどちらでもない場合には赤で示しています。<br />
-        ・履修を組む際の参考としてお使いください。<br />
-        ・使用したCSVファイルはサーバーには保存されません。<br />
+        ・応募可能で重点科目上限単位数を超えている場合には緑、重点科目単位数を超えていない場合には黄、そのどちらでもない場合には赤で示しています。<br/>
+        ・履修を組む際の参考としてお使いください。<br/>
+        ・各学類・学群をクリックすると詳細が見られます。<br />
+        ・使用したCSVファイルはサーバーには保存されません。<br/>
         ・医療科学類の重点科目上限単位数、医学類の判定には対応しておりません。
     </p>
 </div>
-<div id="root"></div>
+
 <script src="scs-migration-checker.js"></script>
 
 <footer>
     <div class="footer" id="footer">
         <br>
-        Contributed by <a href="https://github.com/itsu-dev">ちゅるり</a>, <a href="https://github.com/Mimori256">Mimori256</a> / <a
+        Contributed by <a href="https://github.com/itsu-dev">ちゅるり</a>, <a
+            href="https://github.com/Mimori256">Mimori256</a> / <a
             href="https://github.com/itsu-dev/scs-migration-checker">GitHub</a> <br/>
         scs-migration-checkerは筑波大学公式ではありません。
     </div>
