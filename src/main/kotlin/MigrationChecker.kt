@@ -14,7 +14,7 @@ object MigrationChecker {
 
     // rule_definitions.jsonを読み込む
     fun loadRuleDefinitions() {
-        window.fetch(Request("https://raw.githubusercontent.com/itsu-dev/scs-migration-checker/subject-list/src/main/resources/rule_definitions.json"))
+        window.fetch(Request("https://raw.githubusercontent.com/itsu-dev/scs-migration-checker/master/src/main/resources/rule_definitions.json"))
             .then(onFulfilled = {
                 it.text().then { json ->
                     onLoadFinished(json)
