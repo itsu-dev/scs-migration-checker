@@ -24,6 +24,7 @@ td {
 
 tr {
     background-color: #eee;
+    cursor: pointer;
 }
 
 table {
@@ -88,6 +89,14 @@ h3 {
     font-weight: bold;
 }
 
+.passed-subject {
+    color: mediumseagreen;
+}
+
+.missed-subject {
+    color: red;
+}
+
 .footer {
     text-align: center;
 }
@@ -124,6 +133,15 @@ h3 {
     border-radius: 0.5em;
     padding: 0.5em 1.5em;
     font-size: 1.0em;
+}
+
+.subject-details-name {
+    background-color: #bbb;
+}
+
+.subject-details-content {
+    padding-left: 1.0em;
+    padding-right: 1.0em;
 }
 
 .wf-notosansjapanese { font-family: "Noto Sans JP"; }
