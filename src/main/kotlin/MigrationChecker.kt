@@ -25,6 +25,10 @@ object MigrationChecker {
     private fun onLoadFinished(json: String) {
         ruleDefinitions = Json.decodeFromString(RuleDefinition.serializer(), json)
         console.log("[Rule Definitions] Version: ${ruleDefinitions.version} Last Updated At: ${ruleDefinitions.updatedAt}")
+
+        if (window.location.pathname == "/migration-requirements.html") {
+            renderMigrationRequirements()
+        }
     }
 
     // 移行要件をチェックする
@@ -274,5 +278,68 @@ object MigrationChecker {
         document.getElementById("subjects-box")!!.innerHTML += "<p>合計${sum}単位：${subjectText.substring(2)}</p>"
 
         check(subjects)
+    }
+
+    // 移行要件リスト
+    private fun renderMigrationRequirements() {
+        val migrationRequirementsTable = document.getElementById("migration-requirements")
+
+        ruleDefinitions.faculties.forEach { faculty ->
+            var allCount = 0
+            var facultyNameTd: Element? = null
+            var tr: Element? = null
+
+            var ruleIndex = 0
+            faculty.rules.forEach rules@{ rule ->
+                if (!rule.isMain) return@rules
+
+                var ruleNameTd: Element? = null
+                var subjectCount = 0
+
+                if (ruleIndex == 0) {
+                    tr = document.createElement("tr")
+                    facultyNameTd = document.createElement("td").also {
+                        it.innerHTML = faculty.facultyName
+                    }
+                    tr!!.appendChild(facultyNameTd!!)
+                }
+
+                rule.subjects.forEachIndexed subjects@{ subjectIndex, subject ->
+                    if (subject.startsWith("#")) return@subjects
+
+                    if (subjectIndex == 0) {
+                        ruleNameTd = document.createElement("td").also {
+                            it.innerHTML = rule.description
+                        }
+                        tr ?: run { tr = document.createElement("tr") }
+                        tr!!.appendChild(ruleNameTd!!)
+                    }
+
+                    val split = subject.split("::")
+                    tr ?: run { tr = document.createElement("tr") }
+                    tr!!.appendChild(document.createElement("td").also {
+                        it.innerHTML = split[0]
+                        it.classList.add("migration-requirements", "migration-requirements-name")
+                    })
+
+                    tr!!.appendChild(document.createElement("td").also {
+                        it.innerHTML = if (split.size > 1) split[1] else "1"
+                        it.classList.add("migration-requirements")
+                    })
+
+                    migrationRequirementsTable!!.appendChild(tr!!)
+
+                    tr = null
+
+                    subjectCount++
+                    allCount++
+                }
+
+                ruleNameTd?.setAttribute("rowspan", subjectCount.toString())
+                ruleIndex++
+            }
+
+            facultyNameTd?.setAttribute("rowspan", allCount.toString())
+        }
     }
 }

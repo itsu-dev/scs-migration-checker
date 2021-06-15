@@ -148,4 +148,11 @@ h3 {
     padding-right: 1.0em;
 }
 
-.wf-notosansjapanese { font-family: "Noto Sans JP"; }
+.migration-requirements {
+    height: 1.0em;
+    padding: 4px 16px;
+}
+
+.migration-requirements-name {
+    text-align: left;
+}
