@@ -32,18 +32,26 @@
 </div>
 
 <div class="table-box">
-    <div class="form-box">
-        <a href="/">移行要件チェックツール</a>
+
+    <div class="menu">
+        <div class="menu-left">
+            <button class="secondary-button" onclick="window.open('index.html')">移行要件チェックツール</button>
+        </div>
+        <div class="menu-right">
+        </div>
     </div>
 
     <table id="migration-requirements">
         <tr>
-            <th>学群・学類</th>
-            <th class="">内容</th>
-            <th class="message-box-th">科目</th>
-            <th>単位数</th>
+            <th class="migration-requirements-others-th">学群・学類</th>
+            <th class="migration-requirements-others-th">内容</th>
+            <th class="migration-requirements-name-th">科目</th>
+            <th class="migration-requirements-season-th">開講時期</th>
+            <th class="migration-requirements-unit-th">単位数</th>
         </tr>
     </table>
+
+    <p id="loading-text">読み込み中...</p>
 </div>
 
 <script src="scs-migration-checker.js"></script>

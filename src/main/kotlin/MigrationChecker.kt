@@ -1,6 +1,8 @@
 import kotlinx.browser.document
 import kotlinx.browser.window
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import model.KdB
 import model.RuleDefinition
 import model.UserSubject
 import org.w3c.dom.Element
@@ -11,25 +13,45 @@ import org.w3c.fetch.Request
 object MigrationChecker {
 
     private lateinit var ruleDefinitions: RuleDefinition
+    private lateinit var kdb: KdB
     private var isChecking = false
+    private var isRuleLoaded = false
+
+    private const val URL_RULE_DEFINITIONS = "https://raw.githubusercontent.com/itsu-dev/scs-migration-checker/master/src/main/resources/rule_definitions.json"
+    private const val URL_KDB = "https://raw.githubusercontent.com/Mimori256/kdb-parse/main/kdb.json"
 
     // rule_definitions.jsonを読み込む
-    fun loadRuleDefinitions() {
-        window.fetch(Request("https://raw.githubusercontent.com/itsu-dev/scs-migration-checker/master/src/main/resources/rule_definitions.json"))
+    fun loadData() {
+        window.fetch(Request(URL_RULE_DEFINITIONS))
             .then(onFulfilled = {
                 it.text().then { json ->
-                    onLoadFinished(json)
+                    onLoadRuleDefinitionsFinished(json)
                 }
             })
+
+        // migration-requirements.htmlだったらKdBも読み込む
+        if (window.location.pathname == "/migration-requirements.html") {
+            window.fetch(Request(URL_KDB))
+                .then(onFulfilled = {
+                    it.text().then { json ->
+                        onLoadKdBFinished(json)
+                    }
+                })
+        }
     }
 
-    private fun onLoadFinished(json: String) {
+    private fun onLoadRuleDefinitionsFinished(json: String) {
         ruleDefinitions = Json.decodeFromString(RuleDefinition.serializer(), json)
+        isRuleLoaded = true
         console.log("[Rule Definitions] Version: ${ruleDefinitions.version} Last Updated At: ${ruleDefinitions.updatedAt}")
+    }
 
-        if (window.location.pathname == "/migration-requirements.html") {
-            renderMigrationRequirements()
-        }
+    private fun onLoadKdBFinished(json: String) {
+        val newJson = "{\"data\": $json}"
+        kdb = Json { ignoreUnknownKeys = true }.decodeFromString(KdB.serializer(), newJson)
+        console.log("[KdB] Loaded")
+        while (!isRuleLoaded) { }
+        renderMigrationRequirements()
     }
 
     // 移行要件をチェックする
@@ -317,10 +339,29 @@ object MigrationChecker {
                     }
 
                     val split = subject.split("::")
+                    val season = kdb.getSeasonByName(split[0]) ?: ""
+                    val seasonClass =
+                        when {
+                            season.startsWith("春A") -> "migration-requirements-sa"
+                            season.startsWith("春B") -> "migration-requirements-sb"
+                            season.startsWith("春C") -> "migration-requirements-sc"
+                            season.startsWith("秋A") -> "migration-requirements-fa"
+                            season.startsWith("秋B") -> "migration-requirements-fb"
+                            season.startsWith("秋C") -> "migration-requirements-fc"
+                            else -> ""
+                        }
+
                     tr ?: run { tr = document.createElement("tr") }
                     tr!!.appendChild(document.createElement("td").also {
                         it.innerHTML = split[0]
                         it.classList.add("migration-requirements", "migration-requirements-name")
+                        if (seasonClass.isNotEmpty()) it.classList.add(seasonClass)
+                    })
+
+                    tr!!.appendChild(document.createElement("td").also {
+                        it.innerHTML = season
+                        it.classList.add("migration-requirements")
+                        if (seasonClass.isNotEmpty()) it.classList.add(seasonClass)
                     })
 
                     tr!!.appendChild(document.createElement("td").also {
@@ -342,5 +383,7 @@ object MigrationChecker {
 
             facultyNameTd?.setAttribute("rowspan", allCount.toString())
         }
+
+        document.getElementById("loading-text")!!.setAttribute("hidden", "true")
     }
 }

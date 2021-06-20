@@ -56,6 +56,32 @@ h3 {
     font-size: 1.2em;
 }
 
+.menu {
+    alignment: center;
+    text-align: center;
+    margin: 0 auto;
+    padding-bottom: 1.0em;
+}
+
+.menu-left {
+    float: left;
+    alignment: left;
+    text-align: left;
+    margin: 0 auto;
+    width: 40%;
+    padding-bottom: 1.0em;
+}
+
+.menu-right {
+    float: right;
+    alignment: right;
+    vertical-align: center;
+    text-align: right;
+    margin: 0 auto;
+    width: 40%;
+    padding-bottom: 1.0em;
+}
+
 .form-box {
     alignment: right;
     text-align: right;
@@ -130,14 +156,26 @@ h3 {
     background-color: #F1948A;
 }
 
-.start-checking-button {
+.primary-button {
     background-color: #6600cc;
     color: white;
     border-style: none;
     border-radius: 0.5em;
     padding: 0.5em 1.5em;
     font-size: 1.0em;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.4);
 }
+
+.secondary-button {
+    background: linear-gradient(30deg, #f2e6ff, #fff);;
+    color: #6600cc;
+    border-style: none;
+    border-radius: 0.5em;
+    padding: 0.5em 1.5em;
+    font-size: 1.0em;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+
 
 .subject-details-name {
     background-color: #bbb;
@@ -155,4 +193,53 @@ h3 {
 
 .migration-requirements-name {
     text-align: left;
+}
+
+.migration-requirements-sa {
+    background-color: #ffccbc;
+}
+
+.migration-requirements-sb {
+    background-color: #ffab91;
+}
+
+.migration-requirements-sc {
+    background-color: #ff8a65;
+}
+
+#loading-text p {
+    text-align: center;
+}
+
+.migration-requirements-fa {
+    background-color: #bbdefb;
+}
+
+.migration-requirements-fb {
+    background-color: #90caf9;
+}
+
+.migration-requirements-fc {
+    background-color: #64b5f6;
+}
+
+.migration-requirements-name-th {
+    width: 40%;
+}
+
+.migration-requirements-season-th {
+    width: 10%;
+}
+
+.migration-requirements-unit-th {
+    width: 10%;
+}
+
+.migration-requirements-others-th {
+    width: 20%;
+}
+
+#loading-text {
+    text-align: center;
+    alignment: center;
 }
