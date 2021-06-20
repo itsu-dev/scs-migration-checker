@@ -1,4 +1,6 @@
-# scs-migration-checker (English)
+[日本語](README_ja.md)  
+  
+# scs-migration-checker
 An unofficial migration requirements checking tool for University of Tsukuba - School of Comprehension Studies faculty.  
 You can use this tool at: https://itsu-dev.github.io/scs-migration-checker/
 
@@ -32,7 +34,6 @@ Subject name must be defined at `````/faculties/rules/subjects`````.
 - If you want to specify subjects which content "ABC", you can write ```#CONTENTS:ABC```. (e.g. ```#CONTENTS:基礎体育```)
 - If you want to specify whole subjects which don't include the required subjects, you can write ```#OTHER_SUBJECTS:(MAX_UNIT)```.
     
-# 総合学域群 移行要件チェックツール 
-筑波大学 総合学域群生向けの非公式移行要件チェックツールです。
-自分の履修時間割をアップロードすることで判定ができます。
-こちらから使用することができます：https://itsu-dev.github.io/scs-migration-checker/?lahl
+## License
+MPL-2.0 License  
+This software uses [kdb-parse](https://github.com/Mimori256/kdb-parse) developed by [Mimori256](https://github.com/Mimori256)
