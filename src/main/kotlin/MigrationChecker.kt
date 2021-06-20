@@ -22,6 +22,7 @@ object MigrationChecker {
 
     // rule_definitions.jsonを読み込む
     fun loadData() {
+        console.log("[Rule Definitions] Loading...")
         window.fetch(Request(URL_RULE_DEFINITIONS))
             .then(onFulfilled = {
                 it.text().then { json ->
@@ -30,7 +31,8 @@ object MigrationChecker {
             })
 
         // migration-requirements.htmlだったらKdBも読み込む
-        if (window.location.pathname == "/migration-requirements.html") {
+        if (window.location.pathname.endsWith("migration-requirements.html")) {
+            console.log("[KdB] Loading...")
             window.fetch(Request(URL_KDB))
                 .then(onFulfilled = {
                     it.text().then { json ->
@@ -43,7 +45,7 @@ object MigrationChecker {
     private fun onLoadRuleDefinitionsFinished(json: String) {
         ruleDefinitions = Json.decodeFromString(RuleDefinition.serializer(), json)
         isRuleLoaded = true
-        console.log("[Rule Definitions] Version: ${ruleDefinitions.version} Last Updated At: ${ruleDefinitions.updatedAt}")
+        console.log("[Rule Definitions] Loaded - Version: ${ruleDefinitions.version} Last Updated At: ${ruleDefinitions.updatedAt}")
     }
 
     private fun onLoadKdBFinished(json: String) {
