@@ -2,6 +2,7 @@ import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.serialization.json.Json
 import model.RuleDefinition
+import model.UserSubject
 import org.w3c.dom.Element
 import org.w3c.dom.asList
 import org.w3c.dom.events.EventListener
@@ -32,8 +33,8 @@ object MigrationChecker {
     }
 
     // 移行要件をチェックする
-    // userSubjects: ユーザの登録済み講義 <講義名, 単位>
-    private fun check(userSubjects: Map<String, Double>) {
+    // userSubjects: ユーザの登録済み講義
+    private fun check(userSubjects: List<UserSubject>) {
 
         if (isChecking) {
             window.alert("確認中です")
@@ -193,21 +194,22 @@ object MigrationChecker {
     }
 
     // 各要件が要求する単位の計算
-    private fun analyzeUnit(userSubjects: Map<String, Double>, ruleSubjects: List<String>): Pair<Double, Map<String, Boolean>> {
+    private fun analyzeUnit(userSubjects: List<UserSubject>, ruleSubjects: List<String>): Pair<Double, Map<String, Boolean>> {
         var unit = 0.0
         val subjects = mutableMapOf<String, Boolean>()
 
         ruleSubjects.forEach { ruleSubject ->
+            val userSubject = userSubjects.firstOrNull { it.name == ruleSubject.split("::")[0] }
             when {
                 // その他の講義の場合
                 ruleSubject.startsWith("#OTHER_SUBJECTS") -> {
                     var unitCount = 0.0
                     val maxUnit = ruleSubject.split(":")[1].toInt()
                     userSubjects.forEach otherSubjects@ {
-                        if (!ruleSubjects.contains(it.key)) {
-                            if (unitCount + it.value <= maxUnit) {
-                                unit += it.value
-                                unitCount += it.value
+                        if (!ruleSubjects.contains(it.name)) {
+                            if (unitCount + it.unit <= maxUnit) {
+                                unit += it.unit
+                                unitCount += it.unit
                                 if (unitCount >= maxUnit) {
                                     subjects["その他の科目 (${maxUnit}単位以上)"] = true
                                     return@otherSubjects
@@ -220,21 +222,20 @@ object MigrationChecker {
                 // ~から始まる講義名の場合 ex) #CONTENTS:基礎体育
                 ruleSubject.startsWith("#CONTENTS") -> {
                     userSubjects
-                        .filter { it.key.startsWith(ruleSubject.split(":")[1]) }
+                        .filter { it.name.startsWith(ruleSubject.split(":")[1]) }
                         .forEach {
-                            unit += it.value
-                            subjects["${it.key} (${it.value}単位)"] = true
+                            unit += it.unit
+                            subjects["${it.name} (${it.unit}単位)"] = true
                         }
                 }
 
-                // いずれにも該当しない場合
-                // 講義名::単位の講義名のみを抜き出す（単位はCSVから読み込んだものを使う）
-                userSubjects.contains(ruleSubject.split("::")[0]) -> {
-                    val split = ruleSubject.split("::")
-                    unit += userSubjects[split[0]]!!
-                    subjects["${split[0]} (${userSubjects[split[0]]!!}単位)"] = true
+                // 定義された科目が取られている場合
+                userSubject != null -> {
+                    unit += userSubject.unit
+                    subjects["${userSubject.name} (${userSubject.unit}単位)"] = true
                 }
 
+                // いずれでもない場合
                 else -> {
                     val split = ruleSubject.split("::")
                     subjects["${split[0]} (${if (split.size > 1) split[1] else 1}単位)"] = false
@@ -259,7 +260,7 @@ object MigrationChecker {
 
         document.getElementById("subjects-box")!!.innerHTML += "<h3>検出された科目</h3>"
 
-        val subjects = mutableMapOf<String, Double>()
+        val userSubjects = mutableListOf<UserSubject>()
         val split = csv.split("\n")
         var subjectText = ""
 
@@ -270,14 +271,14 @@ object MigrationChecker {
                 val subject = data[0]
                 val unit = data[1].match("[+-]?\\d+(?:\\.\\d+)?")!![0].toDouble()
                 sum += unit
-                subjects[subject] = unit
+                userSubjects.add(UserSubject(text.match("^(\")([a-zA-Z0-9]{7})\$")!![0].substring(1), subject, unit))
                 subjectText += ",　$subject (${unit}単位)"
             }
         }
 
         document.getElementById("subjects-box")!!.innerHTML += "<p>合計${sum}単位：${subjectText.substring(2)}</p>"
 
-        check(subjects)
+        check(userSubjects)
     }
 
     // 移行要件リスト
