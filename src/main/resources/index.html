@@ -32,9 +32,15 @@
 </div>
 
 <div class="table-box">
-    <div class="form-box">
-        <input type="file" id="subjects-csv" accept=".csv"/>
-        <button id="start-checking" class="start-checking-button" onclick="void(0)">確認する</button>
+
+    <div class="menu">
+        <div class="menu-left">
+            <button class="secondary-button" onclick="window.open('migration-requirements.html')">移行要件一覧</button>
+        </div>
+        <div class="menu-right">
+            <input type="file" id="subjects-csv" accept=".csv"/>
+            <button id="start-checking" class="primary-button" onclick="void(0)">確認する</button>
+        </div>
     </div>
 
     <table id="result">
@@ -62,6 +68,7 @@
         ・履修を組む際の参考としてお使いください。<br/>
         ・各学類・学群をクリックすると詳細が見られます。<br />
         ・使用したCSVファイルはサーバーには保存されません。<br/>
+        ・このツールの使用によって生じた不利益等について、開発者は一切の責任を負いません。<br />
         ・医療科学類の重点科目上限単位数、医学類の判定には対応しておりません。
     </p>
 </div>

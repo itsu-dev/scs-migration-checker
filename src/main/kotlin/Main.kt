@@ -16,7 +16,7 @@ import org.w3c.files.get
 private var csvFile: Blob? = null
 
 fun main() {
-    MigrationChecker.loadRuleDefinitions()
+    MigrationChecker.loadData()
 
     document.getElementById("start-checking")?.addEventListener("click", EventListener { onStartCheckingButtonClicked() })
     document.getElementById("subjects-csv")?.addEventListener("change", EventListener { event ->
