@@ -2,6 +2,29 @@
   "version": "1.0.4",
   "updated_at": "2021/06/08",
   "author": "itsu",
+  
+  "exclusions": [
+    {
+      "subjects": [
+        "English Reading Skills I",
+        "English Presentation Skills I",
+        "English Reading Skills II",
+        "English Presentation Skills II",
+        "情報リテラシー(講義)",
+        "情報リテラシー(演習)",
+        "データサイエンス",
+        "フレッシュマン・セミナー",
+        "学問への誘い",
+        "#CONTENTS:基礎体育"
+      ],
+      "season": "履修班依存"
+    },
+    {
+      "subjects": ["日本国憲法"],
+      "season": "夏季集中予定"
+    }
+  ],
+  
   "faculties": [
 
     {
@@ -348,7 +371,7 @@
             "生物資源学にみる食品科学・技術の最前線",
             "数学リテラシー2",
             "力学1",
-            "分子生物学概論",
+            "分子細胞生物学概論",
             "数学概論",
             "工学システム概論",
             "遺伝学概論",
