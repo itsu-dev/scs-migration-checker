@@ -330,7 +330,7 @@ object MigrationChecker {
                 }
 
                 rule.subjects.forEachIndexed subjects@{ subjectIndex, subject ->
-                    if (subject.startsWith("#")) return@subjects
+                    if (subject.startsWith("#") && !subject.startsWith("#CONTENTS")) return@subjects
 
                     if (subjectIndex == 0) {
                         ruleNameTd = document.createElement("td").also {
@@ -341,7 +341,7 @@ object MigrationChecker {
                     }
 
                     val split = subject.split("::")
-                    val season = kdb.getSeasonByName(split[0]) ?: ""
+                    val season = ruleDefinitions.getExclusionSeason(split[0]) ?: kdb.getSeasonByName(split[0]) ?: ""
                     val seasonClass =
                         when {
                             season.startsWith("春A") -> "migration-requirements-sa"
@@ -353,19 +353,23 @@ object MigrationChecker {
                             else -> ""
                         }
 
+                    // 科目名
                     tr ?: run { tr = document.createElement("tr") }
                     tr!!.appendChild(document.createElement("td").also {
-                        it.innerHTML = split[0]
+                        it.innerHTML =
+                            if (split[0].startsWith("#")) split[0].split(":")[1] else split[0]
                         it.classList.add("migration-requirements", "migration-requirements-name")
                         if (seasonClass.isNotEmpty()) it.classList.add(seasonClass)
                     })
 
+                    // 開講時期
                     tr!!.appendChild(document.createElement("td").also {
                         it.innerHTML = season
                         it.classList.add("migration-requirements")
                         if (seasonClass.isNotEmpty()) it.classList.add(seasonClass)
                     })
 
+                    // 単位数
                     tr!!.appendChild(document.createElement("td").also {
                         it.innerHTML = if (split.size > 1) split[1] else "1"
                         it.classList.add("migration-requirements")
