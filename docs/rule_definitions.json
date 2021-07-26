@@ -15,6 +15,7 @@
         "データサイエンス",
         "フレッシュマン・セミナー",
         "学問への誘い",
+        "国語I",
         "#CONTENTS:基礎体育"
       ],
       "season": "履修班依存"
@@ -22,6 +23,10 @@
     {
       "subjects": ["日本国憲法"],
       "season": "夏季集中予定"
+    },
+    {
+      "subjects": ["線形代数A"],
+      "season": "春BC 金3,4"
     }
   ],
   
@@ -1086,7 +1091,7 @@
       "faculty_name": "情報科学類（区分A）",
       "rules": [
         {
-          "description": "重点科目単位数1",
+          "description": "重点科目上限単位数1",
           "type": "important_subjects",
           "is_main": true,
           "minimum": 2,
@@ -1103,7 +1108,7 @@
           ]
         },
         {
-          "description": "重点科目単位数2",
+          "description": "重点科目上限単位数2",
           "type": "important_subjects",
           "is_main": true,
           "minimum": 8,
@@ -1202,7 +1207,7 @@
           ]
         },
         {
-          "description": "重点科目単位数",
+          "description": "重点科目上限単位数",
           "type": "important_subjects",
           "is_main": true,
           "minimum": 10,
