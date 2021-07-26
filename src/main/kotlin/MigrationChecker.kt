@@ -319,6 +319,7 @@ object MigrationChecker {
                 if (!rule.isMain) return@rules
 
                 var ruleNameTd: Element? = null
+                var requirementTd: Element? = null
                 var subjectCount = 0
 
                 if (ruleIndex == 0) {
@@ -336,8 +337,12 @@ object MigrationChecker {
                         ruleNameTd = document.createElement("td").also {
                             it.innerHTML = rule.description
                         }
+                        requirementTd = document.createElement("td").also {
+                            it.innerHTML = if (rule.minimum > 0) "${rule.minimum}単位以上" else "${rule.maximum}単位まで"
+                        }
                         tr ?: run { tr = document.createElement("tr") }
                         tr!!.appendChild(ruleNameTd!!)
+                        tr!!.appendChild(requirementTd!!)
                     }
 
                     val split = subject.split("::")
@@ -384,6 +389,7 @@ object MigrationChecker {
                 }
 
                 ruleNameTd?.setAttribute("rowspan", subjectCount.toString())
+                requirementTd?.setAttribute("rowspan", subjectCount.toString())
                 ruleIndex++
             }
 

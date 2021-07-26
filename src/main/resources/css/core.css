@@ -224,7 +224,7 @@ h3 {
 }
 
 .migration-requirements-name-th {
-    width: 40%;
+    width: 50%;
 }
 
 .migration-requirements-season-th {
@@ -236,7 +236,7 @@ h3 {
 }
 
 .migration-requirements-others-th {
-    width: 20%;
+    width: 10%;
 }
 
 #loading-text {
