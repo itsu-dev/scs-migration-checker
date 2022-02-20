@@ -279,7 +279,9 @@ object MigrationChecker {
      ～
      のように、"講義番号\n講義名","単位のようになっているため、以下のような実装になっている。
      */
-    fun checkWithCSV(csv: String) {
+    fun checkWithCSV(rawcsv: String) {
+        val csv = rawcsv.replace("\nシラバスシラバス（ミラー）", "")
+
         resetTable()
 
         document.getElementById("subjects-box")!!.innerHTML += "<h3>検出された科目</h3>"
