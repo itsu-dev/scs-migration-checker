@@ -113,15 +113,15 @@ const App: React.FC = () => {
     const location = window.location.pathname;
 
     const index = () => {
-        window.location.href="/"
+        window.location.href=`${process.env.PUBLIC_URL}/`
     }
 
     const createTable = () => {
-        window.location.href="/createTimetable"
+        window.location.href=`${process.env.PUBLIC_URL}/createTimetable`
     }
 
     const migrationRequirements = () => {
-        window.location.href="/migrationRequirements"
+        window.location.href=`${process.env.PUBLIC_URL}/migrationRequirements`
     }
 
     return (
@@ -137,15 +137,15 @@ const App: React.FC = () => {
 
                 <div className={'table-box'}>
                     <div className="menu menu-bar">
-                        <div className={`menu-item ${location === "/" && "selected"}`} onClick={index}>
+                        <div className={`menu-item ${location === "/scs-migration-checker/" && "selected"}`} onClick={index}>
                             移行要件チェックツール
                         </div>
                         {/*
-                        <div className={`menu-item ${location === "/createTimetable" && "selected"}`} onClick={createTable}>
+                        <div className={`menu-item ${location === "/scs-migration-checker/createTimetable" && "selected"}`} onClick={createTable}>
                             履修仮組みツール
                         </div>
                         */}
-                        <div className={`menu-item ${location === "/migrationRequirements" && "selected"}`} onClick={migrationRequirements}>
+                        <div className={`menu-item ${location === "/scs-migration-checker/migrationRequirements" && "selected"}`} onClick={migrationRequirements}>
                             移行要件一覧
                         </div>
                     </div>

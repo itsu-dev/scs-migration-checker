@@ -1,6 +1,6 @@
 {
   "name": "scs-migration-checker",
-  "homepage": "https://boke.itsu.dev/scs-migration-checker",
+  "homepage": "https://itsu-dev.github.io/scs-migration-checker",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
