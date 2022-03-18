@@ -1,6 +1,6 @@
 {
-  "version": "2.0.0",
-  "updatedAt": "2022/03/17",
+  "version": "2.0.1",
+  "updatedAt": "2022/03/18",
   "author": "itsu",
   
   "exclusions": [
@@ -224,7 +224,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "important_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -234,7 +234,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "important_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -406,7 +406,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "important_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -416,7 +416,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "important_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -464,7 +464,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "required_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -474,7 +474,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "required_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -516,7 +516,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "important_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -526,7 +526,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "important_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -574,7 +574,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "required_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -584,7 +584,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "required_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -627,7 +627,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "important_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -637,7 +637,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "important_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -696,7 +696,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "required_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -706,7 +706,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "required_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -762,7 +762,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "important_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -772,7 +772,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "important_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -829,7 +829,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "required_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -839,7 +839,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "required_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -876,7 +876,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "important_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -886,7 +886,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "important_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -932,7 +932,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "required_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -942,7 +942,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "required_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -977,7 +977,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "important_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -987,7 +987,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "important_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -1021,7 +1021,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "required_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -1031,7 +1031,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "required_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -1065,7 +1065,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "important_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -1075,7 +1075,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "important_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -1124,7 +1124,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "important_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -1134,7 +1134,7 @@
           ]
         },
         {
-          "description": "2単位まで",
+          "description": "履修制限",
           "type": "important_subjects_limit",
           "maximum": 2,
           "subjects": [
@@ -1223,7 +1223,7 @@
         {
           "description": "その他",
           "type": "others",
-          "message": "応募要件として別途面接があります"
+          "message": "応募要件として別途面接があります（実施は一次判定登録後）"
         }
       ]
     },
@@ -1251,8 +1251,24 @@
         },
         {
           "description": "重点科目上限単位数",
+          "type": "important_subjects",
+          "isMain": true,
+          "minimum": 8,
+          "message": "生物学序説は化学類または物理学類開設である必要があります。",
+          "subjects": [
+            "医科生化学",
+            "人体構造学::2",
+            "人体機能学::2",
+            "医科分子生物学::2",
+            "医療科学概論",
+            "生物学序説",
+            "#CATEGORY:専門導入科目"
+          ]
+        },
+        {
+          "description": "その他",
           "type": "others",
-          "message": "重点科目として医科生化学・人体構造学・人体機能学・医科分子生物学・医療科学概論とこれら以外の専門導入科目、および化学類、物理学類開設の生物学序説が含まれます（8単位まで）"
+          "message": "重点科目に他に専門導入科目が含まれますが、専門導入科目についてはこのシステムの単位数の計算に含まれていません"
         }
       ]
     },
