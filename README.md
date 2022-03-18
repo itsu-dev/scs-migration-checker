@@ -5,7 +5,7 @@ An unofficial migration requirements checking tool for University of Tsukuba - S
 You can use this tool at: https://itsu-dev.github.io/scs-migration-checker/
 
 ## Features
-- Implemented in Kotlin/JS with Gradle
+- ~~Implemented in Kotlin/JS with Gradle~~ -> Rewrite in React.js/TypeScript (2022/3/19)
 
 ## rule_definitions.json
 rule_definitions.json is used by this tool to define the migration requirements. Programs read this file and
