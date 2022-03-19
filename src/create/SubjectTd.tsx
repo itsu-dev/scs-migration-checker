@@ -7,13 +7,14 @@ export type SubjectProps = {
     season: string,
     module: string,
     week: string,
-    time: number
+    time: number,
+    type: number // 0: 応募要件, 1: 重点科目, 2: ユーザー指定
 }
 
 const SubjectTd: React.FC<SubjectProps> = (props: SubjectProps) => {
     return (
         <td className={"subject-box"}>
-            {props.season + props.module + props.week + props.time}
+            {props.subjectName}
         </td>
     )
 }

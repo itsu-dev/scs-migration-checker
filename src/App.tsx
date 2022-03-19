@@ -102,12 +102,15 @@ export const getSeasonByName = (kdb: KdB, name: string): string | null => {
 }
 
 export const getExcludedSeason = (ruleDefinitions: RuleDefinitions, subject: string): string | null => {
+    let result: string | null = null;
     ruleDefinitions.exclusions.forEach((exclusion) => {
         exclusion.subjects.forEach((sbj) => {
-            if (sbj === subject) return exclusion.season
+            if (result === null && sbj === subject) {
+                result = exclusion.season
+            }
         })
     })
-    return null
+    return result
 }
 
 const App: React.FC = () => {

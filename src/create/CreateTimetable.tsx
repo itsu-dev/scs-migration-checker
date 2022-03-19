@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import "./CreateTimetable.css"
-import {isRuleLoaded, loadKdb, loadRuleDefinitions, ruleDefinitions} from "../App";
+import {getExcludedSeason, isRuleLoaded, kdb, loadKdb, loadRuleDefinitions, ruleDefinitions} from "../App";
 import TimeTr, {TimeProps} from "./TimeTr";
 import {SubjectProps} from "./SubjectTd";
 import MenuBar, {MenuItem} from "../MenuBar";
@@ -15,9 +15,10 @@ type Module = {
 const seasons = ["春", "秋"];
 const seasonModules = ["A", "B", "C"];
 const weeks = ["月", "火", "水", "木", "金"];
-const modules = new Map<string, Module>();
+let modules = new Map<string, Module>();  // 春A: Module
 
-let selectedDepartments: string[] = [];
+export let selectedDepartments: string[] = [];
+export let creationType = 0; // 0: 高い志望順位の重点科目を重視, 1: 高い志望順位の応募要件を重視
 let isCreating = false;
 
 export const selectDepartment = (department: string) => {
@@ -31,7 +32,9 @@ export const selectDepartment = (department: string) => {
 const CreateTimetable: React.FC = () => {
     const menuItems: MenuItem[] = [];
 
-    const initialize = () => {
+    const initialize = (force: boolean) => {
+        if (!force && modules.size !== 0) return;
+
         seasons.forEach((season) => {
             seasonModules.forEach((seasonAlphabet) => {
                 const times: TimeProps[] = [];
@@ -46,7 +49,8 @@ const CreateTimetable: React.FC = () => {
                             season: season,
                             module: seasonAlphabet,
                             week: week,
-                            time: i
+                            time: i,
+                            type: 2
                         })
                     })
 
@@ -75,7 +79,24 @@ const CreateTimetable: React.FC = () => {
         })
     }
 
-    initialize();
+    const initializeMenu = () => {
+        seasons.forEach((season) => {
+            seasonModules.forEach((seasonAlphabet) => {
+                menuItems.push({
+                    text: season + seasonAlphabet,
+                    selectedCondition: (text: string) => {
+                        return text === module.season + module.module;
+                    },
+                    onClick: () => {
+                        switchModule(season + seasonAlphabet);
+                    }
+                })
+            })
+        })
+    }
+
+    initialize(false);
+    initializeMenu()
 
     const [isLoading, setLoading] = useState<boolean>(true);
     const [module, setModule] = useState<Module>(modules.get("春A")!!);
@@ -90,8 +111,13 @@ const CreateTimetable: React.FC = () => {
         });
     }
 
-    const switchModule = (module: string) => {
-        setModule(modules.get(module)!!);
+    const switchModule = (moduleKey: string) => {
+        const module = modules.get(moduleKey)!!;
+        module.times.forEach((time) => {
+            time.subjects = [...time.subjects];
+        })
+        module.times = [...module.times];
+        setModule(module);
     }
 
     const startToCreate = () => {
@@ -107,8 +133,112 @@ const CreateTimetable: React.FC = () => {
 
         isCreating = true;
 
+        initialize(true);
+
         const departments = ruleDefinitions.departments
             .filter((department) => selectedDepartments.includes(department.departmentName));
+        const kdbSubjects = Array.from(kdb.data.values());
+        const kdbCache: Array<Array<string>> = [];
+        const messages: string[] = [];
+
+        departments.forEach((department) => {
+            department.rules.forEach((rule) => {
+                if (!["required_subjects", "important_subjects"].includes(rule.type)) return;
+
+                rule.subjects.forEach((subject) => {
+                    if (subject.startsWith("#")) return;
+                    const split = subject.split("::")[0];
+                    let type = "応募要件";
+                    if (rule.type === "important_subject") type = "重点科目"
+
+                    const excludedSeason = getExcludedSeason(ruleDefinitions, split);
+                    if (excludedSeason !== null) {
+                        messages.push(`${department.departmentName}では${subject}が${type}として設定されていますが、開講時期が${excludedSeason}のため時期を決定できません。`);
+                        return;
+                    }
+
+                    let results = kdbSubjects.filter((value) => value[0] === split);
+                    if (results.length == 0) {
+                        results = kdbSubjects.filter((value) => value[0] === split);
+                    }
+
+                    if (results.length == 0) {
+                        console.log(`Not Found: ${split}`);
+                        messages.push(`${split}は科目データに存在しません。`);
+                        return;
+                    }
+
+                    const kdbSubject = results[0];
+
+                    kdbCache.push(kdbSubject);
+
+                    let season = "";
+                    const seasonsArray: string[] = [];
+                    for (let i = 0; i < kdbSubject[1].length; i++) {
+                        const char = kdbSubject[1].charAt(i);
+                        if (seasons.includes(char)) {
+                            season = char;
+                        } else if (seasonModules.includes(char)) {
+                            seasonsArray.push(season + char);
+                        }
+                    }
+
+                    let week = "";
+                    const timesArray: string[] = [];
+                    kdbSubject[2].split(",").forEach((split) => {
+                        if (split !== "応談") {
+                            for (let i = 0; i < split.length; i++) {
+                                const char = split.charAt(i);
+                                if (weeks.includes(char)) {
+                                    week = char;
+                                } else {
+                                    timesArray.push(week + char)
+                                }
+                            }
+                        } else {
+                            messages.push(`${department.departmentName}では${subject}が${type}として設定されていますが、開講時期が応談のため時期を決定できません。`);
+                        }
+                    });
+
+                    seasonsArray.forEach((s) => {
+                        timesArray.forEach((t) => {
+                            const module = modules.get(s);
+                            console.log(module);
+                            if (module) {
+                                module.times.forEach((timeTr) => {
+                                    const subscribedSubject = timeTr.subjects.filter((subject) => (subject.week + subject.time) === t)?.[0];
+                                    console.log(subscribedSubject)
+                                    if (subscribedSubject) {
+                                        subscribedSubject.subjectName = split;
+                                        subscribedSubject.type = rule.type === "required_subjects" ? 0 : 1
+                                        subscribedSubject.isOnline = kdbSubject[4].includes("オンライン");
+                                    }
+                                })
+                            }
+                        });
+                    });
+
+                    /*
+                    const newModules = new Map<string, Module>();
+
+                    Array.from(modules.keys()).forEach((key) => {
+                        const module = modules.get(key)!!;
+                        module.times.forEach((time) => {
+                            const subjects: SubjectProps[] = [];
+                            time.subjects.forEach((subject) => {
+                                subjects.push({
+                                    subjectName: subject.type === 0 && creationType === 0 || subject.type === 1 && creationType === 1 ?
+                                })
+                            })
+                        })
+                    })
+
+                     */
+                })
+            });
+        });
+        console.log(messages);
+        isCreating = false;
     }
 
     const stepMenuItems: MenuItem[] = [];

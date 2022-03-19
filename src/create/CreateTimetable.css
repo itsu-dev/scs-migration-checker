@@ -49,13 +49,17 @@ div.section {
     margin-right: 0.5em;
 }
 
+.timetable-box table {
+    table-layout: fixed;
+}
+
 .contents-box {
     width: 30%;
     margin-left: 0.5em;
 }
 
 .departments-box {
-    height: 150px;
+    max-height: 150px;
     overflow-y: scroll;
 }
 
@@ -67,4 +71,8 @@ div.section {
 .department-checkbox {
     display: block;
     cursor: pointer;
+}
+
+.selected-departments-box {
+    margin-left: 1.0em;
 }

@@ -1,13 +1,15 @@
 import MenuBar from "../MenuBar";
 import {isRuleLoaded, ruleDefinitions} from "../App";
-import React from "react";
-import {selectDepartment} from "./CreateTimetable";
+import React, {useState} from "react";
+import {selectDepartment, selectedDepartments} from "./CreateTimetable";
 
 type StepOneProps = {
     startToCreate: () => void
 }
 
 const StepOne: React.FC<StepOneProps> = (props: StepOneProps) => {
+    const [departments, setDepartments] = useState(selectedDepartments);
+
     return (
         <>
             <h3>1. 希望する学類・学群を選ぶ</h3>
@@ -15,11 +17,22 @@ const StepOne: React.FC<StepOneProps> = (props: StepOneProps) => {
                 {isRuleLoaded && ruleDefinitions.departments.map((department, index) =>
                     <div key={index} className={"department-checkbox"}>
                         <input type={"checkbox"} id={`department_${index}`}
-                               value={department.departmentName} onChange={(e) => {selectDepartment(department.departmentName)}}/>
+                               value={department.departmentName} defaultChecked={selectedDepartments.includes(department.departmentName)} onChange={(e) => {
+                            selectDepartment(department.departmentName);
+                            setDepartments([...selectedDepartments]);
+                        }}/>
                         <label htmlFor={`department_${index}`}>{department.departmentName}</label>
                     </div>
                 )}
             </div>
+
+            {departments.length > 0 &&
+            <div className={"departments-box section selected-departments-box"}>
+                {departments.map((department, index) =>
+                    <p key={index}>{index + 1}. {department}</p>
+                )}
+            </div>
+            }
 
             <div className={"section"}>
                 <h3>2. 時間割を生成する</h3>
