@@ -219,7 +219,7 @@ const MigrationChecker: React.FC = () => {
     }
 
     const loadCSV = (csvText: string): [Array<UserSubject>, number, string] => {
-        const csv = csvText.replace("\nシラバスシラバス（ミラー）", "")
+        const csv = csvText.replace(/\nシラバスシラバス（ミラー）/g, "")
 
         const userSubjects: Array<UserSubject> = [];
         const split = csv.split("\n");
