@@ -20,7 +20,9 @@ const TimeTr: React.FC<TimeProps> = (props: TimeProps) => {
                     module={subject.module}
                     week={subject.week}
                     time={subject.time}
-                    type={subject.type} />
+                    type={subject.type}
+                    relatedModules={subject.relatedModules}
+                    relatedTimes={subject.relatedTimes}/>
             )}
         </tr>
     )

@@ -18,7 +18,7 @@ const weeks = ["月", "火", "水", "木", "金"];
 let modules = new Map<string, Module>();  // 春A: Module
 
 export let selectedDepartments: string[] = [];
-export let creationType = 0; // 0: 高い志望順位の重点科目を重視, 1: 高い志望順位の応募要件を重視
+export let creationType = 1; // 0: 高い志望順位の重点科目を重視, 1: 高い志望順位の応募要件を重視
 let isCreating = false;
 
 export const selectDepartment = (department: string) => {
@@ -50,7 +50,9 @@ const CreateTimetable: React.FC = () => {
                             module: seasonAlphabet,
                             week: week,
                             time: i,
-                            type: 2
+                            type: 2,
+                            relatedModules: [],
+                            relatedTimes: []
                         })
                     })
 
@@ -79,6 +81,7 @@ const CreateTimetable: React.FC = () => {
         })
     }
 
+    // 春A, 春B,...のメニューバーを生成する
     const initializeMenu = () => {
         seasons.forEach((season) => {
             seasonModules.forEach((seasonAlphabet) => {
@@ -96,7 +99,7 @@ const CreateTimetable: React.FC = () => {
     }
 
     initialize(false);
-    initializeMenu()
+    initializeMenu();
 
     const [isLoading, setLoading] = useState<boolean>(true);
     const [module, setModule] = useState<Module>(modules.get("春A")!!);
@@ -111,7 +114,9 @@ const CreateTimetable: React.FC = () => {
         });
     }
 
+    // モジュール（春A, B等）を切り替える
     const switchModule = (moduleKey: string) => {
+        // 再描画させるために中のオブジェクトを更新しておく
         const module = modules.get(moduleKey)!!;
         module.times.forEach((time) => {
             time.subjects = [...time.subjects];
@@ -120,101 +125,147 @@ const CreateTimetable: React.FC = () => {
         setModule(module);
     }
 
+    // 「時間割を生成する」ボタンを押したときに実行
+    // 時間割を生成する
     const startToCreate = () => {
+        // 学類・学群が選択されていなければreturn
         if (selectedDepartments.length == 0) {
             alert("1つ以上の学類・学群を選択してください。");
             return;
         }
 
+        // 処理中だったらreturn
         if (isCreating) {
             alert("作成中です。しばらくお待ちください。");
             return;
         }
 
+        // 処理中フラグを立てる
         isCreating = true;
 
+        // 時間割データを初期化
         initialize(true);
 
+        // 選択された学類・学群の移行要件を取得
         const departments = ruleDefinitions.departments
             .filter((department) => selectedDepartments.includes(department.departmentName));
-        const kdbSubjects = Array.from(kdb.data.values());
-        const kdbCache: Array<Array<string>> = [];
-        const messages: string[] = [];
+        const kdbSubjects = Array.from(kdb.data.values());  // KdBの科目データ
+        const kdbCache: Array<Array<string>> = [];  // KdBから検索済みの科目のキャッシュ
+        const messages: string[] = [];  // 処理中に発生したメッセージ
 
+        // 選択された全ての学類・学群に対して...
         departments.forEach((department) => {
+            // 学類・学群の全ての移行要件に対して...
             department.rules.forEach((rule) => {
+                // 応募要件または重点科目の要件で鳴ければreturn
                 if (!["required_subjects", "important_subjects"].includes(rule.type)) return;
 
+                // 要件に含まれる全ての科目に対して...
                 rule.subjects.forEach((subject) => {
-                    if (subject.startsWith("#")) return;
-                    const split = subject.split("::")[0];
+                    if (subject.startsWith("#")) return;  // 特殊な科目だったら処理しない
+                    const split = subject.split("::")[0];  // 科目名のみを取り出す
+
+                    // 応募要件か重点科目かを判定
                     let type = "応募要件";
                     if (rule.type === "important_subject") type = "重点科目"
 
+                    // その科目が時期を決定できるものか堂かを判定
                     const excludedSeason = getExcludedSeason(ruleDefinitions, split);
+
+                    // 要件の除外科目に設定されていたら（時期を判定できない科目だったら）
                     if (excludedSeason !== null) {
-                        messages.push(`${department.departmentName}では${subject}が${type}として設定されていますが、開講時期が${excludedSeason}のため時期を決定できません。`);
+                        // メッセージにその旨を追加する
+                        messages.push(`${department.departmentName}では${split}が${type}として設定されていますが、開講時期が${excludedSeason}のため時期を決定できません。`);
                         return;
                     }
 
+                    // KdBから該当する科目のデータを取り出す
+                    // まずキャッシュを検索
                     let results = kdbSubjects.filter((value) => value[0] === split);
+
+                    // キャッシュになければKdBを検索
                     if (results.length == 0) {
                         results = kdbSubjects.filter((value) => value[0] === split);
                     }
 
+                    // キャッシュになければ処理不可能科目として処理しない
                     if (results.length == 0) {
-                        console.log(`Not Found: ${split}`);
                         messages.push(`${split}は科目データに存在しません。`);
                         return;
                     }
 
+                    // 検索結果の先頭を科目データとして使用し、キャッシュに保存する
                     const kdbSubject = results[0];
-
                     kdbCache.push(kdbSubject);
 
+                    // 開講時期をパース
                     let season = "";
-                    const seasonsArray: string[] = [];
+                    const seasonsArray: string[] = [];  // 結果
+
+                    // 1文字ずつ調べる
                     for (let i = 0; i < kdbSubject[1].length; i++) {
-                        const char = kdbSubject[1].charAt(i);
+                        const char = kdbSubject[1].charAt(i);  // i文字目
+                        // 春または秋だったら
                         if (seasons.includes(char)) {
-                            season = char;
+                            season = char;  // 保存しておく
+
+                        // A, B, Cのいずれかだったら
                         } else if (seasonModules.includes(char)) {
-                            seasonsArray.push(season + char);
+                            seasonsArray.push(season + char);  // 結果として保存（ex.春A）
                         }
                     }
 
+                    // 開講時限をパース
                     let week = "";
-                    const timesArray: string[] = [];
+                    const timesArray: string[] = [];  // 結果
+
+                    // 生データ,で区切られているので,で区切る
                     kdbSubject[2].split(",").forEach((split) => {
+                        // 応談じゃなかったら
                         if (split !== "応談") {
+                            // 1文字ずつ調べる
                             for (let i = 0; i < split.length; i++) {
-                                const char = split.charAt(i);
+                                const char = split.charAt(i);  // i文字目
+                                // 月～金のいずれかだったら
                                 if (weeks.includes(char)) {
-                                    week = char;
+                                    week = char;  // 保存しておく
+
+                                // そうでなければ数字と判断する
                                 } else {
-                                    timesArray.push(week + char)
+                                    timesArray.push(week + char)  // 結果として保存（ex.月6）
                                 }
                             }
+
+                        // 応談だったらその旨をメッセージに記載
                         } else {
                             messages.push(`${department.departmentName}では${subject}が${type}として設定されていますが、開講時期が応談のため時期を決定できません。`);
                         }
                     });
 
+                    // 取得した全ての開講時期に対して...
                     seasonsArray.forEach((s) => {
+                        // 取得した全ての開講時限に対して...
                         timesArray.forEach((t) => {
-                            const module = modules.get(s);
-                            console.log(module);
-                            if (module) {
-                                module.times.forEach((timeTr) => {
-                                    const subscribedSubject = timeTr.subjects.filter((subject) => (subject.week + subject.time) === t)?.[0];
-                                    console.log(subscribedSubject)
-                                    if (subscribedSubject) {
+                            const module = modules.get(s)!!;  // 該当モジュールの時間割を取得
+                            // モジュールの全ての時間（1～6限に対して）
+                            module.times.forEach((timeTr) => {
+                                // 各曜日・各時限の該当する開講時限の科目を取得
+                                const subscribedSubject = timeTr.subjects.filter((subject) => (subject.week + subject.time) === t)?.[0];
+                                // 取得した科目が存在すれば
+                                if (subscribedSubject) {
+                                    // 科目が応募要件由来かつ生成が高い志望順位の重点科目重視、または科目が重点科目由来かつ高い志望順位の応募要件重視、またはユーザーによって作成された科目なら上書きする
+                                    if ((subscribedSubject.type === 0 && creationType === 0)
+                                        || (subscribedSubject.type === 1 && creationType === 1)
+                                        || subscribedSubject.type === 2) {
+                                        // TODO 2コマ以上の科目の場合、オーバーライドされてその科目の1コマがつぶれる（ex.プ入Aの秋A木5, 6が5だけになり、秋A木6が別の科目になってしまう）
                                         subscribedSubject.subjectName = split;
                                         subscribedSubject.type = rule.type === "required_subjects" ? 0 : 1
                                         subscribedSubject.isOnline = kdbSubject[4].includes("オンライン");
+                                        subscribedSubject.relatedModules = seasonsArray;
+                                        subscribedSubject.relatedTimes = timesArray;
                                     }
-                                })
-                            }
+                                }
+                            })
                         });
                     });
 
