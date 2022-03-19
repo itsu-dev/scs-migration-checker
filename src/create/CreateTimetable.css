@@ -1,0 +1,39 @@
+th {
+    background-color: #00c0d4;
+    color: white;
+    font-weight: normal;
+    border-style: none;
+}
+
+td.subject-box {
+    text-align: center;
+    vertical-align: center;
+    background: #eee;
+    height: 5.0em;
+    cursor: pointer;
+    font-size: 0.8em;
+}
+
+td.time, th.time {
+    background-color: #00c0d4;
+    color: white;
+    font-weight: normal;
+    border-style: none;
+    width: 1.0em;
+}
+
+.timetable-base {
+    display: flex;
+    width: 100%;
+}
+
+.timetable-box {
+    width: 50%;
+    margin-right: 0.5em;
+}
+
+.contents-box {
+    width: 50%;
+    margin-left: 0.5em;
+    background: #eee;
+}

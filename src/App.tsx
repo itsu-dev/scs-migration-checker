@@ -137,15 +137,15 @@ const App: React.FC = () => {
 
                 <div className={'table-box'}>
                     <div className="menu menu-bar">
-                        <div className={`menu-item ${location === "/scs-migration-checker/" && "selected"}`} onClick={index}>
+                        <div className={`menu-item ${location.endsWith("/") && "selected"}`} onClick={index}>
                             移行要件チェックツール
                         </div>
-                        {/*
-                        <div className={`menu-item ${location === "/scs-migration-checker/createTimetable" && "selected"}`} onClick={createTable}>
+                        {
+                        <div className={`menu-item ${location.endsWith("/createTimetable") && "selected"}`} onClick={createTable}>
                             履修仮組みツール
                         </div>
-                        */}
-                        <div className={`menu-item ${location === "/scs-migration-checker/migrationRequirements" && "selected"}`} onClick={migrationRequirements}>
+                        }
+                        <div className={`menu-item ${location.endsWith("/migrationRequirements") && "selected"}`} onClick={migrationRequirements}>
                             移行要件一覧
                         </div>
                     </div>

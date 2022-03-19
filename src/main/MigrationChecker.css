@@ -26,7 +26,6 @@ td {
 
 tr {
   background-color: #eee;
-  cursor: pointer;
 }
 
 table {
@@ -54,6 +53,10 @@ h3 {
   border-left: solid 5px #6600cc;
   font-weight: normal;
   font-size: 1.2em;
+}
+
+tr.department {
+  cursor: pointer;
 }
 
 .menu {
