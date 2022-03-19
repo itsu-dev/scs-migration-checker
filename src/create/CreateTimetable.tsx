@@ -1,8 +1,10 @@
 import React, {useState} from "react";
 import "./CreateTimetable.css"
-import {loadKdb, loadRuleDefinitions} from "../App";
+import {isRuleLoaded, loadKdb, loadRuleDefinitions, ruleDefinitions} from "../App";
 import TimeTr, {TimeProps} from "./TimeTr";
 import {SubjectProps} from "./SubjectTd";
+import MenuBar, {MenuItem} from "../MenuBar";
+import StepOne from "./StepOne";
 
 type Module = {
     season: string,
@@ -10,15 +12,28 @@ type Module = {
     times: TimeProps[]
 }
 
+const seasons = ["春", "秋"];
+const seasonModules = ["A", "B", "C"];
+const weeks = ["月", "火", "水", "木", "金"];
+const modules = new Map<string, Module>();
+
+let selectedDepartments: string[] = [];
+let isCreating = false;
+
+export const selectDepartment = (department: string) => {
+    if (selectedDepartments.includes(department)) {
+        selectedDepartments = selectedDepartments.filter((value) => value !== department);
+    } else {
+        selectedDepartments.push(department);
+    }
+}
+
 const CreateTimetable: React.FC = () => {
-    const seasons = ["春", "秋"];
-    const seasonModules = ["A", "B", "C"];
-    const weeks = ["月", "火", "水", "木", "金"];
-    const modules = new Map<string, Module>();
+    const menuItems: MenuItem[] = [];
 
     const initialize = () => {
-        seasonModules.forEach((seasonAlphabet) => {
-            seasons.forEach((season) => {
+        seasons.forEach((season) => {
+            seasonModules.forEach((seasonAlphabet) => {
                 const times: TimeProps[] = [];
 
                 for (let i = 1; i <= 6; i++) {
@@ -46,14 +61,25 @@ const CreateTimetable: React.FC = () => {
                     module: seasonAlphabet,
                     times: times
                 })
+
+                menuItems.push({
+                    text: season + seasonAlphabet,
+                    selectedCondition: (text: string) => {
+                        return text === module.season + module.module;
+                    },
+                    onClick: () => {
+                        switchModule(season + seasonAlphabet);
+                    }
+                })
             })
         })
     }
 
     initialize();
 
-    const [isLoading, setLoading] = useState(true);
+    const [isLoading, setLoading] = useState<boolean>(true);
     const [module, setModule] = useState<Module>(modules.get("春A")!!);
+    const [step, setStep] = useState<number>(1);
 
     window.onload = () => {
         setLoading(true);
@@ -68,52 +94,73 @@ const CreateTimetable: React.FC = () => {
         setModule(modules.get(module)!!);
     }
 
+    const startToCreate = () => {
+        if (selectedDepartments.length == 0) {
+            alert("1つ以上の学類・学群を選択してください。");
+            return;
+        }
+
+        if (isCreating) {
+            alert("作成中です。しばらくお待ちください。");
+            return;
+        }
+
+        isCreating = true;
+
+        const departments = ruleDefinitions.departments
+            .filter((department) => selectedDepartments.includes(department.departmentName));
+    }
+
+    const stepMenuItems: MenuItem[] = [];
+    stepMenuItems.push({
+        text: "ステップ1",
+        selectedCondition: (text => text === `ステップ${step}`),
+        onClick: () => {
+            setStep(1);
+        }
+    })
+
+    stepMenuItems.push({
+        text: "ステップ2",
+        selectedCondition: (text => text === `ステップ${step}`),
+        onClick: () => {
+            setStep(2);
+        }
+    })
+
     return (
         <>
-            <div className="menu menu-bar">
-                <div className={`menu-item ${(module.season + module.module) === "春A" && "selected"}`} onClick={() => {switchModule("春A")}}>
-                    春A
-                </div>
-                <div className={`menu-item ${(module.season + module.module) === "春B" && "selected"}`} onClick={() => {switchModule("春B")}}>
-                    春B
-                </div>
-                <div className={`menu-item ${(module.season + module.module) === "春C" && "selected"}`} onClick={() => {switchModule("春C")}}>
-                    春C
-                </div>
-                <div className={`menu-item ${(module.season + module.module) === "秋A" && "selected"}`} onClick={() => {switchModule("秋A")}}>
-                    秋A
-                </div>
-                <div className={`menu-item ${(module.season + module.module) === "秋B" && "selected"}`} onClick={() => {switchModule("秋B")}}>
-                    秋B
-                </div>
-                <div className={`menu-item ${(module.season + module.module) === "秋C" && "selected"}`} onClick={() => {switchModule("秋C")}}>
-                    秋C
-                </div>
-            </div>
             <div className={"timetable-base"}>
                 <div className={"timetable-box"}>
+                    <MenuBar menuItems={menuItems}/>
                     <table>
                         <tbody>
-                            <tr>
-                                <th className={"time"} />
-                                <th>月</th>
-                                <th>火</th>
-                                <th>水</th>
-                                <th>木</th>
-                                <th>金</th>
-                            </tr>
-                            {module.times.map((time, index) =>
-                                <TimeTr
-                                    key={index}
-                                    time={time.time}
-                                    subjects={time.subjects} />
-                            )}
+                        <tr>
+                            <th className={"time"}/>
+                            <th>月</th>
+                            <th>火</th>
+                            <th>水</th>
+                            <th>木</th>
+                            <th>金</th>
+                        </tr>
+                        {module.times.map((time, index) =>
+                            <TimeTr
+                                key={index}
+                                time={time.time}
+                                subjects={time.subjects}/>
+                        )}
                         </tbody>
                     </table>
-                    {isLoading && <p id={"loading-text"}>読み込み中...</p>}
                 </div>
                 <div className={"contents-box"}>
-                    test
+                    {isLoading && <p id={"loading-text"}>読み込み中...</p>}
+
+                    {!isLoading &&
+                        <>
+                            <MenuBar menuItems={stepMenuItems}/>
+                            {step === 1 && <StepOne startToCreate={startToCreate}/>}
+                        </>
+                    }
                 </div>
             </div>
         </>

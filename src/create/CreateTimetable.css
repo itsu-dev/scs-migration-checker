@@ -22,18 +22,49 @@ td.time, th.time {
     width: 1.0em;
 }
 
+div.section {
+    margin-bottom: 1.0em;
+}
+
+.section p {
+    margin: 0 0 0.25em;
+}
+
+.contents-box h3 {
+    padding: 0;
+    margin: 0 0 0.25em;
+    background: transparent;
+    border: none;
+    font-weight: normal;
+    font-size: 1.2em;
+}
+
 .timetable-base {
     display: flex;
     width: 100%;
 }
 
 .timetable-box {
-    width: 50%;
+    width: 70%;
     margin-right: 0.5em;
 }
 
 .contents-box {
-    width: 50%;
+    width: 30%;
     margin-left: 0.5em;
-    background: #eee;
+}
+
+.departments-box {
+    height: 150px;
+    overflow-y: scroll;
+}
+
+.departments-box label {
+    margin-left: 1.0em;
+    cursor: pointer;
+}
+
+.department-checkbox {
+    display: block;
+    cursor: pointer;
 }

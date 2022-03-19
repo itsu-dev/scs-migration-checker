@@ -3,6 +3,7 @@ import MigrationChecker from "./main/MigrationChecker";
 import MigrationRequirements from "./requirements/MigrationRequirements";
 import CreateTimetable from "./create/CreateTimetable";
 import React from "react";
+import MenuBar, {MenuItem} from "./MenuBar";
 
 export type UserSubject = {
     id: string,
@@ -124,6 +125,26 @@ const App: React.FC = () => {
         window.location.href=`${process.env.PUBLIC_URL}/migrationRequirements`
     }
 
+    const menuItems: MenuItem[] = [];
+
+    menuItems.push({
+        text: "移行要件チェックツール",
+        selectedCondition: (text: string) => { return window.location.href.endsWith("/"); },
+        onClick: index
+    });
+
+    menuItems.push({
+        text: "履修仮組みツール",
+        selectedCondition: (text: string) => { return window.location.href.endsWith("/createTimetable"); },
+        onClick: createTable
+    });
+
+    menuItems.push({
+        text: "移行要件一覧",
+        selectedCondition: (text: string) => { return window.location.href.endsWith("/migrationRequirements"); },
+        onClick: migrationRequirements
+    })
+
     return (
         <>
             <div className={'header-base'}>
@@ -136,19 +157,7 @@ const App: React.FC = () => {
                 </div>
 
                 <div className={'table-box'}>
-                    <div className="menu menu-bar">
-                        <div className={`menu-item ${location.endsWith("/") && "selected"}`} onClick={index}>
-                            移行要件チェックツール
-                        </div>
-                        {
-                        <div className={`menu-item ${location.endsWith("/createTimetable") && "selected"}`} onClick={createTable}>
-                            履修仮組みツール
-                        </div>
-                        }
-                        <div className={`menu-item ${location.endsWith("/migrationRequirements") && "selected"}`} onClick={migrationRequirements}>
-                            移行要件一覧
-                        </div>
-                    </div>
+                    <MenuBar menuItems={menuItems} />
 
                     <BrowserRouter basename={process.env.PUBLIC_URL}>
                         <Routes>
