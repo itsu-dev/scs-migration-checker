@@ -5,15 +5,6 @@ th {
     border-style: none;
 }
 
-td.subject-box {
-    text-align: center;
-    vertical-align: center;
-    background: #eee;
-    height: 5.0em;
-    cursor: pointer;
-    font-size: 0.8em;
-}
-
 td.time, th.time {
     background-color: #00c0d4;
     color: white;

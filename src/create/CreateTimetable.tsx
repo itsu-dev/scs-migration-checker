@@ -1,10 +1,12 @@
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import "./CreateTimetable.css"
 import {getExcludedSeason, isRuleLoaded, kdb, loadKdb, loadRuleDefinitions, ruleDefinitions} from "../App";
 import TimeTr, {TimeProps} from "./TimeTr";
 import {SubjectProps} from "./SubjectTd";
 import MenuBar, {MenuItem} from "../MenuBar";
 import StepOne from "./StepOne";
+import StepTwo from "./StepTwo";
+import {getSeasonsArray, getTimesArray, isOnline} from "../KdBUtils";
 
 type Module = {
     season: string,
@@ -51,8 +53,13 @@ const CreateTimetable: React.FC = () => {
                             week: week,
                             time: i,
                             type: 2,
+                            department: "",
                             relatedModules: [],
-                            relatedTimes: []
+                            relatedTimes: [],
+                            kdbData:[],
+                            onclick: (props: SubjectProps) => {
+                                onSubjectClicked(props);
+                            }
                         })
                     })
 
@@ -104,6 +111,7 @@ const CreateTimetable: React.FC = () => {
     const [isLoading, setLoading] = useState<boolean>(true);
     const [module, setModule] = useState<Module>(modules.get("春A")!!);
     const [step, setStep] = useState<number>(1);
+    const stepTwoRef = useRef<{ setSubject: (props: SubjectProps) => void }>(null);
 
     window.onload = () => {
         setLoading(true);
@@ -123,6 +131,10 @@ const CreateTimetable: React.FC = () => {
         })
         module.times = [...module.times];
         setModule(module);
+    }
+
+    const onSubjectClicked = (props: SubjectProps) => {
+        stepTwoRef.current?.setSubject(props);
     }
 
     // 「時間割を生成する」ボタンを押したときに実行
@@ -199,48 +211,13 @@ const CreateTimetable: React.FC = () => {
                     kdbCache.push(kdbSubject);
 
                     // 開講時期をパース
-                    let season = "";
-                    const seasonsArray: string[] = [];  // 結果
-
-                    // 1文字ずつ調べる
-                    for (let i = 0; i < kdbSubject[1].length; i++) {
-                        const char = kdbSubject[1].charAt(i);  // i文字目
-                        // 春または秋だったら
-                        if (seasons.includes(char)) {
-                            season = char;  // 保存しておく
-
-                        // A, B, Cのいずれかだったら
-                        } else if (seasonModules.includes(char)) {
-                            seasonsArray.push(season + char);  // 結果として保存（ex.春A）
-                        }
-                    }
+                    const seasonsArray = getSeasonsArray(kdbSubject);
 
                     // 開講時限をパース
-                    let week = "";
-                    const timesArray: string[] = [];  // 結果
-
-                    // 生データ,で区切られているので,で区切る
-                    kdbSubject[2].split(",").forEach((split) => {
-                        // 応談じゃなかったら
-                        if (split !== "応談") {
-                            // 1文字ずつ調べる
-                            for (let i = 0; i < split.length; i++) {
-                                const char = split.charAt(i);  // i文字目
-                                // 月～金のいずれかだったら
-                                if (weeks.includes(char)) {
-                                    week = char;  // 保存しておく
-
-                                // そうでなければ数字と判断する
-                                } else {
-                                    timesArray.push(week + char)  // 結果として保存（ex.月6）
-                                }
-                            }
-
-                        // 応談だったらその旨をメッセージに記載
-                        } else {
-                            messages.push(`${department.departmentName}では${subject}が${type}として設定されていますが、開講時期が応談のため時期を決定できません。`);
-                        }
-                    });
+                    const [timesArray, needConsul] = getTimesArray(kdbSubject);
+                    if (needConsul) {
+                        messages.push(`${department.departmentName}では${subject}が${type}として設定されていますが、開講時期が応談のため時期を決定できません。`);
+                    }
 
                     // 取得した全ての開講時期に対して...
                     seasonsArray.forEach((s) => {
@@ -260,32 +237,17 @@ const CreateTimetable: React.FC = () => {
                                         // TODO 2コマ以上の科目の場合、オーバーライドされてその科目の1コマがつぶれる（ex.プ入Aの秋A木5, 6が5だけになり、秋A木6が別の科目になってしまう）
                                         subscribedSubject.subjectName = split;
                                         subscribedSubject.type = rule.type === "required_subjects" ? 0 : 1
-                                        subscribedSubject.isOnline = kdbSubject[4].includes("オンライン");
+                                        subscribedSubject.isOnline = isOnline(kdbSubject);
+                                        subscribedSubject.department = department.departmentName;
                                         subscribedSubject.relatedModules = seasonsArray;
                                         subscribedSubject.relatedTimes = timesArray;
+                                        subscribedSubject.kdbData = kdbSubject;
                                     }
                                 }
-                            })
+                            });
                         });
                     });
-
-                    /*
-                    const newModules = new Map<string, Module>();
-
-                    Array.from(modules.keys()).forEach((key) => {
-                        const module = modules.get(key)!!;
-                        module.times.forEach((time) => {
-                            const subjects: SubjectProps[] = [];
-                            time.subjects.forEach((subject) => {
-                                subjects.push({
-                                    subjectName: subject.type === 0 && creationType === 0 || subject.type === 1 && creationType === 1 ?
-                                })
-                            })
-                        })
-                    })
-
-                     */
-                })
+                });
             });
         });
         console.log(messages);
@@ -337,10 +299,11 @@ const CreateTimetable: React.FC = () => {
                     {isLoading && <p id={"loading-text"}>読み込み中...</p>}
 
                     {!isLoading &&
-                        <>
-                            <MenuBar menuItems={stepMenuItems}/>
-                            {step === 1 && <StepOne startToCreate={startToCreate}/>}
-                        </>
+                    <>
+                        <MenuBar menuItems={stepMenuItems}/>
+                        {step === 1 && <StepOne startToCreate={startToCreate}/>}
+                        {step === 2 && <StepTwo ref={stepTwoRef}/>}
+                    </>
                     }
                 </div>
             </div>

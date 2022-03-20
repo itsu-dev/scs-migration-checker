@@ -96,11 +96,6 @@ const onLoadRuleDefinitionsFinished = (json: string) => {
     console.log(`[Rule Definitions] Loaded - Version: ${ruleDefinitions.version} Last Updated At: ${ruleDefinitions.updatedAt}`)
 }
 
-export const getSeasonByName = (kdb: KdB, name: string): string | null => {
-    const filtered = Array.from(kdb.data.values()).filter((value) => value[0] === name)
-    return filtered ? `${filtered[0][1]} ${filtered[0][2]}` : null
-}
-
 export const getExcludedSeason = (ruleDefinitions: RuleDefinitions, subject: string): string | null => {
     let result: string | null = null;
     ruleDefinitions.exclusions.forEach((exclusion) => {

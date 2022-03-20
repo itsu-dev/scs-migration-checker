@@ -1,13 +1,13 @@
 import React, {useState} from "react";
 import {
     getExcludedSeason,
-    getSeasonByName,
     kdb,
     loadKdb,
     loadRuleDefinitions,
     ruleDefinitions
 } from "../App";
 import RequirementTr, {RequirementProps} from "./RequirementTr";
+import {getSeasonByName} from "../KdBUtils";
 
 const MigrationRequirements: React.FC = () => {
     const [isLoading, setLoading] = useState(true);
@@ -41,7 +41,7 @@ const MigrationRequirements: React.FC = () => {
                     } else name = subject.split(":")[0]
 
                     let season = isNormal ? getExcludedSeason(ruleDefinitions, subject.split("::")[0]) : "";
-                    if (isNormal && season === null) season = getSeasonByName(kdb, subject.split("::")[0]);
+                    if (isNormal && season === null) season = getSeasonByName(subject.split("::")[0]);
                     if (isNormal && season === null) season = "";
 
                     setRequirements((previous) => {
