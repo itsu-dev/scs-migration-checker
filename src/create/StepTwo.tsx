@@ -20,11 +20,7 @@ const StepTwoBase: React.ForwardRefRenderFunction<{ setSubject: (props: SubjectP
     useImperativeHandle(ref, () => ({
         setSubject(props: SubjectProps) {
             setSelectedSubject(props.kdbData);
-            if (props.kdbData.length > 0) {
-                searchKdB(props.kdbData[1], props.kdbData[2]);
-            } else {
-                searchKdB(props.season + props.module, props.week + props.time);
-            }
+            searchKdB(props.season + props.module, props.week + props.time);
         }
     }))
 

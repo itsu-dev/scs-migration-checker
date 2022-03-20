@@ -16,6 +16,7 @@ export const searchKdBWithModule = (module: string, time: string): Array<Array<s
                 result.push(kdbData);
             }
             */
+            console.log(kdbData)
             result.push(kdbData);
         })
     return result;
