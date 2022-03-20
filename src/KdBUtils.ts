@@ -8,12 +8,15 @@ export const searchKdBWithModule = (module: string, time: string): Array<Array<s
     const result: Array<Array<string>> = [];
     Array.from(kdb.data.values())
         .filter(kdbData => {
-            return kdbData[1].includes(module) && kdbData[2].includes(time);
+            return getSeasonsArray(kdbData).includes(module) && getTimesArray(kdbData)[0].includes(time);
         })
         .forEach(kdbData => {
+            /*
             if (result.filter(data => data[0] === kdbData[0]).length == 0) {
                 result.push(kdbData);
             }
+            */
+            result.push(kdbData);
         })
     return result;
 }
