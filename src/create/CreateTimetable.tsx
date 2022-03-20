@@ -56,7 +56,7 @@ const CreateTimetable: React.FC = () => {
                             department: "",
                             relatedModules: [],
                             relatedTimes: [],
-                            kdbData:[],
+                            kdbData: [],
                             onclick: (props: SubjectProps) => {
                                 onSubjectClicked(props);
                             }
@@ -112,6 +112,7 @@ const CreateTimetable: React.FC = () => {
     const [module, setModule] = useState<Module>(modules.get("春A")!!);
     const [step, setStep] = useState<number>(1);
     const stepTwoRef = useRef<{ setSubject: (props: SubjectProps) => void }>(null);
+    const [selectedSubject, setSelectedSubject] = useState<SubjectProps | null>(null);
 
     window.onload = () => {
         setLoading(true);
@@ -126,15 +127,64 @@ const CreateTimetable: React.FC = () => {
     const switchModule = (moduleKey: string) => {
         // 再描画させるために中のオブジェクトを更新しておく
         const module = modules.get(moduleKey)!!;
+        const newTimes: TimeProps[] = [];
         module.times.forEach((time) => {
-            time.subjects = [...time.subjects];
+            const newSubjects: SubjectProps[] = [];
+            time.subjects.forEach(subject => {
+                newSubjects.push({
+                    subjectName: subject.subjectName,
+                    subjectId: subject.subjectId,
+                    isOnline: subject.isOnline,
+                    season: subject.season,
+                    module: subject.module,
+                    week: subject.week,
+                    time: subject.time,
+                    type: subject.type,
+                    department: subject.department,
+                    relatedModules: [...subject.relatedModules],
+                    relatedTimes: [...subject.relatedTimes],
+                    kdbData: [...subject.kdbData],
+                    onclick: subject.onclick
+                });
+            })
+            newTimes.push({
+                time: time.time,
+                subjects: newSubjects
+            })
         })
-        module.times = [...module.times];
-        setModule(module);
+        module.times = newTimes;
+
+        const newModule = {
+            season: module.season,
+            module: module.module,
+            times: module.times
+        }
+
+        modules.set(module.season + module.season, newModule)
+        setModule(newModule);
     }
 
     const onSubjectClicked = (props: SubjectProps) => {
         stepTwoRef.current?.setSubject(props);
+        setSelectedSubject(props);
+    }
+
+    // StepTwoの「登録」ボタンを押したときに発火
+    const onSubscribeButtonClicked = (kdbData: Array<string>) => {
+        if (selectedSubject !== null) {
+            const subject = modules.get(selectedSubject!!.season + selectedSubject!!.module)!!
+                .times
+                .filter(time => time.time === selectedSubject!!.time)[0]!!
+                .subjects
+                .filter(subject => subject.week === selectedSubject!!.week)[0]!!
+            subject.subjectName = kdbData[0];
+            subject.kdbData = kdbData;
+            subject.type = 2;
+            subject.relatedModules = getSeasonsArray(kdbData);
+            subject.relatedTimes = getTimesArray(kdbData)[0];
+            subject.isOnline = isOnline(kdbData);
+            switchModule(selectedSubject!!.season + selectedSubject!!.module);
+        }
     }
 
     // 「時間割を生成する」ボタンを押したときに実行
@@ -303,7 +353,7 @@ const CreateTimetable: React.FC = () => {
                     <>
                         <MenuBar menuItems={stepMenuItems}/>
                         {step === 1 && <StepOne startToCreate={startToCreate}/>}
-                        {step === 2 && <StepTwo ref={stepTwoRef}/>}
+                        {step === 2 && <StepTwo onSubscribeButtonClicked={onSubscribeButtonClicked} ref={stepTwoRef}/>}
                     </>
                     }
                 </div>

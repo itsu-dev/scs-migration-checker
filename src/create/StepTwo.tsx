@@ -1,7 +1,11 @@
-import React, {forwardRef, useImperativeHandle, useState} from "react";
+import React, {ForwardedRef, forwardRef, ForwardRefExoticComponent, useImperativeHandle, useState} from "react";
 import {SubjectProps} from "./SubjectTd";
 import "./StepTwo.css";
 import {isOnline, needSubscribe, searchKdBWithModule} from "../KdBUtils";
+
+export type StepTwoProps = {
+    onSubscribeButtonClicked: (kdbData: Array<string>) => void
+}
 
 const _searchKdBWithModule = (module: string, time: string): Promise<Array<Array<string>>> => {
     return new Promise<Array<Array<string>>>(resolve => {
@@ -9,8 +13,9 @@ const _searchKdBWithModule = (module: string, time: string): Promise<Array<Array
     });
 }
 
-const StepTwoBase: React.ForwardRefRenderFunction<{ setSubject: (props: SubjectProps) => void }> = ({}, ref) => {
+const StepTwoBase: React.ForwardRefRenderFunction<{ setSubject: (props: SubjectProps) => void }, StepTwoProps> = (props: StepTwoProps, ref) => {
     const [selectedSubject, setSelectedSubject] = useState<Array<string>>([]);
+    const [selectedSubjectProps, setSelectedSubjectProps] = useState<SubjectProps | null>(null);
     const [otherSubjects, setOtherSubjects] = useState<Array<Array<string>>>([]);
 
     const searchKdB = async (module: string, time: string): Promise<void> => {
@@ -19,6 +24,7 @@ const StepTwoBase: React.ForwardRefRenderFunction<{ setSubject: (props: SubjectP
 
     useImperativeHandle(ref, () => ({
         setSubject(props: SubjectProps) {
+            setSelectedSubjectProps(props);
             setSelectedSubject(props.kdbData);
             searchKdB(props.season + props.module, props.week + props.time);
         }
@@ -34,40 +40,46 @@ const StepTwoBase: React.ForwardRefRenderFunction<{ setSubject: (props: SubjectP
                     <p>
                         {selectedSubject[1]}&nbsp;
                         {selectedSubject[2]}
-                        { isOnline(selectedSubject) &&
-                            <span className={"online"}>&nbsp;オンライン</span>
+                        {isOnline(selectedSubject) &&
+                        <span className={"online"}>&nbsp;オンライン</span>
                         }
-                        { needSubscribe(selectedSubject) &&
+                        {needSubscribe(selectedSubject) &&
                         <span className={"need-subscribe"}>&nbsp;事前登録対象</span>
                         }
                     </p>
                     <p>{selectedSubject[4]}</p>
+                    <button className={"primary-button"} onClick={() => {
+                        props.onSubscribeButtonClicked(selectedSubject)
+                    }}>登録
+                    </button>
                 </>
                 }
             </div>
             }
 
             {
-             /*
-             <div className={"section"}>
-                <h3>おすすめの科目</h3>
-                <p>あなたと同じような学類・学群を志望した先輩はこのような科目をとっています。</p>
-             </div>
-              */
+                /*
+                <div className={"section"}>
+                   <h3>おすすめの科目</h3>
+                   <p>あなたと同じような学類・学群を志望した先輩はこのような科目をとっています。</p>
+                </div>
+                 */
             }
 
             <div className={"section"}>
                 <h3>その他の科目</h3>
                 <p>この時限に開講されている他の科目</p>
                 <div className={"subjects-box"}>
-                    {otherSubjects.map(subject =>
-                        <p onClick={ () => { setSelectedSubject(subject); } }>
+                    {otherSubjects.map((subject, index) =>
+                        <p onClick={() => {
+                            setSelectedSubject(subject);
+                        }} key={index}>
                             {subject[0]}
-                            { isOnline(subject) &&
-                                <span className={"online"}>&nbsp;オンライン</span>
+                            {isOnline(subject) &&
+                            <span className={"online"}>&nbsp;オンライン</span>
                             }
-                            { needSubscribe(subject) &&
-                                <span className={"need-subscribe"}>&nbsp;事前登録対象</span>
+                            {needSubscribe(subject) &&
+                            <span className={"need-subscribe"}>&nbsp;事前登録対象</span>
                             }
                         </p>
                     )}
