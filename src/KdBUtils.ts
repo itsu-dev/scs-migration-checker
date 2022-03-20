@@ -77,3 +77,7 @@ export const getSeasonByName = (name: string): string | null => {
 export const isOnline = (kdbData: Array<string>): boolean => {
     return kdbData[4].includes("オンライン") && kdbData[4].includes("オンデマンド型");
 }
+
+export const needSubscribe = (kdbData: Array<string>): boolean => {
+    return kdbData[4].includes("事前登録対象");
+}
