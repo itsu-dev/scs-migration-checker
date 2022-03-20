@@ -252,6 +252,7 @@ const CreateTimetable: React.FC = () => {
         });
         console.log(messages);
         isCreating = false;
+        switchModule("春A")
     }
 
     const stepMenuItems: MenuItem[] = [];
