@@ -170,19 +170,50 @@ const CreateTimetable: React.FC = () => {
     }
 
     // StepTwoの「登録」ボタンを押したときに発火
-    const onSubscribeButtonClicked = (kdbData: Array<string>) => {
+    const onSubscribeButtonClicked = () => {
         if (selectedSubject !== null) {
-            const subject = modules.get(selectedSubject!!.season + selectedSubject!!.module)!!
-                .times
-                .filter(time => time.time === selectedSubject!!.time)[0]!!
-                .subjects
-                .filter(subject => subject.week === selectedSubject!!.week)[0]!!
-            subject.subjectName = kdbData[0];
-            subject.kdbData = kdbData;
-            subject.type = 2;
-            subject.relatedModules = getSeasonsArray(kdbData);
-            subject.relatedTimes = getTimesArray(kdbData)[0];
-            subject.isOnline = isOnline(kdbData);
+            const kdbData = selectedSubject.kdbData
+            const seasonsArray = getSeasonsArray(kdbData);
+            const timesArray = getTimesArray(kdbData)[0];
+            seasonsArray.forEach(season => {
+                timesArray.forEach(time => {
+                    const subject = modules.get(season)!!
+                        .times
+                        .filter(t => t.time === +time.charAt(1))[0]!!
+                        .subjects
+                        .filter(subject => subject.week === time.charAt(0))[0]!!
+                    subject.subjectName = kdbData[0];
+                    subject.kdbData = kdbData;
+                    subject.type = 2;
+                    subject.relatedModules = seasonsArray;
+                    subject.relatedTimes = timesArray;
+                    subject.isOnline = isOnline(kdbData);
+                })
+            })
+            switchModule(selectedSubject!!.season + selectedSubject!!.module);
+        }
+    }
+
+    // StepTwoの「削除」ボタンを押したときに発火
+    const onDeleteButtonClicked = () => {
+        if (selectedSubject !== null) {
+            const seasonsArray = getSeasonsArray(selectedSubject.kdbData);
+            const timesArray = getTimesArray(selectedSubject.kdbData)[0];
+            seasonsArray.forEach(season => {
+                timesArray.forEach(time => {
+                    const subject = modules.get(season)!!
+                        .times
+                        .filter(t => t.time === +time.charAt(1))[0]!!
+                        .subjects
+                        .filter(subject => subject.week === time.charAt(0))[0]!!
+                    subject.subjectName = "";
+                    subject.kdbData = [];
+                    subject.type = 2;
+                    subject.relatedModules = [];
+                    subject.relatedTimes = [];
+                    subject.isOnline = false;
+                })
+            })
             switchModule(selectedSubject!!.season + selectedSubject!!.module);
         }
     }
@@ -353,7 +384,10 @@ const CreateTimetable: React.FC = () => {
                     <>
                         <MenuBar menuItems={stepMenuItems}/>
                         {step === 1 && <StepOne startToCreate={startToCreate}/>}
-                        {step === 2 && <StepTwo onSubscribeButtonClicked={onSubscribeButtonClicked} ref={stepTwoRef}/>}
+                        {step === 2 && <StepTwo
+                            onSubscribeButtonClicked={onSubscribeButtonClicked}
+                            onDeleteButtonClicked={onDeleteButtonClicked}
+                            ref={stepTwoRef}/>}
                     </>
                     }
                 </div>

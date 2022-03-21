@@ -25,3 +25,9 @@ span.need-subscribe {
 .subjects-box p:hover {
     text-decoration: underline;
 }
+
+.button-box {
+    display: flex;
+    gap: 0 1.0em;
+    margin-top: 0.5em;
+}

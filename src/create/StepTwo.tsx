@@ -4,7 +4,8 @@ import "./StepTwo.css";
 import {isOnline, needSubscribe, searchKdBWithModule} from "../KdBUtils";
 
 export type StepTwoProps = {
-    onSubscribeButtonClicked: (kdbData: Array<string>) => void
+    onSubscribeButtonClicked: () => void,
+    onDeleteButtonClicked: () => void
 }
 
 const _searchKdBWithModule = (module: string, time: string): Promise<Array<Array<string>>> => {
@@ -14,18 +15,25 @@ const _searchKdBWithModule = (module: string, time: string): Promise<Array<Array
 }
 
 const StepTwoBase: React.ForwardRefRenderFunction<{ setSubject: (props: SubjectProps) => void }, StepTwoProps> = (props: StepTwoProps, ref) => {
-    const [selectedSubject, setSelectedSubject] = useState<Array<string>>([]);
+    // kdbData, ifFromTimetable
+    const [selectedSubject, setSelectedSubject] = useState<[Array<string>, boolean]>([[], false]);
+
+    // クリックしたtdの値
     const [selectedSubjectProps, setSelectedSubjectProps] = useState<SubjectProps | null>(null);
+
+    // その他の科目にはいる科目
     const [otherSubjects, setOtherSubjects] = useState<Array<Array<string>>>([]);
 
+    // KdBで検索
     const searchKdB = async (module: string, time: string): Promise<void> => {
         setOtherSubjects(await _searchKdBWithModule(module, time));
     }
 
+    // 時間割上のtdをクリックしたときに発火
     useImperativeHandle(ref, () => ({
         setSubject(props: SubjectProps) {
             setSelectedSubjectProps(props);
-            setSelectedSubject(props.kdbData);
+            setSelectedSubject([props.kdbData, true]);
             searchKdB(props.season + props.module, props.week + props.time);
         }
     }))
@@ -34,24 +42,34 @@ const StepTwoBase: React.ForwardRefRenderFunction<{ setSubject: (props: SubjectP
         <>
             {selectedSubject.length > 0 &&
             <div className={"section subject-description"}>
-                <h3>{selectedSubject[0]}</h3>
-                {selectedSubject.length > 0 &&
+                <h3>{selectedSubject[0][0]}</h3>
+                {selectedSubject[0].length > 0 &&
                 <>
                     <p>
-                        {selectedSubject[1]}&nbsp;
-                        {selectedSubject[2]}
-                        {isOnline(selectedSubject) &&
+                        {selectedSubject[0][1]}&nbsp;
+                        {selectedSubject[0][2]}
+                        {isOnline(selectedSubject[0]) &&
                         <span className={"online"}>&nbsp;オンライン</span>
                         }
-                        {needSubscribe(selectedSubject) &&
+                        {needSubscribe(selectedSubject[0]) &&
                         <span className={"need-subscribe"}>&nbsp;事前登録対象</span>
                         }
                     </p>
-                    <p>{selectedSubject[4]}</p>
-                    <button className={"primary-button"} onClick={() => {
-                        props.onSubscribeButtonClicked(selectedSubject)
-                    }}>登録
-                    </button>
+                    <p>{selectedSubject[0][4]}</p>
+                    <div className={"button-box"}>
+                        <button className={"primary-button"} onClick={() => {
+                            props.onSubscribeButtonClicked();
+                            setSelectedSubject([selectedSubject[0], true]);
+                        }}>登録
+                        </button>
+                        {selectedSubject[1] &&
+                        <button className={"secondary-button"} onClick={() => {
+                            props.onDeleteButtonClicked();
+                            setSelectedSubject([selectedSubject[0], false]);
+                        }}>削除
+                        </button>
+                        }
+                    </div>
                 </>
                 }
             </div>
@@ -72,7 +90,7 @@ const StepTwoBase: React.ForwardRefRenderFunction<{ setSubject: (props: SubjectP
                 <div className={"subjects-box"}>
                     {otherSubjects.map((subject, index) =>
                         <p onClick={() => {
-                            setSelectedSubject(subject);
+                            setSelectedSubject([subject, false]);
                         }} key={index}>
                             {subject[0]}
                             {isOnline(subject) &&
