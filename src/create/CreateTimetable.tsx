@@ -492,12 +492,14 @@ const CreateTimetable: React.FC = () => {
                     }
                 </div>
             </div>
+            {messages.length > 0 &&
             <div className={"section"}>
                 <h3>メッセージ</h3>
                 {messages.map((message, index) =>
-                    <p key={index}>・{message}<br /></p>
+                    <p key={index}>・{message}<br/></p>
                 )}
             </div>
+            }
         </>
     )
 }
