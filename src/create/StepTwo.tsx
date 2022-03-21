@@ -75,6 +75,10 @@ const StepTwoBase: React.ForwardRefRenderFunction<{ setSubject: (props: SubjectP
             </div>
             }
 
+            {selectedSubject[0].length == 0 &&
+                <p>時間割上の時限をクリックし、科目を選択してください。</p>
+            }
+
             {
                 /*
                 <div className={"section"}>
