@@ -1,0 +1,69 @@
+th {
+    background-color: #00c0d4;
+    color: white;
+    font-weight: normal;
+    border-style: none;
+}
+
+td.time, th.time {
+    background-color: #00c0d4;
+    color: white;
+    font-weight: normal;
+    border-style: none;
+    width: 1.0em;
+}
+
+div.section {
+    margin-bottom: 1.0em;
+}
+
+.section p {
+    margin: 0 0 0.25em;
+}
+
+.contents-box h3 {
+    padding: 0;
+    margin: 0 0 0.25em;
+    background: transparent;
+    border: none;
+    font-weight: normal;
+    font-size: 1.2em;
+}
+
+.timetable-base {
+    display: flex;
+    width: 100%;
+}
+
+.timetable-box {
+    width: 70%;
+    margin-right: 0.5em;
+}
+
+.timetable-box table {
+    table-layout: fixed;
+}
+
+.contents-box {
+    width: 30%;
+    margin-left: 0.5em;
+}
+
+.departments-box {
+    max-height: 150px;
+    overflow-y: scroll;
+}
+
+.departments-box label {
+    margin-left: 1.0em;
+    cursor: pointer;
+}
+
+.department-checkbox {
+    display: block;
+    cursor: pointer;
+}
+
+.selected-departments-box {
+    margin-left: 1.0em;
+}

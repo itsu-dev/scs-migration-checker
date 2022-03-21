@@ -1,0 +1,16 @@
+td.subject-box {
+    text-align: center;
+    vertical-align: center;
+    background: #eee;
+    height: 5.0em;
+    cursor: pointer;
+    font-size: 0.8em;
+}
+
+td.subject-box:hover {
+    background: #ccc;
+}
+
+td.online {
+    background: #ffcdb0;
+}

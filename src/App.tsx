@@ -3,6 +3,7 @@ import MigrationChecker from "./main/MigrationChecker";
 import MigrationRequirements from "./requirements/MigrationRequirements";
 import CreateTimetable from "./create/CreateTimetable";
 import React from "react";
+import MenuBar, {MenuItem} from "./MenuBar";
 
 export type UserSubject = {
     id: string,
@@ -95,18 +96,16 @@ const onLoadRuleDefinitionsFinished = (json: string) => {
     console.log(`[Rule Definitions] Loaded - Version: ${ruleDefinitions.version} Last Updated At: ${ruleDefinitions.updatedAt}`)
 }
 
-export const getSeasonByName = (kdb: KdB, name: string): string | null => {
-    const filtered = Array.from(kdb.data.values()).filter((value) => value[0] === name)
-    return filtered ? `${filtered[0][1]} ${filtered[0][2]}` : null
-}
-
 export const getExcludedSeason = (ruleDefinitions: RuleDefinitions, subject: string): string | null => {
+    let result: string | null = null;
     ruleDefinitions.exclusions.forEach((exclusion) => {
         exclusion.subjects.forEach((sbj) => {
-            if (sbj === subject) return exclusion.season
+            if (result === null && sbj === subject) {
+                result = exclusion.season
+            }
         })
     })
-    return null
+    return result
 }
 
 const App: React.FC = () => {
@@ -124,6 +123,26 @@ const App: React.FC = () => {
         window.location.href=`${process.env.PUBLIC_URL}/migrationRequirements`
     }
 
+    const menuItems: MenuItem[] = [];
+
+    menuItems.push({
+        text: "移行要件チェックツール",
+        selectedCondition: (text: string) => { return window.location.href.endsWith("/"); },
+        onClick: index
+    });
+
+    menuItems.push({
+        text: "履修仮組みツール",
+        selectedCondition: (text: string) => { return window.location.href.endsWith("/createTimetable"); },
+        onClick: createTable
+    });
+
+    menuItems.push({
+        text: "移行要件一覧",
+        selectedCondition: (text: string) => { return window.location.href.endsWith("/migrationRequirements"); },
+        onClick: migrationRequirements
+    })
+
     return (
         <>
             <div className={'header-base'}>
@@ -136,19 +155,7 @@ const App: React.FC = () => {
                 </div>
 
                 <div className={'table-box'}>
-                    <div className="menu menu-bar">
-                        <div className={`menu-item ${location === "/scs-migration-checker/" && "selected"}`} onClick={index}>
-                            移行要件チェックツール
-                        </div>
-                        {/*
-                        <div className={`menu-item ${location === "/scs-migration-checker/createTimetable" && "selected"}`} onClick={createTable}>
-                            履修仮組みツール
-                        </div>
-                        */}
-                        <div className={`menu-item ${location === "/scs-migration-checker/migrationRequirements" && "selected"}`} onClick={migrationRequirements}>
-                            移行要件一覧
-                        </div>
-                    </div>
+                    <MenuBar menuItems={menuItems} />
 
                     <BrowserRouter basename={process.env.PUBLIC_URL}>
                         <Routes>

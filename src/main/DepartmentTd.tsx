@@ -62,7 +62,7 @@ const DepartmentTd: React.FC<DepartmentProps> = (props: DepartmentProps) => {
 
     return (
         <>
-            <tr onClick={handleClicked}>
+            <tr onClick={handleClicked} className={"department"}>
                 <td className={classList[props.state]}>{props.name}</td>
                 <td className={'message-box'}>
                     {props.messages.map((value, index) => <span key={index}>・{value}<br/></span>)}
