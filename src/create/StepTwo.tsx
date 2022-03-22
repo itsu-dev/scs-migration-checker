@@ -4,7 +4,7 @@ import "./StepTwo.css";
 import {isOnline, needSubscribe, searchKdBWithModule} from "../KdBUtils";
 
 export type StepTwoProps = {
-    onSubscribeButtonClicked: () => void,
+    onSubscribeButtonClicked: (newKdbData: Array<string>) => void,
     onDeleteButtonClicked: () => void
 }
 
@@ -58,7 +58,7 @@ const StepTwoBase: React.ForwardRefRenderFunction<{ setSubject: (props: SubjectP
                     <p>{selectedSubject[0][4]}</p>
                     <div className={"button-box"}>
                         <button className={"primary-button"} onClick={() => {
-                            props.onSubscribeButtonClicked();
+                            props.onSubscribeButtonClicked(selectedSubject[0]);
                             setSelectedSubject([selectedSubject[0], true]);
                         }}>登録
                         </button>
