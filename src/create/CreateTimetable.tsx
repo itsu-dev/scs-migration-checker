@@ -171,16 +171,16 @@ const CreateTimetable: React.FC = () => {
     }
 
     // StepTwoの「登録」ボタンを押したときに発火
-    const onSubscribeButtonClicked = () => {
+    const onSubscribeButtonClicked = (newKdbData: Array<string>) => {
         if (selectedSubject !== null) {
             setSubjectsData(
-                selectedSubject.kdbData,
-                selectedSubject.kdbData[0],
-                [...selectedSubject.kdbData],
+                newKdbData,
+                newKdbData[0],
+                [...newKdbData],
                 2,
-                getSeasonsArray(selectedSubject.kdbData),
-                getTimesArray(selectedSubject.kdbData)[0],
-                isOnline(selectedSubject.kdbData)
+                getSeasonsArray(newKdbData),
+                getTimesArray(newKdbData)[0],
+                isOnline(newKdbData)
             )
             switchModule(selectedSubject!!.season + selectedSubject!!.module);
         }
