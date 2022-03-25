@@ -1,9 +1,9 @@
 import React from "react";
-import SubjectTd, {SubjectProps} from "./SubjectTd";
+import SubjectCell, {SubjectCellProps} from "./SubjectCell";
 
 export type TimeProps = {
     time: number,
-    subjects: SubjectProps[]
+    subjects: SubjectCellProps[]
 }
 
 const TimeTr: React.FC<TimeProps> = (props: TimeProps) => {
@@ -11,20 +11,15 @@ const TimeTr: React.FC<TimeProps> = (props: TimeProps) => {
         <tr>
             <td className={"time"}>{props.time}</td>
             {props.subjects.map((subject, index) =>
-                <SubjectTd
+                <SubjectCell
                     key={index}
-                    subjectName={subject.subjectName}
-                    subjectId={subject.subjectId}
-                    isOnline={subject.isOnline}
                     season={subject.season}
                     module={subject.module}
                     week={subject.week}
                     time={subject.time}
                     type={subject.type}
-                    department={subject.department}
-                    relatedModules={subject.relatedModules}
-                    relatedTimes={subject.relatedTimes}
-                    kdbData={subject.kdbData}
+                    isOnline={subject.isOnline}
+                    kdb={subject.kdb}
                     onclick={subject.onclick} />
             )}
         </tr>

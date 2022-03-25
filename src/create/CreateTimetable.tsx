@@ -1,12 +1,12 @@
 import React, {useRef, useState} from "react";
 import "./CreateTimetable.css"
-import {getExcludedSeason, isRuleLoaded, kdb, loadKdb, loadRuleDefinitions, ruleDefinitions} from "../App";
+import {getExcludedSeason, isRuleLoaded, KdB, kdb, loadKdb, loadRuleDefinitions, ruleDefinitions} from "../App";
 import TimeTr, {TimeProps} from "./TimeTr";
-import {SubjectProps} from "./SubjectTd";
+import {SubjectCellProps, TYPE_IMPORTANT, TYPE_REQUIREMENT, TYPE_USER_DEFINED} from "./SubjectCell";
 import MenuBar, {MenuItem} from "../MenuBar";
 import StepOne from "./StepOne";
 import StepTwo from "./StepTwo";
-import {getSeasonsArray, getTimesArray, isOnline} from "../KdBUtils";
+import {parseModule, parsePeriod, isOnline, KdBItem, kdbItemFromArray} from "../KdBUtils";
 
 type Module = {
     season: string,
@@ -19,8 +19,10 @@ const seasonModules = ["A", "B", "C"];
 const weeks = ["月", "火", "水", "木", "金"];
 let modules = new Map<string, Module>();  // 春A: Module
 
+export const PRIORITIZE_IMPORTANTS = 0;
+export const PRIORITIZE_REQUIREMENTS = 1;
 export let selectedDepartments: string[] = [];
-export let creationType = 1; // 0: 高い志望順位の重点科目を重視, 1: 高い志望順位の応募要件を重視
+export let creationType = PRIORITIZE_REQUIREMENTS; // 0: 高い志望順位の重点科目を重視, 1: 高い志望順位の応募要件を重視
 let isCreating = false;
 
 export const selectDepartment = (department: string) => {
@@ -34,6 +36,7 @@ export const selectDepartment = (department: string) => {
 const CreateTimetable: React.FC = () => {
     const menuItems: MenuItem[] = [];
 
+    // 時間割を初期化
     const initialize = (force: boolean) => {
         if (!force && modules.size !== 0) return;
 
@@ -42,23 +45,18 @@ const CreateTimetable: React.FC = () => {
                 const times: TimeProps[] = [];
 
                 for (let i = 1; i <= 6; i++) {
-                    const subjects: SubjectProps[] = [];
+                    const subjects: SubjectCellProps[] = [];
                     weeks.forEach((week) => {
                         subjects.push({
-                            subjectName: "",
-                            subjectId: "",
-                            isOnline: false,
                             season: season,
                             module: seasonAlphabet,
                             week: week,
                             time: i,
                             type: 2,
-                            department: "",
-                            relatedModules: [],
-                            relatedTimes: [],
-                            kdbData: [],
-                            onclick: (props: SubjectProps) => {
-                                onSubjectClicked(props);
+                            isOnline: false,
+                            kdb: null,
+                            onclick: (props: SubjectCellProps) => {
+                                onCellClicked(props);
                             }
                         })
                     })
@@ -105,21 +103,22 @@ const CreateTimetable: React.FC = () => {
         })
     }
 
-    initialize(false);
-    initializeMenu();
+    initialize(false);  // 時間割を初期化
+    initializeMenu();  // メニューバーを初期化
 
     const [isLoading, setLoading] = useState<boolean>(true);
     const [module, setModule] = useState<Module>(modules.get("春A")!!);
     const [step, setStep] = useState<number>(1);
-    const [messages, setMessages] = useState<Array<string>>([]);  // 処理中に発生したメッセージ
-    const stepTwoRef = useRef<{ setSubject: (props: SubjectProps) => void }>(null);
-    const [selectedSubject, setSelectedSubject] = useState<SubjectProps | null>(null);
+    const [messages, setMessages] = useState<Array<string>>([]);  // 処理中に発生したメッ
+    const [selectedCell, setSelectedCell] = useState<SubjectCellProps | null>(null);// セージ
+    const stepTwoRef = useRef<{ onCellClicked: (props: SubjectCellProps) => void }>(null);
 
+    // ウィンドウロード時の処理
     window.onload = () => {
-        setLoading(true);
-        loadRuleDefinitions(() => {
-            loadKdb(() => {
-                setLoading(false);
+        setLoading(true);  // 「読み込み中」を表示
+        loadRuleDefinitions(() => {  // 移行要件をロード
+            loadKdb(() => {  // KdBをロード
+                setLoading(false);  // 全て終わったら「読み込み中」を非表示
             })
         });
     }
@@ -130,21 +129,16 @@ const CreateTimetable: React.FC = () => {
         const module = modules.get(moduleKey)!!;
         const newTimes: TimeProps[] = [];
         module.times.forEach((time) => {
-            const newSubjects: SubjectProps[] = [];
+            const newSubjects: SubjectCellProps[] = [];
             time.subjects.forEach(subject => {
                 newSubjects.push({
-                    subjectName: subject.subjectName,
-                    subjectId: subject.subjectId,
-                    isOnline: subject.isOnline,
                     season: subject.season,
                     module: subject.module,
                     week: subject.week,
                     time: subject.time,
                     type: subject.type,
-                    department: subject.department,
-                    relatedModules: [...subject.relatedModules],
-                    relatedTimes: [...subject.relatedTimes],
-                    kdbData: [...subject.kdbData],
+                    isOnline: subject.isOnline,
+                    kdb: subject.kdb,
                     onclick: subject.onclick
                 });
             })
@@ -165,91 +159,93 @@ const CreateTimetable: React.FC = () => {
         setModule(newModule);
     }
 
-    const onSubjectClicked = (props: SubjectProps) => {
-        stepTwoRef.current?.setSubject(props);
-        setSelectedSubject(props);
+    // 時間割上のセルをクリックしたときに発火
+    const onCellClicked = (props: SubjectCellProps) => {
+        stepTwoRef.current?.onCellClicked(props);
+        setSelectedCell(props);
     }
 
     // StepTwoの「登録」ボタンを押したときに発火
-    const onSubscribeButtonClicked = (newKdbData: Array<string>) => {
-        if (selectedSubject !== null) {
-            setSubjectsData(
-                newKdbData,
-                newKdbData[0],
-                [...newKdbData],
-                2,
-                getSeasonsArray(newKdbData),
-                getTimesArray(newKdbData)[0],
-                isOnline(newKdbData)
-            )
-            switchModule(selectedSubject!!.season + selectedSubject!!.module);
-        }
+    const onSubscribeButtonClicked = (newKdB: KdBItem) => {
+        if (selectedCell === null) return;
+        if (selectedCell.kdb !== null) clearSubjectsData(selectedCell.kdb);
+
+        // 時間割を更新
+        const online = isOnline(newKdB);
+        setSubjectsData(newKdB, 2, online)
+
+        // 選択されているセルも更新
+        setSelectedCell({
+            season: selectedCell.season,
+            module: selectedCell.module,
+            week: selectedCell.week,
+            time: selectedCell.time,
+            kdb: newKdB,
+            type: 2,
+            isOnline: online,
+            onclick: selectedCell.onclick
+        })
+
+        // 再描画をかける
+        switchModule(selectedCell!!.season + selectedCell!!.module);
     }
 
     // StepTwoの「削除」ボタンを押したときに発火
     const onDeleteButtonClicked = () => {
-        if (selectedSubject !== null) {
-            clearSubjectsData(selectedSubject.kdbData)
-            switchModule(selectedSubject!!.season + selectedSubject!!.module);
+        if (selectedCell !== null && selectedCell.kdb !== null) {
+            clearSubjectsData(selectedCell!!.kdb)
+            switchModule(selectedCell!!.season + selectedCell!!.module);
         }
     }
 
     // oldKdbDataの時期に一致する時間割上の科目すべてを初期化する
-    const clearSubjectsData = (kdbData: Array<string>) => {
-        setSubjectsData(
-            kdbData,
-            "",
-            [],
-            2,
-            [],
-            [],
-            false
-        )
+    const clearSubjectsData = (kdb: KdBItem) => {
+        kdb.modules.forEach(module => {
+            kdb.periods.forEach(period => {
+                const subject = getSubjectWithModuleAndPeriod(module, period);
+                subject.kdb = null;
+                subject.type = 2;
+                subject.isOnline = false;
+            });
+        });
     }
 
     // oldKdbDataの時期に一致する時間割上の科目すべてを与えられた値に更新する
     const setSubjectsData = (
-        oldKdBData: Array<string>,
-        subjectName: string,
-        newKdBData: Array<string>,
+        kdb: KdBItem | null,
         type: number,
-        relatedModules: Array<string>,
-        relatedTimes: Array<string>,
         isOnline: boolean
     ) => {
-        const seasonsArray = getSeasonsArray(oldKdBData);
-        const timesArray = getTimesArray(oldKdBData)[0];
-        seasonsArray.forEach(season => {
-            timesArray.forEach(time => {
-                const subject = getSubjectWithModuleAndTime(season, time);
-                subject.subjectName = subjectName;
-                subject.kdbData = newKdBData;
-                subject.type = type;
-                subject.relatedModules = relatedModules;
-                subject.relatedTimes = relatedTimes;
-                subject.isOnline = isOnline;
+        if (kdb !== null) {
+            kdb.modules.forEach(season => {
+                kdb.periods.forEach(time => {
+                    const subject = getSubjectWithModuleAndPeriod(season, time);
+                    subject.kdb = kdb;
+                    subject.type = type;
+                    subject.isOnline = isOnline;
+                })
             })
-        })
+        }
     }
 
     // moduleとtimeから時間割上の科目を取得する
     // ex) module: 春A, time: 水3
-    const getSubjectWithModuleAndTime = (module: string, time: string): SubjectProps => {
+    const getSubjectWithModuleAndPeriod = (module: string, period: string): SubjectCellProps => {
         return modules.get(module)!!
             .times
-            .filter(t => t.time === +time.charAt(1))[0]!!
+            .filter(time => time.time === +period.charAt(1))[0]!!
             .subjects
-            .filter(subject => subject.week === time.charAt(0))[0]!!
+            .filter(subject => subject.week === period.charAt(0))[0]!!
     }
 
     // 指定した名前の科目を時間割から取得
-    const getSubjectsWithName = (subjectName: string): SubjectProps[] => {
-        const result: SubjectProps[] = [];
+    const getSubjectsWithName = (subjectName: string): SubjectCellProps[] => {
+        const result: SubjectCellProps[] = [];
         Array.from(modules.values())
             .forEach(module => {
                 module.times.forEach(time => {
                     time.subjects
-                        .filter(subject => subject.subjectName === subjectName)
+                        .filter(subject => subject.kdb?.name === subjectName)
                         .forEach(subject => result.push(subject));
                 });
             });
@@ -258,7 +254,7 @@ const CreateTimetable: React.FC = () => {
 
     // 「時間割を生成する」ボタンを押したときに実行
     // 時間割を生成する
-    const startToCreate = () => {
+    const onStartToCreateButtonClicked = () => {
         // 学類・学群が選択されていなければreturn
         if (selectedDepartments.length == 0) {
             alert("1つ以上の学類・学群を選択してください。");
@@ -283,8 +279,8 @@ const CreateTimetable: React.FC = () => {
         // 選択された学類・学群の移行要件を取得
         const departments = ruleDefinitions.departments
             .filter((department) => selectedDepartments.includes(department.departmentName));
-        const kdbSubjects = Array.from(kdb.data.values());  // KdBの科目データ
-        const kdbCache: Array<Array<string>> = [];  // KdBから検索済みの科目のキャッシュ
+        const kdbSubjects = Array.from(kdb.data.entries());  // Array.from(kdb.data.values());  // KdBの科目データ
+        const kdbCache: Array<KdBItem> = [];  // KdBから検索済みの科目のキャッシュ
 
         // 選択された全ての学類・学群に対して...
         departments.forEach((department) => {
@@ -314,11 +310,11 @@ const CreateTimetable: React.FC = () => {
 
                     // KdBから該当する科目のデータを取り出す
                     // まずキャッシュを検索
-                    let results = kdbSubjects.filter((value) => value[0] === split);
+                    let results = kdbSubjects.filter((value) => value[1][0] === split);
 
                     // キャッシュになければKdBを検索
                     if (results.length == 0) {
-                        results = kdbSubjects.filter((value) => value[0] === split);
+                        results = kdbSubjects.filter((value) => value[1][0] === split);
                     }
 
                     // キャッシュになければ処理不可能科目として処理しない
@@ -328,12 +324,12 @@ const CreateTimetable: React.FC = () => {
                     }
 
                     // 検索結果の先頭を科目データとして使用し、キャッシュに保存する
-                    const kdbSubject = results[0];
+                    const kdbSubject = kdbItemFromArray(results[0][0], results[0][1]);
                     kdbCache.push(kdbSubject);
 
                     if (split === "線形代数A") {
-                        kdbSubject[1] = excludedSeason!!.split(" ")[0];
-                        kdbSubject[2] = excludedSeason!!.split(" ")[1];
+                        // kdbSubject[1] = excludedSeason!!.split(" ")[0];
+                        // kdbSubject[2] = excludedSeason!!.split(" ")[1];
 
                         if (getSubjectsWithName("線形代数1").length > 0
                             || getSubjectsWithName("線形代数2").length > 0) {
@@ -366,44 +362,42 @@ const CreateTimetable: React.FC = () => {
 
                     }
 
-                    // 開講時期をパース
-                    const seasonsArray = getSeasonsArray(kdbSubject);
-
                     // 開講時限をパース
-                    const [timesArray, needConsul] = getTimesArray(kdbSubject);
+                    const [_, needConsul] = parsePeriod(kdbSubject.periodsText);
                     if (needConsul) {
                         messages.push(`${department.departmentName}では${subject}が${type}として設定されていますが、開講時期が応談のため時期を決定できません。`);
                     }
 
                     // 重複する科目をすべて取得
-                    let duplicates: Array<Array<string>> = [];
-                    seasonsArray.forEach(s => {
-                        timesArray.forEach(t => {
-                            const existingSubject = getSubjectWithModuleAndTime(s, t);
+                    const duplicates: Array<KdBItem> = [];
+                    kdbSubject.modules.forEach(s => {
+                        kdbSubject.periods.forEach(t => {
+                            const existingSubject = getSubjectWithModuleAndPeriod(s, t);
                             if (
-                                existingSubject.subjectName !== ""
-                                && existingSubject.subjectName !== split
-                                && duplicates.filter(sbj => sbj[0] === existingSubject.subjectName).length === 0
+                                existingSubject.kdb !== null
+                                && existingSubject.kdb.name !== split
+                                && duplicates.filter(sbj => sbj.name === existingSubject.kdb!!.name).length === 0
                             ) {
-                                if ((existingSubject.type === 0 && creationType === 0)
-                                    || (existingSubject.type === 1 && creationType === 1)
-                                    || existingSubject.type === 2) {
+                                if ((existingSubject.type === TYPE_REQUIREMENT && creationType === PRIORITIZE_IMPORTANTS)
+                                    || (existingSubject.type === TYPE_IMPORTANT && creationType === PRIORITIZE_REQUIREMENTS)
+                                    || existingSubject.type === TYPE_USER_DEFINED) {
+                                    // duplicates.push(existingSubject.kdb!!);
                                 }
-                                clearSubjectsData(existingSubject.kdbData)
-                                // duplicates.push(existingSubject.kdbData);
+                                clearSubjectsData(existingSubject.kdb!!)
+                                // duplicates.push(existingSubject.kdb);
                             }
                         });
                     });
 
                     if (duplicates.length > 0) {
-                        console.log(split + "_" + kdbSubject[1] + " " + kdbSubject[2])
+                        console.log(split + "_" + kdbSubject.modulesText + " " + kdbSubject.periodsText)
                         console.log(duplicates)
                     }
 
                     // 取得した全ての開講時期に対して...
-                    seasonsArray.forEach((s) => {
+                    kdbSubject.modules.forEach((s) => {
                         // 取得した全ての開講時限に対して...
-                        timesArray.forEach((t) => {
+                        kdbSubject.periods.forEach((t) => {
                             const module = modules.get(s)!!;  // 該当モジュールの時間割を取得
                             // モジュールの全ての時間（1～6限に対して）
                             module.times.forEach((timeTr) => {
@@ -412,17 +406,14 @@ const CreateTimetable: React.FC = () => {
                                 // 取得した科目が存在すれば
                                 if (subscribedSubject) {
                                     // 科目が応募要件由来かつ生成が高い志望順位の重点科目重視、または科目が重点科目由来かつ高い志望順位の応募要件重視、またはユーザーによって作成された科目なら上書きする
-                                    if ((subscribedSubject.type === 0 && creationType === 0)
-                                        || (subscribedSubject.type === 1 && creationType === 1)
-                                        || subscribedSubject.type === 2) {
+                                    if ((subscribedSubject.type === TYPE_REQUIREMENT && creationType === PRIORITIZE_IMPORTANTS)
+                                        || (subscribedSubject.type === TYPE_IMPORTANT && creationType === PRIORITIZE_REQUIREMENTS)
+                                        || subscribedSubject.type === TYPE_USER_DEFINED) {
                                         // TODO 2コマ以上の科目の場合、オーバーライドされてその科目の1コマがつぶれる（ex.プ入Aの秋A木5, 6が5だけになり、秋A木6が別の科目になってしまう）
-                                        subscribedSubject.subjectName = split;
-                                        subscribedSubject.type = rule.type === "required_subjects" ? 0 : 1
+                                        subscribedSubject.kdb = kdbSubject;
+                                        subscribedSubject.type = rule.type === "required_subjects" ? TYPE_REQUIREMENT : TYPE_IMPORTANT
                                         subscribedSubject.isOnline = isOnline(kdbSubject);
-                                        subscribedSubject.department = department.departmentName;
-                                        subscribedSubject.relatedModules = seasonsArray;
-                                        subscribedSubject.relatedTimes = timesArray;
-                                        subscribedSubject.kdbData = kdbSubject;
+
                                     }
                                 }
                             });
@@ -483,7 +474,7 @@ const CreateTimetable: React.FC = () => {
                     {!isLoading &&
                     <>
                         <MenuBar menuItems={stepMenuItems}/>
-                        {step === 1 && <StepOne startToCreate={startToCreate}/>}
+                        {step === 1 && <StepOne startToCreate={onStartToCreateButtonClicked}/>}
                         {step === 2 && <StepTwo
                             onSubscribeButtonClicked={onSubscribeButtonClicked}
                             onDeleteButtonClicked={onDeleteButtonClicked}
