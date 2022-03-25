@@ -127,7 +127,7 @@ const App: React.FC = () => {
 
     menuItems.push({
         text: "移行要件チェックツール",
-        selectedCondition: (text: string) => { return window.location.href.endsWith("/"); },
+        selectedCondition: (text: string) => { return window.location.href.endsWith("/scs-migration-checker") || window.location.href.endsWith("/scs-migration-checker/"); },
         onClick: index
     });
 
