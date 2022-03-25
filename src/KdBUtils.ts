@@ -18,9 +18,9 @@ export type KdBItem = {
 
 export const searchKdBWithModule = (module: string, time: string): Array<KdBItem> => {
     const result: Array<KdBItem> = [];
-    Array.from(kdb.data.values())
+    Array.from(kdb.data.entries())
         .filter(kdbData => {
-            return parseModule(kdbData[1]).includes(module) && parsePeriod(kdbData[2])[0].includes(time);
+            return parseModule(kdbData[1][1]).includes(module) && parsePeriod(kdbData[1][2])[0].includes(time);
         })
         .forEach(kdbData => {
             /*
@@ -28,7 +28,7 @@ export const searchKdBWithModule = (module: string, time: string): Array<KdBItem
                 result.push(kdbData);
             }
             */
-            result.push(kdbItemFromArray("", kdbData));
+            result.push(kdbItemFromArray(kdbData[0], kdbData[1]));
         })
     return result;
 }

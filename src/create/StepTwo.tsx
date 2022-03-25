@@ -47,13 +47,19 @@ const StepTwoBase: React.ForwardRefRenderFunction<{ onCellClicked: (props: Subje
                 {selectedSubject[0] !== null &&
                 <>
                     <p>
+                        <a className={"subject-id"}
+                           href={`https://kdb.tsukuba.ac.jp/syllabi/2021/${selectedSubject[0]?.id}/jpn`}
+                           target={"_blank"}>#{selectedSubject[0]?.id}&nbsp;</a>
                         {selectedSubject[0]?.modulesText}&nbsp;
                         {selectedSubject[0]?.periodsText}
+                        <span>（{selectedSubject[0]?.unit}単位）</span>
+                    </p>
+                    <p>
                         {isOnline(selectedSubject[0]) &&
-                        <span className={"online"}>&nbsp;オンライン</span>
+                        <span className={"online"}>オンライン&nbsp;</span>
                         }
                         {needSubscribe(selectedSubject[0]) &&
-                        <span className={"need-subscribe"}>&nbsp;事前登録対象</span>
+                        <span className={"need-subscribe"}>事前登録対象</span>
                         }
                     </p>
                     <p>{selectedSubject[0]?.description}</p>
@@ -77,7 +83,7 @@ const StepTwoBase: React.ForwardRefRenderFunction<{ onCellClicked: (props: Subje
             }
 
             {selectedSubject[0] === null &&
-                <p>時間割上の時限をクリックし、科目を選択してください。</p>
+            <p>時間割上の時限をクリックし、科目を選択してください。</p>
             }
 
             {
@@ -97,6 +103,7 @@ const StepTwoBase: React.ForwardRefRenderFunction<{ onCellClicked: (props: Subje
                         <p onClick={() => {
                             setSelectedSubject([subject, false]);
                         }} key={index}>
+                            <span className={"subject-id"}>#{subject.id}&nbsp;</span>
                             {subject.name}
                             {isOnline(subject) &&
                             <span className={"online"}>&nbsp;オンライン</span>

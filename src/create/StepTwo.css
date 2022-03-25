@@ -31,3 +31,12 @@ span.need-subscribe {
     gap: 0 1.0em;
     margin-top: 0.5em;
 }
+
+.subject-id {
+    color: gray;
+    text-decoration: none;
+}
+
+.subject-id:hover {
+    text-decoration: underline;
+}
