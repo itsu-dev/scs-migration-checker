@@ -316,7 +316,7 @@ const MigrationChecker: React.FC = () => {
 
             <h3>使い方</h3>
             <p>
-                1．<a href="https://make-it-tsukuba.github.io/alternative-tsukuba-kdb">KdBもどき</a>にアクセスする<br/>
+                1．<a href="https://make-it-tsukuba.github.io/alternative-tsukuba-kdb" target={"_blank"}>KdBもどき</a>にアクセスする<br/>
                 2．仮の履修時間割を組む<br/>
                 3．検索条件をクリアし、「お気に入り」にチェックを入れて検索する<br/>
                 4．画面最下部の「CSVダウンロード」をクリックする<br/>
@@ -329,7 +329,7 @@ const MigrationChecker: React.FC = () => {
                 ・履修を組む際の参考としてお使いください。<br/>
                 ・各学類・学群をクリックすると詳細が見られます。<br/>
                 ・使用したCSVファイルはサーバーには保存されません。<br/>
-                ・このツールの使用によって生じた不利益等について、開発者は一切の責任を負いません。<br/>
+                ・このツールの使用によって生じた不利益等について、開発者は一切の責任を負いません。<br/>\
                 ・医学類の判定には対応しておりません。
             </p>
         </>
