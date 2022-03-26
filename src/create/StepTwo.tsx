@@ -48,8 +48,10 @@ const StepTwoBase: React.ForwardRefRenderFunction<{ onCellClicked: (props: Subje
                 <>
                     <p>
                         <a className={"subject-id"}
-                           href={`https://kdb.tsukuba.ac.jp/syllabi/2021/${selectedSubject[0]?.id}/jpn`}
-                           target={"_blank"}>#{selectedSubject[0]?.id}&nbsp;</a>
+                           href={`https://kdb.tsukuba.ac.jp/syllabi/2022/${selectedSubject[0]?.id}/jpn`}
+                           target={"_blank"}
+                           title={"2022年度版のシラバス"}
+                        >#{selectedSubject[0]?.id}&nbsp;</a>
                         {selectedSubject[0]?.modulesText}&nbsp;
                         {selectedSubject[0]?.periodsText}
                         <span>（{selectedSubject[0]?.unit}単位）</span>
