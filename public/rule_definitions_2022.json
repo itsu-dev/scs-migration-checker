@@ -1,0 +1,1360 @@
+{
+  "version": "3.0.0",
+  "updatedAt": "2022/04/07",
+  "author": "itsu",
+
+  "exclusions": [
+    {
+      "subjects": [
+        "English Reading Skills I",
+        "English Presentation Skills I",
+        "English Reading Skills II",
+        "English Presentation Skills II",
+        "情報リテラシー(講義)",
+        "情報リテラシー(演習)",
+        "データサイエンス",
+        "ファーストイヤーセミナー",
+        "学問への誘い",
+        "国語I",
+        "#CONTENTS:基礎体育"
+      ],
+      "season": "履修班依存"
+    },
+    {
+      "subjects": ["日本国憲法"],
+      "season": "夏季集中予定"
+    },
+    {
+      "subjects": ["線形代数A"],
+      "season": "春BC 金3,4"
+    }
+  ],
+
+  "departments": [
+
+    {
+      "departmentName": "人文学類",
+      "rules": [
+        {
+          "description": "応募要件",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 2,
+          "subjects": [
+            "哲学・宗教学入門",
+            "史学入門",
+            "言語分析入門",
+            "個別言語学入門",
+            "考古学・民俗学入門"
+          ]
+        }
+      ]
+    },
+
+    {
+      "departmentName": "比較文化学類",
+      "rules": [
+        {
+          "description": "応募要件",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 2,
+          "subjects": [
+            "フィールド文化領域比較文化研究",
+            "思想文化領域比較文化研究",
+            "日本・アジア領域比較文化研究",
+            "文化科学領域比較文化研究",
+            "英米・ヨーロッパ領域比較文化研究",
+            "表現文化領域比較文化研究"
+          ]
+        }
+      ]
+    },
+
+    {
+      "departmentName": "日本語・日本文化学類",
+      "rules": [
+        {
+          "description": "応募要件",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 2,
+          "subjects": [
+            "共生のための日本語教育",
+            "共生のための人類学",
+            "共生のための歴史学",
+            "共生のための社会言語学"
+          ]
+        }
+      ]
+    },
+
+    {
+      "departmentName": "社会学類",
+      "rules": [
+        {
+          "description": "応募要件1",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 1,
+          "subjects": [
+            "社会学の最前線",
+            "法学の最前線",
+            "経済学の最前線",
+            "政治学の最前線"
+          ]
+        },
+        {
+          "description": "応募要件2",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 2,
+          "subjects": [
+            "社会学の最前線",
+            "法学の最前線",
+            "経済学の最前線",
+            "政治学の最前線",
+            "国際学II",
+            "国際学IV",
+            "国際学III",
+            "国際学I"
+          ]
+        }
+      ]
+    },
+
+    {
+      "departmentName": "国際総合学類",
+      "rules": [
+        {
+          "description": "応募要件1",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 1,
+          "subjects": [
+            "国際学II",
+            "国際学IV",
+            "国際学III",
+            "国際学I"
+          ]
+        },
+        {
+          "description": "応募要件2",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 2,
+          "subjects": [
+            "国際学II",
+            "国際学IV",
+            "国際学III",
+            "国際学I",
+            "社会学の最前線",
+            "法学の最前線",
+            "経済学の最前線",
+            "政治学の最前線"
+          ]
+        }
+      ]
+    },
+
+    {
+      "departmentName": "教育学類",
+      "rules": []
+    },
+
+    {
+      "departmentName": "心理学類",
+      "rules": []
+    },
+
+    {
+      "departmentName": "障害科学類",
+      "rules": []
+    },
+
+    {
+      "departmentName": "生物学類（区分A）",
+      "rules": [
+        {
+          "description": "応募要件",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 1,
+          "subjects": [
+            "分子細胞生物学概論",
+            "遺伝学概論",
+            "系統分類・進化学概論",
+            "生態学概論",
+            "動物生理学概論",
+            "植物生理学概論",
+            "生物学序説"
+          ]
+        },
+        {
+          "description": "重点科目上限単位数",
+          "type": "important_subjects",
+          "isMain": true,
+          "minimum": 6,
+          "subjects": [
+            "分子細胞生物学概論",
+            "遺伝学概論",
+            "系統分類・進化学概論",
+            "生態学概論",
+            "動物生理学概論",
+            "植物生理学概論",
+            "生物学序説",
+            "数学リテラシー1",
+            "化学1",
+            "数学リテラシー2",
+            "力学1",
+            "地球進化学1",
+            "力学2",
+            "化学2",
+            "生物資源と環境",
+            "電磁気学1",
+            "生物資源としての遺伝子とゲノム",
+            "電磁気学2",
+            "微積分1",
+            "微積分2",
+            "微分積分A::2",
+            "線形代数1",
+            "線形代数A::2",
+            "線形代数2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "important_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A::2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "important_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A::2"
+          ]
+        }
+      ]
+    },
+
+    {
+      "departmentName": "生物学類（区分B）",
+      "rules": [
+        {
+          "description": "応募要件",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 1,
+          "subjects": [
+            "分子細胞生物学概論",
+            "遺伝学概論",
+            "系統分類・進化学概論",
+            "生態学概論",
+            "動物生理学概論",
+            "植物生理学概論",
+            "生物学序説"
+          ]
+        }
+      ]
+    },
+
+    {
+      "departmentName": "生物資源学類",
+      "rules": [
+        {
+          "description": "応募要件",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 7,
+          "subjects": [
+            "English Reading Skills I",
+            "English Presentation Skills I",
+            "情報リテラシー(講義)",
+            "情報リテラシー(演習)",
+            "データサイエンス::2",
+            "ファーストイヤーセミナー"
+          ]
+        },
+        {
+          "description": "重点科目上限単位数",
+          "type": "important_subjects",
+          "isMain": true,
+          "minimum": 6,
+          "subjects": [
+            "生物資源学にみる食品科学・技術の最前線",
+            "生物資源と環境",
+            "生物資源の開発・生産と持続利用",
+            "生物資源としての遺伝子とゲノム",
+            "政治学の最前線",
+            "生物学序説",
+            "数学リテラシー1",
+            "会計と経営",
+            "考古学・民俗学入門",
+            "化学1",
+            "史学入門",
+            "微積分1",
+            "医科生化学::2",
+            "地球環境学1",
+            "数学リテラシー2",
+            "経済学の数理",
+            "力学1",
+            "地球進化学1",
+            "経済学の最前線",
+            "分子細胞生物学概論",
+            "線形代数1",
+            "遺伝学概論",
+            "都市計画入門",
+            "力学2",
+            "化学2",
+            "系統分類・進化学概論",
+            "医科分子生物学::2",
+            "電磁気学1",
+            "社会と最適化",
+            "線形代数2",
+            "法学の最前線",
+            "力学3",
+            "生態学概論",
+            "社会学の最前線",
+            "地球進化学2",
+            "微積分2",
+            "地球環境学2",
+            "動物生理学概論",
+            "電磁気学2",
+            "都市数理",
+            "植物生理学概論",
+            "経済学の実証",
+            "線形代数3",
+            "化学3",
+            "微積分3",
+            "電磁気学3"
+          ]
+        }
+      ]
+    },
+
+    {
+      "departmentName": "地球学類",
+      "rules": [
+        {
+          "description": "応募要件",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 2,
+          "subjects": [
+            "地球環境学1",
+            "地球環境学2",
+            "地球進化学1",
+            "地球進化学2"
+          ]
+        },
+        {
+          "description": "重点科目上限単位数",
+          "type": "important_subjects",
+          "isMain": true,
+          "minimum": 12,
+          "subjects": [
+            "地球環境学1",
+            "地球環境学2",
+            "地球進化学1",
+            "地球進化学2",
+            "フィールド文化領域比較文化研究",
+            "生物学序説",
+            "数学リテラシー1",
+            "化学1",
+            "生物資源学にみる食品科学・技術の最前線",
+            "数学リテラシー2",
+            "力学1",
+            "分子細胞生物学概論",
+            "遺伝学概論",
+            "力学2",
+            "化学2",
+            "生物資源と環境",
+            "系統分類・進化学概論",
+            "電磁気学1",
+            "生物資源の開発・生産と持続利用",
+            "力学3",
+            "生態学概論",
+            "生物資源としての遺伝子とゲノム",
+            "動物生理学概論",
+            "電磁気学2",
+            "植物生理学概論",
+            "線形代数3",
+            "化学3",
+            "微積分3",
+            "電磁気学3",
+            "微積分1",
+            "微積分2",
+            "微分積分A::2",
+            "線形代数1",
+            "線形代数A::2",
+            "線形代数2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "important_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A::2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "important_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A::2"
+          ]
+        }
+      ]
+    },
+
+    {
+      "departmentName": "数学類",
+      "rules": [
+        {
+          "description": "応募要件1",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 6,
+          "subjects": [
+            "数学リテラシー1",
+            "数学リテラシー2",
+            "線形代数3",
+            "微積分3",
+            "微積分1",
+            "微積分2",
+            "微分積分A::2",
+            "線形代数1",
+            "線形代数A::2",
+            "線形代数2"
+          ]
+        },
+        {
+          "description": "応募要件2",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 2,
+          "subjects": [
+            "力学1",
+            "力学2",
+            "電磁気学1",
+            "力学3",
+            "電磁気学2",
+            "電磁気学3"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "required_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A::2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "required_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A::2"
+          ]
+        },
+        {
+          "description": "重点科目上限単位数",
+          "type": "important_subjects",
+          "isMain": true,
+          "minimum": 18,
+          "subjects": [
+            "数学リテラシー1",
+            "数学リテラシー2",
+            "線形代数3",
+            "微積分3",
+            "微積分1",
+            "微積分2",
+            "微分積分A::2",
+            "線形代数1",
+            "線形代数A::2",
+            "線形代数2",
+            "力学1",
+            "力学2",
+            "電磁気学1",
+            "力学3",
+            "電磁気学2",
+            "電磁気学3",
+            "生物学序説",
+            "化学1",
+            "地球環境学1",
+            "地球進化学1",
+            "化学2",
+            "地球進化学1",
+            "地球環境学2",
+            "化学3"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "important_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A::2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "important_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A::2"
+          ]
+        }
+      ]
+    },
+
+    {
+      "departmentName": "物理学類",
+      "rules": [
+        {
+          "description": "応募要件1",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 4,
+          "subjects": [
+            "力学1",
+            "力学2",
+            "電磁気学1",
+            "力学3",
+            "電磁気学2",
+            "電磁気学3"
+          ]
+        },
+        {
+          "description": "応募要件2",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 4,
+          "subjects": [
+            "数学リテラシー1",
+            "数学リテラシー2",
+            "線形代数3",
+            "微積分3",
+            "微積分1",
+            "微積分2",
+            "微分積分A::2",
+            "線形代数1",
+            "線形代数A::2",
+            "線形代数2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "required_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A::2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "required_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A::2"
+          ]
+        },
+        {
+          "description": "重点科目上限単位数",
+          "type": "important_subjects",
+          "isMain": true,
+          "minimum": 18,
+          "subjects": [
+            "力学1",
+            "力学2",
+            "電磁気学1",
+            "力学3",
+            "電磁気学2",
+            "電磁気学3",
+            "数学リテラシー1",
+            "数学リテラシー2",
+            "線形代数3",
+            "微積分3",
+            "微積分1",
+            "微積分2",
+            "微分積分A::2",
+            "線形代数1",
+            "線形代数A::2",
+            "線形代数2",
+            "生物学序説",
+            "化学1",
+            "分子細胞生物学概論",
+            "遺伝学概論",
+            "化学2",
+            "系統分類・進化学概論",
+            "動物生理学概論",
+            "植物生理学概論",
+            "化学3"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "important_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A::2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "important_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A::2"
+          ]
+        }
+      ]
+    },
+
+    {
+      "departmentName": "化学類",
+      "rules": [
+        {
+          "description": "応募要件1",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 1,
+          "subjects": [
+            "化学1",
+            "化学2",
+            "化学3"
+          ]
+        },
+        {
+          "description": "応募要件2",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 8,
+          "subjects": [
+            "化学1",
+            "化学2",
+            "化学3",
+            "力学1",
+            "力学2",
+            "電磁気学1",
+            "力学3",
+            "電磁気学2",
+            "線形代数3",
+            "微積分3",
+            "電磁気学3",
+            "微積分1",
+            "微積分2",
+            "微分積分A::2",
+            "線形代数1",
+            "線形代数A::2",
+            "線形代数2",
+            "生物学序説",
+            "数学リテラシー1",
+            "地球環境学1",
+            "数学リテラシー2",
+            "地球進化学1",
+            "地球進化学2",
+            "地球環境学2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "required_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A::2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "required_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A::2"
+          ]
+        },
+        {
+          "description": "4単位まで",
+          "type": "required_subjects_limit",
+          "minimum": 4,
+          "subjects": [
+            "生物学序説",
+            "数学リテラシー1",
+            "地球環境学1",
+            "数学リテラシー2",
+            "地球進化学1",
+            "地球進化学2",
+            "地球環境学2"
+          ]
+        },
+        {
+          "description": "重点科目上限単位数",
+          "type": "important_subjects",
+          "isMain": true,
+          "minimum": 18,
+          "subjects": [
+            "化学1",
+            "化学2",
+            "化学3",
+            "力学1",
+            "力学2",
+            "電磁気学1",
+            "力学3",
+            "電磁気学2",
+            "線形代数3",
+            "微積分3",
+            "電磁気学3",
+            "微積分1",
+            "微積分2",
+            "微分積分A::2",
+            "線形代数1",
+            "線形代数A::2",
+            "線形代数2",
+            "生物学序説",
+            "数学リテラシー1",
+            "地球環境学1",
+            "数学リテラシー2",
+            "地球進化学1",
+            "地球進化学2",
+            "地球環境学2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "important_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A::2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "important_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A::2"
+          ]
+        },
+        {
+          "description": "4単位まで",
+          "type": "important_subjects_limit",
+          "maximum": 4,
+          "subjects": [
+            "生物学序説",
+            "数学リテラシー1",
+            "地球環境学1",
+            "数学リテラシー2",
+            "地球進化学1",
+            "地球進化学2",
+            "地球環境学2"
+          ]
+        }
+      ]
+    },
+
+    {
+      "departmentName": "応用理工学類",
+      "rules": [
+        {
+          "description": "応募要件",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 8,
+          "subjects": [
+            "数学リテラシー1",
+            "化学1",
+            "数学リテラシー2",
+            "力学1",
+            "力学2",
+            "化学2",
+            "電磁気学1",
+            "力学3",
+            "電磁気学2",
+            "線形代数3",
+            "化学3",
+            "微積分3",
+            "電磁気学3",
+            "微積分1",
+            "微積分2",
+            "微分積分A::2",
+            "線形代数1",
+            "線形代数A::2",
+            "線形代数2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "required_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A::2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "required_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A::2"
+          ]
+        },
+        {
+          "description": "重点科目上限単位数",
+          "type": "important_subjects",
+          "isMain": true,
+          "minimum": 17,
+          "subjects": [
+            "数学リテラシー1",
+            "化学1",
+            "数学リテラシー2",
+            "力学1",
+            "力学2",
+            "化学2",
+            "電磁気学1",
+            "力学3",
+            "電磁気学2",
+            "線形代数3",
+            "化学3",
+            "微積分3",
+            "電磁気学3",
+            "微積分1",
+            "微積分2",
+            "微分積分A::2",
+            "線形代数1",
+            "線形代数A::2",
+            "線形代数2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "important_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A::2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "important_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A::2"
+          ]
+        },
+        {
+          "description": "その他",
+          "type": "others",
+          "message": "重点科目として、他に対象以外の専門導入科目、および化学類、物理学類開設の生物学序説が1単位まで対象となります"
+        }
+      ]
+    },
+
+    {
+      "departmentName": "工学システム学類",
+      "rules": [
+        {
+          "description": "応募要件",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 8,
+          "subjects": [
+            "数学リテラシー1",
+            "数学リテラシー2",
+            "力学1",
+            "力学2",
+            "電磁気学1",
+            "力学3",
+            "電磁気学2",
+            "線形代数3",
+            "微積分3",
+            "電磁気学3",
+            "微積分1",
+            "微積分2",
+            "微分積分A::2",
+            "線形代数1",
+            "線形代数A::2",
+            "線形代数2",
+            "#OTHER_SUBJECTS:4"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "required_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A::2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "required_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A::2"
+          ]
+        },
+        {
+          "description": "重点科目上限単位数",
+          "type": "important_subjects",
+          "isMain": true,
+          "minimum": 18,
+          "subjects": [
+            "数学リテラシー1",
+            "数学リテラシー2",
+            "力学1",
+            "力学2",
+            "電磁気学1",
+            "力学3",
+            "電磁気学2",
+            "線形代数3",
+            "微積分3",
+            "電磁気学3",
+            "微積分1",
+            "微積分2",
+            "微分積分A::2",
+            "線形代数1",
+            "線形代数A::2",
+            "線形代数2",
+            "#OTHER_SUBJECTS:4"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "important_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A::2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "important_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A::2"
+          ]
+        }
+      ]
+    },
+
+    {
+      "departmentName": "社会工学類",
+      "rules": [
+        {
+          "description": "応募要件",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 2,
+          "subjects": [
+            "数学リテラシー1",
+            "数学リテラシー2",
+            "線形代数3",
+            "微積分3",
+            "微積分1",
+            "微積分2",
+            "微分積分A::2",
+            "線形代数1",
+            "線形代数A::2",
+            "線形代数2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "required_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A::2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "required_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A::2"
+          ]
+        },
+        {
+          "description": "重点科目上限単位数",
+          "type": "important_subjects",
+          "isMain": true,
+          "minimum": 3,
+          "subjects": [
+            "数学リテラシー1",
+            "数学リテラシー2",
+            "線形代数3",
+            "微積分3",
+            "微積分1",
+            "微積分2",
+            "微分積分A::2",
+            "線形代数1",
+            "線形代数A::2",
+            "線形代数2",
+            "会計と経営",
+            "経済学の数理",
+            "都市計画入門",
+            "社会と最適化",
+            "都市数理",
+            "経済学の実証"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "important_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A::2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "important_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A::2"
+          ]
+        }
+      ]
+    },
+
+    {
+      "departmentName": "情報科学類（区分A）",
+      "rules": [
+        {
+          "description": "重点科目上限単位数1",
+          "type": "important_subjects",
+          "isMain": true,
+          "minimum": 2,
+          "subjects": [
+            "知識情報概論",
+            "情報メディア入門",
+            "知能と情報科学",
+            "知識情報システム概説",
+            "情報科学概論",
+            "計算と情報科学",
+            "図書館概論::2",
+            "コンテンツ入門::2",
+            "システムと情報科学"
+          ]
+        },
+        {
+          "description": "重点科目上限単位数2",
+          "type": "important_subjects",
+          "isMain": true,
+          "minimum": 8,
+          "subjects": [
+            "情報数学A::2",
+            "プログラミング入門A::2",
+            "微積分1",
+            "微積分2",
+            "微分積分A::2",
+            "線形代数1",
+            "線形代数A::2",
+            "線形代数2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "important_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "微積分1",
+            "微積分2",
+            "微分積分A::2"
+          ]
+        },
+        {
+          "description": "履修制限",
+          "type": "important_subjects_limit",
+          "maximum": 2,
+          "subjects": [
+            "線形代数1",
+            "線形代数2",
+            "線形代数A::2"
+          ]
+        }
+      ]
+    },
+
+    {
+      "departmentName": "情報科学類（区分B）",
+      "rules": []
+    },
+
+    {
+      "departmentName": "情報メディア創成学類",
+      "rules": []
+    },
+
+    {
+      "departmentName": "知識情報・図書館学類",
+      "rules": []
+    },
+
+    {
+      "departmentName": "看護学類",
+      "rules": [
+        {
+          "description": "応募要件1",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 16,
+          "subjects": [
+            "基礎看護学概論",
+            "生涯発達と家族支援::2",
+            "人体機能学::2",
+            "高齢者看護学概論",
+            "看護生命倫理",
+            "English Reading Skills I",
+            "English Presentation Skills I",
+            "English Reading Skills II",
+            "English Presentation Skills II",
+            "情報リテラシー(講義)",
+            "情報リテラシー(演習)",
+            "データサイエンス::2",
+            "ファーストイヤーセミナー",
+            "学問への誘い",
+            "#CONTENTS:基礎体育"
+          ]
+        },
+        {
+          "description": "応募要件2",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 2,
+          "subjects": [
+            "English Reading Skills I",
+            "English Presentation Skills I",
+            "English Reading Skills II",
+            "English Presentation Skills II"
+          ]
+        },
+        {
+          "description": "重点科目上限単位数",
+          "type": "important_subjects",
+          "isMain": true,
+          "minimum": 7,
+          "subjects": [
+            "基礎看護学概論",
+            "生涯発達と家族支援::2",
+            "人体機能学::2",
+            "高齢者看護学概論",
+            "看護生命倫理"
+          ]
+        },
+        {
+          "description": "その他",
+          "type": "others",
+          "message": "応募要件として別途面接があります（実施は一次判定登録後）"
+        },
+        {
+          "description": "その他",
+          "type": "others",
+          "message": "他にこれら以外の専門導入科目、化学、物理学、生物学、人間学群心理学類および障害科学類の開設授業科目、人文・文化学群人文学類の授業科目のうち、「哲学、倫理学、宗教学」分野の授業科目、教育教員免許法に定める教科に関する科目の「哲学、倫理学、宗教学」に対応する科目として人文・文化学類比較文化学類の開設授業科目が重点科目として4単位まで認められます"
+        }
+      ]
+    },
+
+    {
+      "departmentName": "医療科学類",
+      "rules": [
+        {
+          "description": "応募要件",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 11,
+          "subjects": [
+            "English Reading Skills I",
+            "English Presentation Skills I",
+            "English Reading Skills II",
+            "English Presentation Skills II",
+            "情報リテラシー(講義)",
+            "情報リテラシー(演習)",
+            "データサイエンス::2",
+            "ファーストイヤーセミナー",
+            "学問への誘い",
+            "#CONTENTS:基礎体育"
+          ]
+        },
+        {
+          "description": "重点科目上限単位数",
+          "type": "important_subjects",
+          "isMain": true,
+          "minimum": 8,
+          "message": "生物学序説は化学類または物理学類開設である必要があります。",
+          "subjects": [
+            "医科生化学",
+            "人体構造学::2",
+            "人体機能学::2",
+            "医科分子生物学::2",
+            "医療科学概論",
+            "生物学序説",
+            "#CATEGORY:専門導入科目"
+          ]
+        },
+        {
+          "description": "その他",
+          "type": "others",
+          "message": "重点科目に他に専門導入科目が6単位までが含まれますが、専門導入科目についてはこのシステムの単位数の計算に含まれていません"
+        }
+      ]
+    },
+
+    {
+      "departmentName": "芸術専門学群",
+      "rules": [
+        {
+          "description": "応募要件1",
+          "type": "required_subjects",
+          "isMain": true,
+          "minimum": 4,
+          "subjects": [
+            "美術史学概論",
+            "洋画概論",
+            "情報・プロダクトデザイン概論",
+            "美術史概説A-2",
+            "デザイン史概説A",
+            "デジタル写真基礎演習",
+            "油彩画基礎演習1::2",
+            "日本画基礎演習1::2",
+            "彫塑基礎演習1::2",
+            "総合造形概論",
+            "構成概論",
+            "プレゼンテーション基礎演習",
+            "素描基礎演習1::2",
+            "素描基礎演習2::2",
+            "立体加工基礎演習::2",
+            "芸術支援学概論",
+            "版画概論",
+            "環境デザイン概論",
+            "書概論",
+            "工芸基礎演習(ガラス)::2",
+            "レンダリング基礎演習",
+            "グラフィックツール基礎演習",
+            "日本画概論",
+            "彫塑概論",
+            "ビジュアルデザイン概論",
+            "美術史概説B-2",
+            "デザイン史概説B",
+            "油彩画基礎演習2::2",
+            "日本画基礎演習2::2",
+            "彫塑基礎演習3::2",
+            "版画基礎演習::2",
+            "工芸基礎演習(陶磁)::2",
+            "工芸概論",
+            "素描基礎演習2::2",
+            "工芸基礎演習(木工)::2",
+            "建築デザイン概論"
+          ]
+        },
+        {
+          "description": "重点科目上限単位数",
+          "type": "important_subjects",
+          "isMain": true,
+          "minimum": 4,
+          "subjects": [
+            "美術史学概論",
+            "洋画概論",
+            "情報・プロダクトデザイン概論",
+            "美術史概説A-2",
+            "デザイン史概説A",
+            "デジタル写真基礎演習",
+            "油彩画基礎演習1::2",
+            "日本画基礎演習1::2",
+            "彫塑基礎演習1::2",
+            "総合造形概論",
+            "構成概論",
+            "プレゼンテーション基礎演習",
+            "素描基礎演習1::2",
+            "素描基礎演習2::2",
+            "立体加工基礎演習::2",
+            "芸術支援学概論",
+            "版画概論",
+            "環境デザイン概論",
+            "書概論",
+            "工芸基礎演習(ガラス)::2",
+            "レンダリング基礎演習",
+            "グラフィックツール基礎演習",
+            "日本画概論",
+            "彫塑概論",
+            "ビジュアルデザイン概論",
+            "美術史概説B-2",
+            "デザイン史概説B",
+            "油彩画基礎演習2::2",
+            "日本画基礎演習2::2",
+            "彫塑基礎演習3::2",
+            "版画基礎演習::2",
+            "工芸基礎演習(陶磁)::2",
+            "工芸概論",
+            "素描基礎演習2::2",
+            "工芸基礎演習(木工)::2",
+            "建築デザイン概論"
+          ]
+        }
+      ]
+    }
+  ]
+}
