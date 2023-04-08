@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/scs-migration-checker/static/css/main.b6a9b10c.css",
-    "main.js": "/scs-migration-checker/static/js/main.61f1df0f.js",
+    "main.css": "/scs-migration-checker/static/css/main.d20ae29f.css",
+    "main.js": "/scs-migration-checker/static/js/main.d3bc7471.js",
     "index.html": "/scs-migration-checker/index.html",
-    "main.b6a9b10c.css.map": "/scs-migration-checker/static/css/main.b6a9b10c.css.map",
-    "main.61f1df0f.js.map": "/scs-migration-checker/static/js/main.61f1df0f.js.map"
+    "main.d20ae29f.css.map": "/scs-migration-checker/static/css/main.d20ae29f.css.map",
+    "main.d3bc7471.js.map": "/scs-migration-checker/static/js/main.d3bc7471.js.map"
   },
   "entrypoints": [
-    "static/css/main.b6a9b10c.css",
-    "static/js/main.61f1df0f.js"
+    "static/css/main.d20ae29f.css",
+    "static/js/main.d3bc7471.js"
   ]
 }
