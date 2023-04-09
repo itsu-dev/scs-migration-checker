@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/scs-migration-checker/static/css/main.d171683e.css",
-    "main.js": "/scs-migration-checker/static/js/main.dc2859bf.js",
+    "main.js": "/scs-migration-checker/static/js/main.d801a628.js",
     "index.html": "/scs-migration-checker/index.html",
     "main.d171683e.css.map": "/scs-migration-checker/static/css/main.d171683e.css.map",
-    "main.dc2859bf.js.map": "/scs-migration-checker/static/js/main.dc2859bf.js.map"
+    "main.d801a628.js.map": "/scs-migration-checker/static/js/main.d801a628.js.map"
   },
   "entrypoints": [
     "static/css/main.d171683e.css",
-    "static/js/main.dc2859bf.js"
+    "static/js/main.d801a628.js"
   ]
 }
