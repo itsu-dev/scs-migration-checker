@@ -1,14 +1,27 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import './MigrationChecker.css';
 import DepartmentTd, {DepartmentProps, DefinedRule, RuleSubject} from "./DepartmentTd";
 import SubjectBox from "./SubjectBox";
-import {isKdbLoaded, isRuleLoaded, KdB, kdb, RuleDefinitions, ruleDefinitions, UserSubject} from "../App";
+import {
+    isKdbLoaded,
+    isRuleLoaded,
+    kdb,
+    KdBContext, KdBLoadedContext,
+    RuleDefinitionsContext,
+    UserSubject
+} from "../App";
+import {SubjectId} from "../consts/KdbConstants";
+import {getKdBItemById} from "../features/kdb";
 
 let csvFile: Blob;
 let isChecking = false
 
 const MigrationChecker: React.FC = () => {
 
+    const kdbData = useContext(KdBContext);
+    const ruleDefinitions = useContext(RuleDefinitionsContext);
+    const kdbLoaded = useContext(KdBLoadedContext);
+    const rulesLoaded = useContext(RuleDefinitionsContext);
     const [departments, setDepartments] = useState(new Array<DepartmentProps>())
     const [subjects, setSubjects] = useState({
         sum: 0,
@@ -130,7 +143,7 @@ const MigrationChecker: React.FC = () => {
             return [unit, subjects]
         }
 
-        ruleDefinitions.departments.forEach((department, index) => {
+        ruleDefinitions!!.departments.forEach((department, index) => {
             let isRequirementsSatisfied: boolean | null = null  // 応募要件を充足したか
             let isImportantsSatisfied: boolean | null = null  // 重点科目上限を充足したか
             let requirements: Array<boolean> = []
@@ -246,9 +259,7 @@ const MigrationChecker: React.FC = () => {
     }
 
     const onStartToCheckButtonClicked = () => {
-        setDepartments([])
-        while (!isRuleLoaded && !isKdbLoaded) {
-        }
+        setDepartments([]);
         startToCheck()
     }
 
@@ -273,6 +284,41 @@ const MigrationChecker: React.FC = () => {
         }
     }
 
+    const onStartWithStoredClick = () => {
+        setDepartments([]);
+
+        const json = localStorage.getItem("subjects");
+        if (json == null) {
+            alert("仮組みされたデータがありません");
+            return;
+        }
+
+        const subjects = JSON.parse(json) as SubjectId[];
+        const userSubjects: UserSubject[]= []
+        let totalUnit = 0;
+        let subjectText = "";
+
+        subjects.forEach(id => {
+            const kdbItem = getKdBItemById(kdbData!!, id)!!;
+            userSubjects.push({
+                id: id,
+                name: kdbItem[0],
+                unit: parseFloat(kdbItem[5]),
+            });
+            subjectText += `, ${kdbItem[0]}（${kdbItem[5]}単位）`
+            totalUnit += parseFloat(kdbItem[5]);
+        });
+
+        setSubjects({
+            sum: totalUnit,
+            text: subjectText.substring(2),
+            hidden: false
+        });
+
+        check(userSubjects);
+        isChecking = false
+    }
+
     return (
         <>
             <div className="menu">
@@ -280,6 +326,10 @@ const MigrationChecker: React.FC = () => {
                     <input type="file" id="subjects-csv" accept=".csv" onChange={onFileStateChanged}/>
                 </div>
                 <div className="menu-right">
+                    <button id="start-checking-with-data" className="primary-button"
+                            onClick={onStartWithStoredClick}>仮組みしたデータで確認する
+                    </button>
+                    &nbsp;&nbsp;
                     <button id="start-checking" className="primary-button"
                             onClick={onStartToCheckButtonClicked}>確認する
                     </button>
@@ -316,6 +366,12 @@ const MigrationChecker: React.FC = () => {
 
             <h3>使い方</h3>
             <p>
+                1．<a href="https://boke.itsu.dev/scs-migration-checker/createTimetable" target={"_blank"}>履修仮組みタブ</a>を開く<br/>
+                2．仮の履修時間割を組む<br/>
+                3．「仮組みしたデータで確認する」を押す
+            </p>
+            <p>または</p>
+            <p>
                 1．<a href="https://make-it-tsukuba.github.io/alternative-tsukuba-kdb" target={"_blank"}>KdBもどき</a>にアクセスする<br/>
                 2．仮の履修時間割を組む<br/>
                 3．検索条件をクリアし、「お気に入り」にチェックを入れて検索する<br/>
@@ -329,7 +385,8 @@ const MigrationChecker: React.FC = () => {
                 ・履修を組む際の参考としてお使いください。<br/>
                 ・各学類・学群をクリックすると詳細が見られます。<br/>
                 ・使用したCSVファイルはサーバーには保存されません。<br/>
-                ・このツールの使用によって生じた不利益等について、開発者は一切の責任を負いません。<br/>\
+                ・本ツールの使用は参考までにとどめ、移行要件に適合しているかどうかを自分でも確かめるようにしてください。<br />
+                ・このツールの使用によって生じた不利益等について、開発者は一切の責任を負いません。<br/>
                 ・医学類の判定には対応しておりません。
             </p>
         </>

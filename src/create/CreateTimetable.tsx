@@ -5,8 +5,8 @@ import TimeTr, {TimeProps} from "./TimeTr";
 import {SubjectCellProps, TYPE_IMPORTANT, TYPE_REQUIREMENT, TYPE_USER_DEFINED} from "./SubjectCell";
 import MenuBar, {MenuItem} from "../MenuBar";
 import StepOne from "./StepOne";
-import StepTwo from "./StepTwo";
 import {parseModule, parsePeriod, isOnline, KdBItem, kdbItemFromArray} from "../KdBUtils";
+import ManualCreationPanel from "../features/timetable-creation/manual-creation/ManualCreationPanel";
 
 type Module = {
     season: string,
@@ -111,7 +111,7 @@ const CreateTimetable: React.FC = () => {
     const [step, setStep] = useState<number>(1);
     const [messages, setMessages] = useState<Array<string>>([]);  // 処理中に発生したメッ
     const [selectedCell, setSelectedCell] = useState<SubjectCellProps | null>(null);// セージ
-    const stepTwoRef = useRef<{ onCellClicked: (props: SubjectCellProps) => void }>(null);
+    const stepTwoRef = useRef<{ onCellClick: (props: SubjectCellProps) => void }>(null);
 
     // ウィンドウロード時の処理
     window.onload = () => {
@@ -161,7 +161,7 @@ const CreateTimetable: React.FC = () => {
 
     // 時間割上のセルをクリックしたときに発火
     const onCellClicked = (props: SubjectCellProps) => {
-        stepTwoRef.current?.onCellClicked(props);
+        stepTwoRef.current?.onCellClick(props);
         setSelectedCell(props);
     }
 
@@ -225,6 +225,7 @@ const CreateTimetable: React.FC = () => {
                     subject.isOnline = isOnline;
                 })
             })
+            console.log(JSON.stringify(modules))
         }
     }
 
@@ -413,7 +414,6 @@ const CreateTimetable: React.FC = () => {
                                         subscribedSubject.kdb = kdbSubject;
                                         subscribedSubject.type = rule.type === "required_subjects" ? TYPE_REQUIREMENT : TYPE_IMPORTANT
                                         subscribedSubject.isOnline = isOnline(kdbSubject);
-
                                     }
                                 }
                             });
@@ -422,6 +422,7 @@ const CreateTimetable: React.FC = () => {
                 });
             });
         });
+
         isCreating = false;
         setMessages([...messages])
         switchModule("春A")
@@ -446,6 +447,7 @@ const CreateTimetable: React.FC = () => {
 
     return (
         <>
+            {/*
             <div className={"timetable-base"}>
                 <div className={"timetable-box"}>
                     <MenuBar menuItems={menuItems}/>
@@ -475,7 +477,7 @@ const CreateTimetable: React.FC = () => {
                     <>
                         <MenuBar menuItems={stepMenuItems}/>
                         {step === 1 && <StepOne startToCreate={onStartToCreateButtonClicked}/>}
-                        {step === 2 && <StepTwo
+                        {step === 2 && <ManualCreationPanel
                             onSubscribeButtonClicked={onSubscribeButtonClicked}
                             onDeleteButtonClicked={onDeleteButtonClicked}
                             ref={stepTwoRef}/>}
@@ -491,6 +493,7 @@ const CreateTimetable: React.FC = () => {
                 )}
             </div>
             }
+            */}
         </>
     )
 }

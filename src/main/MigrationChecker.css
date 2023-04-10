@@ -91,7 +91,6 @@ tr.department {
   alignment: left;
   text-align: left;
   margin: auto;
-  width: 40%;
 }
 
 .menu-right {
@@ -99,7 +98,6 @@ tr.department {
   vertical-align: center;
   text-align: right;
   margin: auto;
-  width: 40%;
 }
 
 .form-box {

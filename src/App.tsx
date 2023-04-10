@@ -2,8 +2,10 @@ import {BrowserRouter, Route, Routes, useLocation} from "react-router-dom";
 import MigrationChecker from "./main/MigrationChecker";
 import MigrationRequirements from "./requirements/MigrationRequirements";
 import CreateTimetable from "./create/CreateTimetable";
-import React from "react";
+import React, {createContext, useEffect, useState} from "react";
 import MenuBar, {MenuItem} from "./MenuBar";
+import TimetableCreation from "./features/timetable-creation/TimetableCreation";
+import {KdBData} from "./consts/KdbConstants";
 
 export type UserSubject = {
     id: string,
@@ -50,11 +52,6 @@ export let isRuleLoaded = false;
 export let isKdbLoaded = false;
 export let ruleDefinitions: RuleDefinitions;
 export let kdb: KdB;
-
-window.onload = () => {
-    loadRuleDefinitions()
-    loadKdb()
-}
 
 export const loadRuleDefinitions = (onLoad: () => void = () => {}) => {
     if (!isRuleLoaded) {
@@ -108,8 +105,18 @@ export const getExcludedSeason = (ruleDefinitions: RuleDefinitions, subject: str
     return result
 }
 
+export const KdBContext = createContext<KdBData | null>(null);
+export const RuleDefinitionsContext = createContext<RuleDefinitions | null>(null);
+export const KdBLoadedContext = createContext<boolean>(false);
+export const RuleDefinitionsLoadedContext = createContext<boolean>(false);
+
 const App: React.FC = () => {
     const location = window.location.pathname;
+
+    const [kdbData, setKdBData] = useState<KdBData | null>(null);
+    const [ruleDefinitions, setRuleDefinitions] = useState<RuleDefinitions | null>(null);
+    const [isKdBDataLoaded, setKdBDataLoaded] = useState<boolean>(false);
+    const [isRulesLoaded, setRulesLoaded] = useState<boolean>(false);
 
     const index = () => {
         window.location.href=`${process.env.PUBLIC_URL}/`
@@ -143,13 +150,36 @@ const App: React.FC = () => {
         onClick: migrationRequirements
     })
 
+    useEffect(() => {
+        console.log("[RuleDefinitions] Loading...")
+        window.fetch(new Request(URL_RULE_DEFINITIONS))
+            .then((response) => {
+                response.text().then((json) => {
+                    setRuleDefinitions(JSON.parse(json) as RuleDefinitions);
+                    setRulesLoaded(true);
+                    console.log(`[RuleDefinitions] Loaded`);
+                })
+            });
+
+        console.log("[KdB] Loading...")
+        window.fetch(new Request(URL_KDB))
+            .then((response) => {
+                response.text().then((json) => {
+                    setKdBData(JSON.parse(json) as KdBData);
+                    setKdBDataLoaded(true);
+                    console.log(`[KdB] Loaded`);
+                })
+            });
+
+    }, []);
+
     return (
         <>
             <div className={'header-base'}>
                 <div className="header">
-                    <h2>筑波大学 総合学域群 移行要件チェックツール（2022年度用）</h2>
+                    <h2>筑波大学 総合学域群 移行要件チェックツール（2023年度用）</h2>
                     <p className="caption">
-                        「令和4（2022）年度 履修・移行ガイドブック」に沿って、自分の履修時間割が移行要件に適合しているかを確認します。<br/>
+                        「令和5（2023）年度 履修・移行ガイドブック」に沿って、自分の履修時間割が移行要件に適合しているかを確認します。<br/>
                         このツールは総合学域群生の履修組みの利便性向上を目指して、有志によって開発されています。筑波大学公式ではありません。
                     </p>
                 </div>
@@ -157,16 +187,18 @@ const App: React.FC = () => {
                 <div className={'table-box'}>
                     <MenuBar menuItems={menuItems} />
 
-                    <BrowserRouter basename={process.env.PUBLIC_URL}>
-                        <Routes>
-                            <Route index element={<MigrationChecker/>}/>
-                            <Route path="/createTimetable" element={<CreateTimetable/>}/>
-                            <Route path="/migrationRequirements" element={<MigrationRequirements/>}/>
-                        </Routes>
-                    </BrowserRouter>
-
-
-                    <footer>
+                    <KdBContext.Provider value={kdbData}>
+                        <RuleDefinitionsContext.Provider value={ruleDefinitions}>
+                            <BrowserRouter basename={process.env.PUBLIC_URL}>
+                                <Routes>
+                                    <Route index element={<MigrationChecker/>}/>
+                                    <Route path="/createTimetable" element={<TimetableCreation />}/>
+                                    <Route path="/migrationRequirements" element={<MigrationRequirements/>}/>
+                                </Routes>
+                            </BrowserRouter>
+                        </RuleDefinitionsContext.Provider>
+                    </KdBContext.Provider>
+                                        <footer>
                         <div className="footer" id="footer">
                             <br/>
                             Contributed by <a href="https://github.com/itsu-dev">Itsu</a>, <a
